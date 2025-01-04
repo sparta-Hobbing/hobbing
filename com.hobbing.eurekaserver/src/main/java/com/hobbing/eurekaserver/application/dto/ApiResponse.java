@@ -1,6 +1,5 @@
 package com.hobbing.eurekaserver.application.dto;
 
-import com.hobbing.eurekaserver.application.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 
 public record ApiResponse<T>(

@@ -2,9 +2,7 @@ package com.hobbing.reservation_pay.domain.model;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -13,7 +11,9 @@ import java.util.UUID;
 @Table(name = "p_payment")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-public class Payment {
+@AllArgsConstructor
+@Builder
+public class Payment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

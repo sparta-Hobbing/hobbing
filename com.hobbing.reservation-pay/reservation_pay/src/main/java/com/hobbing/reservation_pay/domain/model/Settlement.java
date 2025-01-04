@@ -11,7 +11,7 @@ import java.util.UUID;
 @Table(name = "p_settlement")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-public class Settlement {
+public class Settlement extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

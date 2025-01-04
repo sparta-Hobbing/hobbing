@@ -5,6 +5,7 @@ import com.hobbing.reservation_pay.domain.model.PaymentStatus;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -19,6 +20,10 @@ public class GetPaymentResponse {
     int payedPrice;
     String transactionPgToken;
     int discountedPrice;
+    LocalDateTime createdAt;
+    UUID createdBy;
+    LocalDateTime updatedAt;
+    UUID updatedBy;
 
 
     public static GetPaymentResponse from(Payment payment) {
@@ -30,6 +35,10 @@ public class GetPaymentResponse {
                 .payedPrice(payment.getPayedPrice())
                 .transactionPgToken(payment.getTransactionPgToken())
                 .discountedPrice(payment.getDiscountedPrice())
+                .createdAt(payment.getCreatedAt())
+                .createdBy(payment.getCreatedBy())
+                .updatedAt(payment.getUpdatedAt())
+                .updatedBy(payment.getUpdatedBy())
                 .build();
     }
 }

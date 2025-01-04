@@ -21,8 +21,8 @@ public class PaymentController {
     @GetMapping("/{id}")
     public GetPaymentResponse getPayment(UUID id) {
 
-        GetPaymentResponse data =
-                GetPaymentResponse.from(paymentService.readPayment(id));
+        GetPaymentResponse data
+                = GetPaymentResponse.from(paymentService.readPayment(id));
 
         return data;
     }

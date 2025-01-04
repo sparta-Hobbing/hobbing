@@ -1,5 +1,6 @@
 package com.hobbing.reservation_pay.infrastructure.entity;
 
+import com.hobbing.reservation_pay.domain.model.BaseEntity;
 import com.hobbing.reservation_pay.domain.model.Settlement;
 import com.hobbing.reservation_pay.domain.model.SettlementStatus;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @RequiredArgsConstructor
-public class SettlementLog {
+public class SettlementLog extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

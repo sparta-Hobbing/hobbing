@@ -12,7 +12,7 @@ import java.util.UUID;
 @Table(name = "p_reservation")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-public class Reservation {
+public class Reservation extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

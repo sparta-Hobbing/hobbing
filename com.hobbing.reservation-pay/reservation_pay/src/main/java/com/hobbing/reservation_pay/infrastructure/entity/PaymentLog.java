@@ -4,10 +4,7 @@ import com.hobbing.reservation_pay.domain.model.BaseEntity;
 import com.hobbing.reservation_pay.domain.model.Payment;
 import com.hobbing.reservation_pay.domain.model.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -37,4 +34,9 @@ public class PaymentLog extends BaseEntity {
 
     @Column(columnDefinition = "TEXT")
     private String receipt;
+
+    @Setter
+    @Column(nullable = false)
+    private Boolean isDeleted = false;
+
 }

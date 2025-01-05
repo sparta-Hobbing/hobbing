@@ -22,12 +22,15 @@ server:
 #  client:
 #    service-url:
 #      defaultZone: http://localhost:19000/eureka/
-#logging:
-#  level:
-#    org:
-#      hibernate:
-#        engine.jdbc.env.internal.JdbcEnvironmentInitiator: DEBUG
-#        SQL: DEBUG
-#      springframework:
-#        beans.factory: DEBUG
-#        jdbc.datasource: DEBUG
+
+logging:
+  level:
+    org:
+      hibernate:
+        engine.jdbc.env.internal.JdbcEnvironmentInitiator: DEBUG
+        SQL: DEBUG
+      springframework:
+        web: DEBUG
+        http.converter: DEBUG
+        beans.factory: DEBUG
+        jdbc.datasource: DEBUG

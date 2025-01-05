@@ -44,4 +44,25 @@ public class Payment extends BaseEntity {
     @Column(nullable = false)
     private int discountedPrice;
 
+    @Setter
+    @Column(nullable = false)
+    private Boolean isDeleted = false;
+
+
+    public boolean isTryingToPay() {
+
+        return status == PaymentStatus.PAY_WAIT
+                || status == PaymentStatus.PAY_PG_API_ERROR
+                || status == PaymentStatus.PG_DENIED_PAY
+                || status == PaymentStatus.PAYED;
+    }
+
+    public boolean isTryingToCancel() {
+
+        return status == PaymentStatus.CANCEL_WAIT
+                || status == PaymentStatus.CANCEL_PG_API_ERROR
+                || status == PaymentStatus.PG_DENIED_CANCEL
+                || status == PaymentStatus.CANCELED;
+    }
+
 }

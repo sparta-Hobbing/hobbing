@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Value
 @Builder
-public class GetPaymentResponse {
+public class GetPaymentResBody {
 
     UUID couponId;
     String couponName;
@@ -26,8 +26,8 @@ public class GetPaymentResponse {
     UUID updatedBy;
 
 
-    public static GetPaymentResponse from(Payment payment) {
-        return GetPaymentResponse.builder()
+    public static GetPaymentResBody from(Payment payment) {
+        return GetPaymentResBody.builder()
                 .couponId(payment.getCouponId())
                 .couponName(payment.getCouponName())
                 .receipt(payment.getReceipt())

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -27,10 +28,10 @@ public class Settlement extends BaseEntity {
     private String lectureTitle;
 
     @Column(nullable = false)
-    private Long totalAmount;
+    private long totalAmount;
 
     @Column(nullable = false)
-    private Long commission;
+    private long commission;
 
     @Column(nullable = false)
     private SettlementStatus status;
@@ -40,5 +41,11 @@ public class Settlement extends BaseEntity {
 
     @Column(nullable = false)
     private String transactionPgToken;
+    @Setter
+    @Column(nullable = false)
+    private Boolean isDeleted = false;
 
+    public final long getTutorAmount() {
+        return totalAmount - commission;
+    }
 }

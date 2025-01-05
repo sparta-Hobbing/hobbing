@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.UUID;
 
@@ -41,9 +40,7 @@ public class Settlement extends BaseEntity {
 
     @Column(nullable = false)
     private String transactionPgToken;
-    @Setter
-    @Column(nullable = false)
-    private Boolean isDeleted = false;
+
 
     public final long getTutorAmount() {
         return totalAmount - commission;

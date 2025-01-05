@@ -37,7 +37,4 @@ public class SettlementLog extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String receipt;
 
-    @Setter
-    @Column(nullable = false)
-    private Boolean isDeleted = false;
 }

@@ -44,10 +44,6 @@ public class Payment extends BaseEntity {
     @Column(nullable = false)
     private int discountedPrice;
 
-    @Setter
-    @Column(nullable = false)
-    private Boolean isDeleted = false;
-
 
     public boolean isTryingToPay() {
 

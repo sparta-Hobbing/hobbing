@@ -31,7 +31,6 @@ public class PaymentRepository {
                 .payedPrice(createPaymentDto.getPayedPrice())
                 .transactionPgToken(createPaymentDto.getTransactionPgToken())
                 .discountedPrice(createPaymentDto.getDiscountedPrice())
-                .isDeleted(false)
                 .build();
 
         return jpaRepo.save(payment);

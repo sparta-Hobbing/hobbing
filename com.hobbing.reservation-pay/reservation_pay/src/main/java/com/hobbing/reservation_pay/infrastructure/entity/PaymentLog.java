@@ -35,8 +35,5 @@ public class PaymentLog extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String receipt;
 
-    @Setter
-    @Column(nullable = false)
-    private Boolean isDeleted = false;
 
 }

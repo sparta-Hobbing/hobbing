@@ -19,7 +19,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping("/{id}")
-    public GetPaymentResBody getPayment(UUID id) {
+    public GetPaymentResBody getPayment(@PathVariable UUID id) {
 
         GetPaymentResBody data
                 = GetPaymentResBody.from(paymentService.readPayment(id));

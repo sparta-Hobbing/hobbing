@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -50,4 +51,15 @@ public class Reservation extends BaseEntity {
     @Column(nullable = false)
     private final String tutorNickname;
 
+    @Setter
+    @Column(nullable = false)
+    private Boolean isDeleted = false;
+
+    public void pay(Payment payment) {
+
+        assert (payment.isTryingToPay());
+
+        this.payment = payment;
+        this.status = ReservationStatus.PAYED;
+    }
 }

@@ -1,5 +1,6 @@
 package com.hobbing.reservation_pay.domain.model;
 
+import com.hobbing.reservation_pay.domain.model.status_enum.SettlementStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

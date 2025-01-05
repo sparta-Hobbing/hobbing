@@ -2,8 +2,8 @@ package com.hobbing.reservation_pay.presentation.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.hobbing.reservation_pay.application.CreatePaymentDto;
-import com.hobbing.reservation_pay.domain.model.PaymentStatus;
+import com.hobbing.reservation_pay.application.dto.CreatePaymentDto;
+import com.hobbing.reservation_pay.domain.model.status_enum.PaymentStatus;
 import lombok.Builder;
 import lombok.Value;
 

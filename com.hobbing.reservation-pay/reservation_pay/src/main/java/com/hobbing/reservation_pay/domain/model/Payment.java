@@ -1,6 +1,7 @@
 package com.hobbing.reservation_pay.domain.model;
 
 
+import com.hobbing.reservation_pay.domain.model.status_enum.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,20 +46,14 @@ public class Payment extends BaseEntity {
     private int discountedPrice;
 
 
-    public boolean isTryingToPay() {
+    public void updatePayInfo(String receipt,
+                              PaymentStatus status,
+                              int payedPrice,
+                              String transactionPgToken) {
 
-        return status == PaymentStatus.PAY_WAIT
-                || status == PaymentStatus.PAY_PG_API_ERROR
-                || status == PaymentStatus.PG_DENIED_PAY
-                || status == PaymentStatus.PAYED;
+        this.receipt = receipt;
+        this.status = status;
+        this.payedPrice = payedPrice;
+        this.transactionPgToken = transactionPgToken;
     }
-
-    public boolean isTryingToCancel() {
-
-        return status == PaymentStatus.CANCEL_WAIT
-                || status == PaymentStatus.CANCEL_PG_API_ERROR
-                || status == PaymentStatus.PG_DENIED_CANCEL
-                || status == PaymentStatus.CANCELED;
-    }
-
 }

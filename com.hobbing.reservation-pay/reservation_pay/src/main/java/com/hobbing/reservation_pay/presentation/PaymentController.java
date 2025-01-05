@@ -5,6 +5,7 @@ import com.hobbing.reservation_pay.application.PaymentService;
 import com.hobbing.reservation_pay.domain.model.Payment;
 import com.hobbing.reservation_pay.presentation.dto.GetPaymentResBody;
 import com.hobbing.reservation_pay.presentation.dto.PostPaymentReqBody;
+import com.hobbing.reservation_pay.presentation.dto.PutPaymentReqBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,12 @@ public class PaymentController {
         Payment payment = paymentService.payReservation(reqBody.toDto());
 
         return payment.getId();
+    }
+
+    @PutMapping("/{id}")
+    public void putPayment(@PathVariable UUID id, @RequestBody PutPaymentReqBody reqBody) {
+
+        paymentService.updatePayment(id, reqBody.toDto());
 
     }
 

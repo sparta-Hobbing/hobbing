@@ -1,6 +1,6 @@
-package com.hobbing.reservation_pay.application;
+package com.hobbing.reservation_pay.application.dto;
 
-import com.hobbing.reservation_pay.domain.model.PaymentStatus;
+import com.hobbing.reservation_pay.domain.model.status_enum.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

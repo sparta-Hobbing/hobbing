@@ -1,5 +1,7 @@
 package com.hobbing.reservation_pay.domain.model;
 
+import com.hobbing.reservation_pay.domain.model.status_enum.PaymentStatus;
+import com.hobbing.reservation_pay.domain.model.status_enum.ReservationStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -53,7 +55,7 @@ public class Reservation extends BaseEntity {
 
     public void pay(Payment payment) {
 
-        assert (payment.isTryingToPay());
+        assert (payment.getStatus().isTryingToPay() || payment.getStatus() == PaymentStatus.PAYED);
 
         this.payment = payment;
         this.status = ReservationStatus.PAYED;

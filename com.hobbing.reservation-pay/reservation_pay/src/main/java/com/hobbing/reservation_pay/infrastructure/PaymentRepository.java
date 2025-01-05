@@ -1,7 +1,9 @@
 package com.hobbing.reservation_pay.infrastructure;
 
-import com.hobbing.reservation_pay.application.CreatePaymentDto;
+import com.hobbing.reservation_pay.application.dto.CreatePaymentDto;
+import com.hobbing.reservation_pay.application.dto.UpdatePaymentDto;
 import com.hobbing.reservation_pay.domain.model.Payment;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -34,5 +36,21 @@ public class PaymentRepository {
                 .build();
 
         return jpaRepo.save(payment);
+    }
+
+    @Transactional
+    public void updatePayment(UUID paymentId, UpdatePaymentDto dto) {
+
+        Payment target = jpaRepo.findById(paymentId)
+                .orElseThrow();//todo exceptino처리
+
+        target.updatePayInfo(
+                dto.getReceipt(),
+                dto.getPaymentStatus(),
+                dto.getPayedPrice(),
+                dto.getTransactionPgToken()
+        );
+
+
     }
 }

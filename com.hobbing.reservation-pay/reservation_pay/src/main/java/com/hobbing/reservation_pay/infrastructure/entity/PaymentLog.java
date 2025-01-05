@@ -2,7 +2,7 @@ package com.hobbing.reservation_pay.infrastructure.entity;
 
 import com.hobbing.reservation_pay.domain.model.BaseEntity;
 import com.hobbing.reservation_pay.domain.model.Payment;
-import com.hobbing.reservation_pay.domain.model.PaymentStatus;
+import com.hobbing.reservation_pay.domain.model.status_enum.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

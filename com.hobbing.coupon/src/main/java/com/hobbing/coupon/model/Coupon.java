@@ -15,7 +15,7 @@ import java.util.UUID;
 @Table(name = "p_coupon")
 @Getter
 @NoArgsConstructor
-public class Coupon {
+public class Coupon extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -68,6 +68,12 @@ public class Coupon {
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted" nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isDeleted;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "deleted_by")
+    private UUID deletedBy;
 }

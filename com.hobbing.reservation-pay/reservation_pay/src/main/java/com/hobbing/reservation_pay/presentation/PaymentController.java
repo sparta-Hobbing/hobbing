@@ -4,6 +4,7 @@ package com.hobbing.reservation_pay.presentation;
 import com.hobbing.reservation_pay.application.PaymentService;
 import com.hobbing.reservation_pay.domain.model.Payment;
 import com.hobbing.reservation_pay.presentation.dto.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedModel;
@@ -29,9 +30,10 @@ public class PaymentController {
     }
 
     @GetMapping("/student-view")
-    public PagedModel<StudentSearchedPaymentRes> searchPayments(@ModelAttribute PageInfo pageInfo,
-                                                                @ModelAttribute SearchPaymentsReqParams params) {//todo : @Valid
-
+    public PagedModel<StudentSearchedPaymentRes> searchPayments(
+            @Valid @ModelAttribute PageInfo pageInfo,
+            @Valid @ModelAttribute SearchPaymentsReqParams params
+    ) {
         Page<StudentSearchedPaymentRes> searched
                 = paymentService.searchPayments(params.toDto(pageInfo))
                 .map(StudentSearchedPaymentRes::from);

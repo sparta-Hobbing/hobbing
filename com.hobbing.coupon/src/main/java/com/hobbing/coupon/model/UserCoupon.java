@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "p_usercoupon")
 @Getter
 @NoArgsConstructor
-public class UserCoupon {
+public class UserCoupon extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -32,13 +32,23 @@ public class UserCoupon {
     @Column(name = "status", nullable = false)
     private CouponStatus status;
 
-    @Column(name = "issued_at", nullable = false, updatable = false)
-    @CreationTimestamp
-    private LocalDateTime issuedAt;
-
     @Column(name = "used_at")
     private LocalDateTime usedAt;
 
     @Column(name = "restored_at")
     private LocalDateTime restoredAt;
+
+     @Column(name = "created_at", updatable = false, nullable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "created_by", updatable = false, nullable = false)
+    private String createdBy;
+
+    @Column(name = "is_used", nullable = false)
+    private boolean isUsed;
+
+    @Column(name = "expiration_date")
+    private LocalDateTime expirationDate;
+
 }

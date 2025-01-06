@@ -69,7 +69,7 @@ public class PaymentRepository {
         );
 
         if (searched.isEmpty()) {
-            //todo exception
+            throw new CustomException(CommonErrorCode.PAYMENT_NOT_FOUND);
         }
 
         return searched;

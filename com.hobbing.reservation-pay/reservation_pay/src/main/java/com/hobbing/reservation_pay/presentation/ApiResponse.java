@@ -8,11 +8,11 @@ public record ApiResponse<T>(
         T data
 ) {
 
-    public static ApiResponse<Void> ofError(Integer code, String description){
+    public static ApiResponse<Void> ofError(Integer code, String description) {
         return new ApiResponse<>(code, description, null);
     }
 
-    public static <T> ApiResponse<T> ofSuccess(HttpStatus status, String description, T data){
+    public static <T> ApiResponse<T> ofSuccess(HttpStatus status, String description, T data) {
         return new ApiResponse<>(status.value(), description, data);
     }
 }

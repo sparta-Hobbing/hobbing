@@ -7,6 +7,7 @@ import com.hobbing.reservation_pay.presentation.dto.GetPaymentResBody;
 import com.hobbing.reservation_pay.presentation.dto.PostPaymentReqBody;
 import com.hobbing.reservation_pay.presentation.dto.PutPaymentReqBody;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -20,27 +21,34 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping("/{id}")
-    public GetPaymentResBody getPayment(@PathVariable UUID id) {
+    public ApiResponse<GetPaymentResBody> getPayment(@PathVariable UUID id) {
 
-        GetPaymentResBody data
+        GetPaymentResBody resBody
                 = GetPaymentResBody.from(paymentService.readPayment(id));
 
-        return data;
+        return ApiResponse.ofSuccess(
+                HttpStatus.OK, "OK", resBody
+        );
     }
 
     @PostMapping
-    public UUID postPayment(@RequestBody PostPaymentReqBody reqBody) {
+    public ApiResponse<UUID> postPayment(@RequestBody PostPaymentReqBody reqBody) {
 
         Payment payment = paymentService.payReservation(reqBody.toDto());
 
-        return payment.getId();
+        return ApiResponse.ofSuccess(
+                HttpStatus.CREATED, "CREATED", payment.getId()
+        );
     }
 
     @PutMapping("/{id}")
-    public void putPayment(@PathVariable UUID id, @RequestBody PutPaymentReqBody reqBody) {
+    public ApiResponse<Void> putPayment(@PathVariable UUID id,
+                                        @RequestBody PutPaymentReqBody reqBody) {
 
         paymentService.updatePayment(id, reqBody.toDto());
 
+        return ApiResponse.ofSuccess(
+                HttpStatus.OK, "OK", null
+        );
     }
-
 }

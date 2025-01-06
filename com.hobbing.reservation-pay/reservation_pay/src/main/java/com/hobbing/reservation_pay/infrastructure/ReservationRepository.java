@@ -1,7 +1,9 @@
 package com.hobbing.reservation_pay.infrastructure;
 
 
-import com.hobbing.reservation_pay.domain.model.Payment;
+import com.hobbing.reservation_pay.common.exception.CommonErrorCode;
+import com.hobbing.reservation_pay.common.exception.CustomException;
+import com.hobbing.reservation_pay.domain.model.Reservation;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,13 +19,9 @@ public class ReservationRepository {
 
 
     @Transactional
-    public void updatePayment(UUID reservationId, Payment payment) {
-        jpaRepo.findById(reservationId)
-                .ifPresentOrElse(
-                        reservation -> reservation.pay(payment),
-                        () -> {
-//                    throw new IllegalArgumentException("Reservation not found");//todo exception처리
-                        }
-                );
+    public Reservation readReservation(UUID reservationId) {
+
+        return jpaRepo.findById(reservationId)
+                .orElseThrow(() -> new CustomException(CommonErrorCode.RESERVATION_NOT_FOUND));
     }
 }

@@ -3,6 +3,8 @@ package com.hobbing.reservation_pay.infrastructure;
 import com.hobbing.reservation_pay.application.dto.CreatePaymentDto;
 import com.hobbing.reservation_pay.application.dto.SearchPaymentsDto;
 import com.hobbing.reservation_pay.application.dto.UpdatePaymentDto;
+import com.hobbing.reservation_pay.common.exception.CommonErrorCode;
+import com.hobbing.reservation_pay.common.exception.CustomException;
 import com.hobbing.reservation_pay.domain.model.Payment;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,7 @@ public class PaymentRepository {
 
     public Payment readPayment(UUID paymentId) {
         return jpaRepo.findById(paymentId)
-                .orElseThrow(() -> new RuntimeException("not exist"));//todo exception
+                .orElseThrow(() -> new CustomException(CommonErrorCode.PAYMENT_NOT_FOUND));
     }
 
     public Payment createPayment(CreatePaymentDto createPaymentDto) {
@@ -45,7 +47,7 @@ public class PaymentRepository {
     public void updatePayment(UUID paymentId, UpdatePaymentDto dto) {
 
         Payment target = jpaRepo.findById(paymentId)
-                .orElseThrow();//todo exception 처리
+                .orElseThrow(() -> new CustomException(CommonErrorCode.PAYMENT_NOT_FOUND));
 
         target.updatePayInfo(
                 dto.getReceipt(),

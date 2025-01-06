@@ -18,6 +18,7 @@ public interface CouponServiceClient {
 
     @Data(staticConstructor = "of")
     class RestoreCouponReqBody {
-        private UUID userCouponId;
+        private UUID userId;
+        private UUID couponId;
     }
 }

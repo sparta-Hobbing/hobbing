@@ -16,4 +16,9 @@ public class CustomException extends RuntimeException {
         this.httpStatus = httpStatus;
     }
 
+    public CustomException(CommonErrorCode commonErrorCode) {
+        this.code = commonErrorCode.getCode();
+        this.message = commonErrorCode.getMessage();
+        this.httpStatus = commonErrorCode.getHttpStatus();
+    }
 }

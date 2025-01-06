@@ -4,7 +4,11 @@ package com.hobbing.reservation_pay.application;
 import com.hobbing.reservation_pay.application.dto.CreatePaymentDto;
 import com.hobbing.reservation_pay.application.dto.SearchPaymentsDto;
 import com.hobbing.reservation_pay.application.dto.UpdatePaymentDto;
+import com.hobbing.reservation_pay.common.exception.CommonErrorCode;
+import com.hobbing.reservation_pay.common.exception.CustomException;
 import com.hobbing.reservation_pay.domain.model.Payment;
+import com.hobbing.reservation_pay.domain.model.Reservation;
+import com.hobbing.reservation_pay.domain.model.status_enum.ReservationStatus;
 import com.hobbing.reservation_pay.infrastructure.PaymentRepository;
 import com.hobbing.reservation_pay.infrastructure.ReservationRepository;
 import jakarta.transaction.Transactional;
@@ -31,8 +35,13 @@ public class PaymentService {
     @Transactional
     public Payment payReservation(CreatePaymentDto dto) {
 
+        Reservation reservation = reservationRepo.readReservation(dto.getReservationId());
+        if (reservation.getStatus() == ReservationStatus.PAYED) {
+            throw new CustomException(CommonErrorCode.RESERVATION_ALREADY_PAYED);
+        }
+
         Payment payment = paymentRepo.createPayment(dto);
-        reservationRepo.updatePayment(dto.getReservationId(), payment);
+        reservation.pay(payment);
 
         return payment;
     }

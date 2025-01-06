@@ -55,7 +55,12 @@ public class Reservation extends BaseEntity {
 
     public void pay(Payment payment) {
 
-        assert (payment.getStatus().isTryingToPay() || payment.getStatus() == PaymentStatus.PAYED);
+        if (this.status == ReservationStatus.PAYED) {
+            throw new IllegalStateException("이미 결제된 예약입니다.");
+        }
+        if (payment.getStatus() != PaymentStatus.PAYED && !payment.getStatus().isTryingToPay()) {
+            throw new IllegalStateException("결제 진행중이 아닌 결제 정보입니다.");
+        }
 
         this.payment = payment;
         this.status = ReservationStatus.PAYED;

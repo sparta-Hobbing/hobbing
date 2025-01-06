@@ -3,9 +3,11 @@ package com.hobbing.eurekaserver.application.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+
+// 개별 작성
 @Getter
-public enum ErrorCode {
-    COMMON_SAMPLE_ERROR(HttpStatus.BAD_REQUEST, 1101, "샘플에러메시지입니다."),
+public enum CommonErrorCode {
+    COMMON_SAMPLE_ERROR(HttpStatus.BAD_REQUEST, 1001, "샘플에러메시지입니다."),
 
     ;
 
@@ -13,7 +15,7 @@ public enum ErrorCode {
     private final Integer code;
     private final String message;
 
-    ErrorCode(HttpStatus httpStatus, Integer code, String message) {
+    CommonErrorCode(HttpStatus httpStatus, Integer code, String message) {
         this.httpStatus = httpStatus;
         this.code = code;
         this.message = message;

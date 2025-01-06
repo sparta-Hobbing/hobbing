@@ -9,7 +9,6 @@ import com.hobbing.reservation_pay.domain.model.Payment;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -65,7 +64,7 @@ public class PaymentRepository {
                 = jpaRepo.findByCreatedAtBetween(
                 dto.getPayedAfter(),
                 dto.getPayedBefore(),
-                (Pageable) dto.getPageRequest()
+                dto.getPageRequest()
         );
 
         if (searched.isEmpty()) {

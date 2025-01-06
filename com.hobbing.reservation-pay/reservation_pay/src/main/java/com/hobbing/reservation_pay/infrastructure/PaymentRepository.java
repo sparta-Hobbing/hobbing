@@ -6,6 +6,7 @@ import com.hobbing.reservation_pay.application.dto.UpdatePaymentDto;
 import com.hobbing.reservation_pay.common.exception.CommonErrorCode;
 import com.hobbing.reservation_pay.common.exception.CustomException;
 import com.hobbing.reservation_pay.domain.model.Payment;
+import com.hobbing.reservation_pay.infrastructure.dao.PaymentJpaRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

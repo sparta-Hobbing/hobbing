@@ -33,6 +33,7 @@ public class Settlement extends BaseEntity {
     @Column(nullable = false)
     private long commission;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SettlementStatus status;
 

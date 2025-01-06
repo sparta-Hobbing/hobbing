@@ -1,4 +1,4 @@
-package com.hobbing.reservation_pay.infrastructure;
+package com.hobbing.reservation_pay.infrastructure.dao;
 
 import com.hobbing.reservation_pay.domain.model.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -10,9 +10,11 @@ public enum CommonErrorCode {
     COMMON_SAMPLE_ERROR(HttpStatus.BAD_REQUEST, 1001, "샘플에러메시지입니다."),
 
     RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, 3000, "예약정보를 찾을 수 없습니다."),
-
     RESERVATION_ALREADY_PAYED(HttpStatus.BAD_REQUEST, 3001, "이미 결제된 예약입니다."),
+
     PAYMENT_NOT_FOUND(HttpStatus.NOT_FOUND, 3002, "결제 정보를 찾을 수 없습니다."),
+
+    SETTLEMENT_NOT_FOUND(HttpStatus.NOT_FOUND, 4001, "정산 정보를 찾을 수 없습니다."),
     ;
 
 

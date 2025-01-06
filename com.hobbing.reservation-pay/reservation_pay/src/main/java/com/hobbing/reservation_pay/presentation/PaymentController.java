@@ -3,10 +3,9 @@ package com.hobbing.reservation_pay.presentation;
 
 import com.hobbing.reservation_pay.application.PaymentService;
 import com.hobbing.reservation_pay.domain.model.Payment;
-import com.hobbing.reservation_pay.presentation.dto.GetPaymentResBody;
-import com.hobbing.reservation_pay.presentation.dto.PostPaymentReqBody;
-import com.hobbing.reservation_pay.presentation.dto.PutPaymentReqBody;
+import com.hobbing.reservation_pay.presentation.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -16,8 +15,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PaymentController {
 
-
     private final PaymentService paymentService;
+
 
     @GetMapping("/{id}")
     public GetPaymentResBody getPayment(@PathVariable UUID id) {
@@ -26,6 +25,17 @@ public class PaymentController {
                 = GetPaymentResBody.from(paymentService.readPayment(id));
 
         return data;
+    }
+
+    @GetMapping("/student-view")
+    public Page<StudentSearchedPaymentRes> searchPayments(@ModelAttribute PageInfo pageInfo,
+                                                          @ModelAttribute SearchPaymentsReqParams params) {//todo : @Valid
+
+        Page<StudentSearchedPaymentRes> resBody
+                = paymentService.searchPayments(params.toDto(pageInfo))
+                .map(StudentSearchedPaymentRes::from);
+
+        return resBody;
     }
 
     @PostMapping
@@ -37,7 +47,8 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
-    public void putPayment(@PathVariable UUID id, @RequestBody PutPaymentReqBody reqBody) {
+    public void putPayment(@PathVariable UUID id,
+                           @RequestBody PutPaymentReqBody reqBody) {
 
         paymentService.updatePayment(id, reqBody.toDto());
 

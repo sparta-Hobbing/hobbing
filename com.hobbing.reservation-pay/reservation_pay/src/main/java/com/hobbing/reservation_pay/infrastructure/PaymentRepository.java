@@ -1,10 +1,13 @@
 package com.hobbing.reservation_pay.infrastructure;
 
 import com.hobbing.reservation_pay.application.dto.CreatePaymentDto;
+import com.hobbing.reservation_pay.application.dto.SearchPaymentsDto;
 import com.hobbing.reservation_pay.application.dto.UpdatePaymentDto;
 import com.hobbing.reservation_pay.domain.model.Payment;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -19,7 +22,7 @@ public class PaymentRepository {
 
     public Payment readPayment(UUID paymentId) {
         return jpaRepo.findById(paymentId)
-                .orElseThrow();//todo exception
+                .orElseThrow(() -> new RuntimeException("not exist"));//todo exception
     }
 
     public Payment createPayment(CreatePaymentDto createPaymentDto) {
@@ -42,7 +45,7 @@ public class PaymentRepository {
     public void updatePayment(UUID paymentId, UpdatePaymentDto dto) {
 
         Payment target = jpaRepo.findById(paymentId)
-                .orElseThrow();//todo exceptino처리
+                .orElseThrow();//todo exception 처리
 
         target.updatePayInfo(
                 dto.getReceipt(),
@@ -52,5 +55,21 @@ public class PaymentRepository {
         );
 
 
+    }
+
+    public Page<Payment> searchPayments(SearchPaymentsDto dto) {
+
+        Page<Payment> searched
+                = jpaRepo.findByCreatedAtBetween(
+                dto.getPayedAfter(),
+                dto.getPayedBefore(),
+                (Pageable) dto.getPageRequest()
+        );
+
+        if (searched.isEmpty()) {
+            //todo exception
+        }
+
+        return searched;
     }
 }

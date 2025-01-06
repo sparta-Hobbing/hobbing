@@ -33,7 +33,7 @@ public class PaymentController {
     }
 
     @GetMapping("/student-view")
-    public PagedModel<StudentSearchedPaymentRes> searchPayments(
+    public ApiResponse<PagedModel<StudentSearchedPaymentRes>> searchPayments(
             @Valid @ModelAttribute PageInfo pageInfo,
             @Valid @ModelAttribute SearchPaymentsReqParams params
     ) {
@@ -44,7 +44,9 @@ public class PaymentController {
         PagedModel<StudentSearchedPaymentRes> resBody
                 = new PagedModel<>(searched);
 
-        return resBody;
+        return ApiResponse.ofSuccess(
+                HttpStatus.OK, "OK", resBody
+        );
     }
 
     @PostMapping

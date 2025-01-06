@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
 @Value
 public class PageInfo {
 
-    @Min(3)
+    @Min(1)
     int pageSize;
     @Min(0)
     int pageNumber;

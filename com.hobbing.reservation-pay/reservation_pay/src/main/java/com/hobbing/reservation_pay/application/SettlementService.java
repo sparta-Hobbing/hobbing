@@ -2,12 +2,14 @@ package com.hobbing.reservation_pay.application;
 
 
 import com.hobbing.reservation_pay.application.dto.CreateSettlementDto;
+import com.hobbing.reservation_pay.application.dto.SearchSettlementsDto;
 import com.hobbing.reservation_pay.application.dto.UpdateSettlePayInfoDto;
 import com.hobbing.reservation_pay.domain.CommissionPolicy;
 import com.hobbing.reservation_pay.domain.model.Settlement;
 import com.hobbing.reservation_pay.infrastructure.SettlementRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,5 +61,10 @@ public class SettlementService {
     public Settlement createSettlement(CreateSettlementDto dto) {
 
         return settlementRepo.createSettlement(dto);
+    }
+
+    public Page<Settlement> searchSettlements(SearchSettlementsDto dto) {
+
+        return settlementRepo.searchSettlements(dto);
     }
 }

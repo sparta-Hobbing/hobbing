@@ -2,6 +2,7 @@ package com.hobbing.reservation_pay.presentation.dto;
 
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -9,10 +10,12 @@ import org.springframework.data.domain.Sort;
 @Value
 public class PageInfo {
 
+    @NotNull
     @Min(1)
-    int pageSize;
+    Integer pageSize;
+    @NotNull
     @Min(0)
-    int pageNumber;
+    Integer pageNumber;
 
 
     public PageRequest toPageRequest() {

@@ -4,10 +4,11 @@ package com.hobbing.reservation_pay.presentation;
 import com.hobbing.reservation_pay.application.SettlementService;
 import com.hobbing.reservation_pay.application.dto.CreateSettlementDto;
 import com.hobbing.reservation_pay.domain.model.Settlement;
-import com.hobbing.reservation_pay.presentation.dto.PostSettlementReqBody;
-import com.hobbing.reservation_pay.presentation.dto.PutSettleReqBody;
+import com.hobbing.reservation_pay.presentation.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,24 @@ public class SettlementController {
 
         return ApiResponse.ofSuccess(
                 HttpStatus.OK, "정산 조회 성공", GetSettlementResBody.from(settlement)
+        );
+    }
+
+    @GetMapping
+    public ApiResponse<PagedModel<SearchedSettlementsRes>> searchSettlements(
+            @Valid @ModelAttribute PageInfo pageInfo,
+            @Valid @ModelAttribute SearchSettlementsReqParams params
+    ) {
+
+        Page<SearchedSettlementsRes> searched
+                = settlementService.searchSettlements(params.toDto(pageInfo))
+                .map(SearchedSettlementsRes::from);
+
+        PagedModel<SearchedSettlementsRes> resBody
+                = new PagedModel<>(searched);
+
+        return ApiResponse.ofSuccess(
+                HttpStatus.OK, "OK", resBody
         );
     }
 

@@ -3,12 +3,10 @@ package com.hobbing.reservation_pay.presentation;
 
 import com.hobbing.reservation_pay.application.SettlementService;
 import com.hobbing.reservation_pay.domain.model.Settlement;
+import com.hobbing.reservation_pay.presentation.dto.PutSettleReqBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -31,4 +29,14 @@ public class SettlementController {
         );
     }
 
+    @PutMapping("/{id}/pay-info")
+    public ApiResponse<Void> putSettlement(@PathVariable UUID id,
+                                           @RequestBody PutSettleReqBody reqBody) {
+
+        settlementService.updateSettlementPayInfo(id, reqBody.toDto());
+
+        return ApiResponse.ofSuccess(
+                HttpStatus.OK, "정산 결제정보 업데이트 성공", null
+        );
+    }
 }

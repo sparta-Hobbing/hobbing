@@ -47,4 +47,17 @@ public class Settlement extends BaseEntity {
     public final long getTutorAmount() {
         return totalAmount - commission;
     }
+
+    public void updatePayInfo(long totalAmount,
+                              long commission,
+                              SettlementStatus status,
+                              String receipt,
+                              String transactionPgToken) {
+
+        this.totalAmount = totalAmount;
+        this.commission = commission;
+        this.status = status;
+        this.receipt = receipt;
+        this.transactionPgToken = transactionPgToken;
+    }
 }

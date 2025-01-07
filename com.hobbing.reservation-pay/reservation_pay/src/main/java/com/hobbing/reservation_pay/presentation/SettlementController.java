@@ -2,12 +2,16 @@ package com.hobbing.reservation_pay.presentation;
 
 
 import com.hobbing.reservation_pay.application.SettlementService;
+import com.hobbing.reservation_pay.application.dto.CreateSettlementDto;
 import com.hobbing.reservation_pay.domain.model.Settlement;
+import com.hobbing.reservation_pay.presentation.dto.PostSettlementReqBody;
 import com.hobbing.reservation_pay.presentation.dto.PutSettleReqBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -37,6 +41,26 @@ public class SettlementController {
 
         return ApiResponse.ofSuccess(
                 HttpStatus.OK, "정산 결제정보 업데이트 성공", null
+        );
+    }
+
+    @PostMapping
+    public ApiResponse<List<UUID>> postSettlements(@Valid @RequestBody
+                                                   List<PostSettlementReqBody> reqBody) {
+
+        List<CreateSettlementDto> dtoList
+                = reqBody.stream()
+                .map(PostSettlementReqBody::toDto)
+                .toList();
+
+        List<UUID> createdIdList
+                = settlementService.createSettlements(dtoList)
+                .stream()
+                .map(Settlement::getId)
+                .toList();
+
+        return ApiResponse.ofSuccess(
+                HttpStatus.CREATED, "정산 생성 성공", createdIdList
         );
     }
 }

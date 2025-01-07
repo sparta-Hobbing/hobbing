@@ -1,6 +1,7 @@
 package com.hobbing.reservation_pay.application;
 
 
+import com.hobbing.reservation_pay.application.dto.CreateSettlementDto;
 import com.hobbing.reservation_pay.application.dto.UpdateSettlePayInfoDto;
 import com.hobbing.reservation_pay.domain.CommissionPolicy;
 import com.hobbing.reservation_pay.domain.model.Settlement;
@@ -9,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -39,4 +41,23 @@ public class SettlementService {
                 dto.getTransactionPgToken());
     }
 
+    @Transactional
+    public List<Settlement> createSettlements(List<CreateSettlementDto> dtoList) {
+
+        dtoList.forEach(dto -> dto.setCommission(
+                commissionPolicy.calculateCommission(dto.getTotalAmount())
+        ));
+
+        List<Settlement> createdSettlements
+                = dtoList.stream()
+                .map(this::createSettlement)
+                .toList();
+
+        return createdSettlements;
+    }
+
+    public Settlement createSettlement(CreateSettlementDto dto) {
+
+        return settlementRepo.createSettlement(dto);
+    }
 }

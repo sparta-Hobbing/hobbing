@@ -2,9 +2,7 @@ package com.hobbing.reservation_pay.domain.model;
 
 import com.hobbing.reservation_pay.domain.model.status_enum.SettlementStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -12,6 +10,8 @@ import java.util.UUID;
 @Table(name = "p_settlement")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@AllArgsConstructor
+@Builder
 public class Settlement extends BaseEntity {
 
     @Id

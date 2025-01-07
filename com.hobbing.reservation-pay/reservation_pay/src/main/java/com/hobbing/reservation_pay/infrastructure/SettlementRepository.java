@@ -1,5 +1,6 @@
 package com.hobbing.reservation_pay.infrastructure;
 
+import com.hobbing.reservation_pay.application.dto.CreateSettlementDto;
 import com.hobbing.reservation_pay.common.exception.CommonErrorCode;
 import com.hobbing.reservation_pay.common.exception.CustomException;
 import com.hobbing.reservation_pay.domain.model.Settlement;
@@ -19,6 +20,23 @@ public class SettlementRepository {
 
     public Settlement readSettlement(UUID settlementId) {
         return jpaRepo.findById(settlementId)
-                .orElseThrow(()->new CustomException(CommonErrorCode.SETTLEMENT_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(CommonErrorCode.SETTLEMENT_NOT_FOUND));
+    }
+
+    public Settlement createSettlement(CreateSettlementDto dto) {
+
+        Settlement settlement
+                = Settlement.builder()
+                .tutorId(dto.getTutorId())
+                .lectureId(dto.getLectureId())
+                .lectureTitle(dto.getLectureTitle())
+                .totalAmount(dto.getTotalAmount())
+                .commission(dto.getCommission())
+                .status(dto.getStatus())
+                .receipt(dto.getReceipt())
+                .transactionPgToken(dto.getTransactionPgToken())
+                .build();
+
+        return jpaRepo.save(settlement);
     }
 }

@@ -39,6 +39,5 @@ public class SearchedSettlementsRes {
                 .updatedAt(settlement.getUpdatedAt())
                 .updatedBy(settlement.getUpdatedBy())
                 .build();
-
     }
 }

@@ -66,23 +66,22 @@ public class Coupon extends BaseEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Setter // 수정 가능
+    @Setter 
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    @Setter // 상태 관리 가능
+    @Setter 
     @Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isDeleted;
 
-    @Setter // 삭제 시간 설정 가능
+    @Setter 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Setter // 삭제자 설정 가능
+    @Setter 
     @Column(name = "deleted_by")
     private UUID deletedBy;
 
-    // issuedCount 업데이트 로직 추가
     public void incrementIssuedCount() {
         if (this.issuedCount < this.maxIssue) {
             this.issuedCount++;

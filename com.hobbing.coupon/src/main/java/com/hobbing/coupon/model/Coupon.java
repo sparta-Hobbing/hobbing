@@ -3,6 +3,7 @@ package com.hobbing.coupon.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -65,15 +66,28 @@ public class Coupon extends BaseEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Setter // 수정 가능
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    @Column(name = "is_deleted" nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Setter // 상태 관리 가능
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isDeleted;
 
+    @Setter // 삭제 시간 설정 가능
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @Setter // 삭제자 설정 가능
     @Column(name = "deleted_by")
     private UUID deletedBy;
+
+    // issuedCount 업데이트 로직 추가
+    public void incrementIssuedCount() {
+        if (this.issuedCount < this.maxIssue) {
+            this.issuedCount++;
+        } else {
+            throw new IllegalStateException("Maximum issue count reached.");
+        }
+    }
 }

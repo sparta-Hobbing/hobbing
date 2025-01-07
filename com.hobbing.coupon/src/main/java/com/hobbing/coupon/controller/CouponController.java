@@ -16,8 +16,14 @@ public class CouponController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCoupon(@RequestBody CreateCouponRequest request) {
-        return ResponseEntity.ok(couponService.createCoupon(request));
-    }
+public ResponseEntity<ApiResponse<CouponResponse>> createCoupon(@RequestBody CreateCouponRequest request) {
+    CouponResponse response = couponService.createCoupon(request);
+    ApiResponse<CouponResponse> apiResponse = new ApiResponse<>(
+        "SUCCESS", 
+        "Coupon created successfully", 
+        response
+    );
+    return ResponseEntity.ok(apiResponse);
+}
 
 }

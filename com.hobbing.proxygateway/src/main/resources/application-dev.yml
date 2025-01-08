@@ -1,0 +1,47 @@
+server:
+  port: 19005
+
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+        - id: user
+          uri: lb://user
+          predicates:
+            - Path=/auths/**
+
+        - id: gateway
+          uri: lb://gateway
+          predicates:
+            - Path=/**
+
+      discovery:
+        locator:
+          enabled: true
+
+  config:
+    import: classpath:application-key.yml
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19000/eureka/
+
+service:
+  jwt:
+    secret-key: ${SECRET-KEY}
+    access-expiration: 1800000 # 30분
+  internal:
+    internal-key: ${INTERNAL-KEY}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

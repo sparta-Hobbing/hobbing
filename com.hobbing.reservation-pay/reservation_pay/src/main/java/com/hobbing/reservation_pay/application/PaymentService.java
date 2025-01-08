@@ -11,6 +11,7 @@ import com.hobbing.reservation_pay.domain.model.Reservation;
 import com.hobbing.reservation_pay.domain.model.status_enum.ReservationStatus;
 import com.hobbing.reservation_pay.infrastructure.PaymentRepository;
 import com.hobbing.reservation_pay.infrastructure.ReservationRepository;
+import com.hobbing.reservation_pay.infrastructure.api.CouponFeignClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepo;
     private final ReservationRepository reservationRepo;
 
-    private final CouponServiceClient couponServiceClient;
+    private final CouponFeignClient couponServiceClient;
 
 
     public Payment readPayment(UUID paymentId) {
@@ -36,7 +37,7 @@ public class PaymentService {
     public Payment payReservation(CreatePaymentDto dto) {
 
         Reservation reservation = reservationRepo.readReservation(dto.getReservationId());
-        if (reservation.getStatus() == ReservationStatus.PAYED) {
+        if (reservation.getStatus() == ReservationStatus.RESERVED_PAID) {
             throw new CustomException(CommonErrorCode.RESERVATION_ALREADY_PAYED);
         }
 
@@ -50,7 +51,9 @@ public class PaymentService {
     public void updatePayment(UUID paymentId, UpdatePaymentDto dto) {
 
         //todo : 서영님 api 완료하면  쿠폰 복원 api호출
-//        if (dto.getPaymentStatus().isTryingToRefund()) {
+//        PaymentStatus paymentStatus = dto.getPaymentStatus();
+//        if (paymentStatus == PaymentStatus.REFUNDED
+//        || paymentStatus.isTryingToRefund()) {
 //        }
 
         paymentRepo.updatePayment(paymentId, dto);

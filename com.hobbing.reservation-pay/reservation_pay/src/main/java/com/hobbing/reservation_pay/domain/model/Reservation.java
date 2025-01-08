@@ -52,10 +52,13 @@ public class Reservation extends BaseEntity {
     @Column(nullable = false)
     private final String tutorNickname;
 
+    @Column(nullable = false)
+    private final UUID studentManagementId;
+
 
     public void pay(Payment payment) {
 
-        if (this.status == ReservationStatus.PAYED) {
+        if (this.status == ReservationStatus.RESERVED_PAID) {
             throw new IllegalStateException("이미 결제된 예약입니다.");
         }
         if (payment.getStatus() != PaymentStatus.PAYED && !payment.getStatus().isTryingToPay()) {
@@ -63,6 +66,10 @@ public class Reservation extends BaseEntity {
         }
 
         this.payment = payment;
-        this.status = ReservationStatus.PAYED;
+        this.status = ReservationStatus.RESERVED_PAID;
+    }
+
+    public void cancel() {
+        this.status = ReservationStatus.CANCELED;
     }
 }

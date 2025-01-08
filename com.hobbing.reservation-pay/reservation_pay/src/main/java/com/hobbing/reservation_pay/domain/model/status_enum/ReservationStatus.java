@@ -1,7 +1,13 @@
 package com.hobbing.reservation_pay.domain.model.status_enum;
 
 public enum ReservationStatus {
-    RESERVED,
-    PAYED,
-    CANCELED
+    RESERVED_UNPAID,
+    RESERVED_PAID,
+    CANCELED,
+    ;
+
+
+    public boolean isReserved() {
+        return this == RESERVED_UNPAID || this == RESERVED_PAID;
+    }
 }

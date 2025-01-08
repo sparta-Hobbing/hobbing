@@ -1,4 +1,4 @@
-package com.hobbing.reservation_pay.application;
+package com.hobbing.reservation_pay.infrastructure.api;
 
 
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @FeignClient(name = "CouponServiceClient", url = "http://localhost:19040")
-public interface CouponServiceClient {
+public interface CouponFeignClient {
 
     @PostMapping("/coupons/restore")
     void restoreCoupon(@RequestBody RestoreCouponReqBody reqBody);

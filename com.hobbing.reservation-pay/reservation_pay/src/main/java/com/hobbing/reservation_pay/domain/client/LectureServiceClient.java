@@ -14,13 +14,19 @@ public interface LectureServiceClient {
     @Value
     @Builder
     class CancelReservedLectureDto {
+        UUID userId;
         UUID studentManagementId;
         UUID lectureScheduleId;
+        String lectureTitle;
+        UUID tutorId;
 
         public static CancelReservedLectureDto from(Reservation reservation) {
             return CancelReservedLectureDto.builder()
+                    .userId(reservation.getUserId())
                     .studentManagementId(reservation.getStudentManagementId())
                     .lectureScheduleId(reservation.getLectureScheduleId())
+                    .lectureTitle(reservation.getLectureTitle())
+                    .tutorId(reservation.getTutorId())
                     .build();
         }
     }

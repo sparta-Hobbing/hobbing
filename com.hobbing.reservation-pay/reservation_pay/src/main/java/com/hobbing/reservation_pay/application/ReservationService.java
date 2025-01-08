@@ -1,4 +1,4 @@
-package com.hobbing.reservation_pay.presentation;
+package com.hobbing.reservation_pay.application;
 
 
 import com.hobbing.reservation_pay.domain.model.Reservation;

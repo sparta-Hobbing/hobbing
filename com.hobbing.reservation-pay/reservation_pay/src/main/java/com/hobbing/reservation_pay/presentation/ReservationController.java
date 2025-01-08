@@ -1,6 +1,7 @@
 package com.hobbing.reservation_pay.presentation;
 
 
+import com.hobbing.reservation_pay.application.ReservationService;
 import com.hobbing.reservation_pay.presentation.dto.GetReservationResBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

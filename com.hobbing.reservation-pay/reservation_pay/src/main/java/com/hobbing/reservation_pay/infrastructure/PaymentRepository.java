@@ -1,12 +1,14 @@
 package com.hobbing.reservation_pay.infrastructure;
 
 import com.hobbing.reservation_pay.application.dto.CreatePaymentDto;
+import com.hobbing.reservation_pay.application.dto.SearchPaymentsDto;
 import com.hobbing.reservation_pay.application.dto.UpdatePaymentDto;
 import com.hobbing.reservation_pay.common.exception.CommonErrorCode;
 import com.hobbing.reservation_pay.common.exception.CustomException;
 import com.hobbing.reservation_pay.domain.model.Payment;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -53,5 +55,22 @@ public class PaymentRepository {
                 dto.getTransactionPgToken()
         );
 
+
+    }
+
+    public Page<Payment> searchPayments(SearchPaymentsDto dto) {
+
+        Page<Payment> searched
+                = jpaRepo.findByCreatedAtBetween(
+                dto.getPayedAfter(),
+                dto.getPayedBefore(),
+                dto.getPageRequest()
+        );
+
+        if (searched.isEmpty()) {
+            throw new CustomException(CommonErrorCode.PAYMENT_NOT_FOUND);
+        }
+
+        return searched;
     }
 }

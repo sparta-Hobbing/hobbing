@@ -22,28 +22,28 @@ public abstract class BaseEntity {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    protected LocalDateTime createdAt;
 
     @CreatedBy
     @Column(nullable = false, updatable = false)
-    private UUID createdBy;
+    protected UUID createdBy;
 
     @LastModifiedDate
     @Column
-    private LocalDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 
     @LastModifiedBy
     @Column
-    private UUID updatedBy;
+    protected UUID updatedBy;
 
     @Column
-    private LocalDateTime deletedAt;
+    protected LocalDateTime deletedAt;
 
     @Column
-    private UUID deletedBy;
+    protected UUID deletedBy;
 
     @Setter
     @Column(nullable = false)
-    private boolean isDeleted = false;
+    protected boolean isDeleted = false;
 
 }

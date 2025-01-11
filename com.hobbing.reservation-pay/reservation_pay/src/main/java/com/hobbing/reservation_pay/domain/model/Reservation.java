@@ -3,18 +3,23 @@ package com.hobbing.reservation_pay.domain.model;
 import com.hobbing.reservation_pay.domain.model.status_enum.PaymentStatus;
 import com.hobbing.reservation_pay.domain.model.status_enum.ReservationStatus;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static java.time.LocalDateTime.now;
+
 @Entity
-@Table(name = "p_reservation")
+@Table(name = "p_reservation",
+        indexes = @Index(name = "idx_reservation_created_at", columnList = "created_at"))
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@AllArgsConstructor
+@Builder
 public class Reservation extends BaseEntity {
+
+    public static final byte PAYMENT_DURATION_DAYS = 5;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,12 +66,28 @@ public class Reservation extends BaseEntity {
         if (this.status == ReservationStatus.RESERVED_PAID) {
             throw new IllegalStateException("이미 결제된 예약입니다.");
         }
-        if (payment.getStatus() != PaymentStatus.PAYED && !payment.getStatus().isTryingToPay()) {
+        if (payment.getStatus() != PaymentStatus.PAYED
+                && !payment.getStatus().isTryingToPay()) {
             throw new IllegalStateException("결제 진행중이 아닌 결제 정보입니다.");
+        }
+        if (this.isOverDueDate()) {
+            throw new IllegalStateException("결제 기간이 만료되었습니다.");
         }
 
         this.payment = payment;
         this.status = ReservationStatus.RESERVED_PAID;
+    }
+
+    public LocalDateTime getPaymentDueDate() {
+
+        return createdAt.toLocalDate().atStartOfDay()
+                .plusDays(PAYMENT_DURATION_DAYS);
+    }
+
+    public boolean isOverDueDate() {
+
+        return status == ReservationStatus.RESERVED_UNPAID
+                && now().isAfter(getPaymentDueDate());
     }
 
     public void cancel() {

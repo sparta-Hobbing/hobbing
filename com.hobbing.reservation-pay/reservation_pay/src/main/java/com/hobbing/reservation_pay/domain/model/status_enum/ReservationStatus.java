@@ -4,6 +4,7 @@ public enum ReservationStatus {
     RESERVED_UNPAID,
     RESERVED_PAID,
     CANCELED,
+    UNPAID_CANCELED,
     ;
 
 

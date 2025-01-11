@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -24,5 +26,11 @@ public class ReservationRepository {
 
         return jpaRepo.findById(reservationId)
                 .orElseThrow(() -> new CustomException(CommonErrorCode.RESERVATION_NOT_FOUND));
+    }
+
+    public List<Reservation> searchTop100Reservations(LocalDateTime startCreatedAt,
+                                                      LocalDateTime endCreatedAt) {
+
+        return jpaRepo.findTop100ByCreatedAtBetween(startCreatedAt, endCreatedAt);
     }
 }

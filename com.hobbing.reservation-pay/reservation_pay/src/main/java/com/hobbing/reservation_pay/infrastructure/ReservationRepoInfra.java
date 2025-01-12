@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -38,5 +39,11 @@ public class ReservationRepoInfra implements ReservationRepository {
     @Override
     public Reservation save(Reservation reservation) {
         return jpaRepo.save(reservation);
+    }
+
+    @Override
+    public Optional<Reservation> findDuplicate(UUID userId, UUID lectureScheduleId) {
+
+        return jpaRepo.findByUserIdAndLectureScheduleId(userId, lectureScheduleId);
     }
 }

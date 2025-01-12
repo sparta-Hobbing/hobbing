@@ -43,4 +43,19 @@ public class ReservationController {
                 DeleteReservationResBody.from(deleted)
         );
     }
+
+    @PostMapping
+    public ApiResponse<UUID> createReservation(
+            @RequestBody PostReservationReqBody reqBody
+    ) {
+
+        Reservation created
+                = reservationService.createReservation(reqBody.toDto());
+
+        return ApiResponse.ofSuccess(
+                HttpStatus.CREATED,
+                "예약 생성 성공",
+                created.getId()
+        );
+    }
 }

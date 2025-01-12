@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class SettlementRepository {
+public class SettlementRepoInfra {
 
     private final SettlementJpaRepository jpaRepo;
 

@@ -21,6 +21,7 @@ public class Reservation extends BaseEntity {
 
     public static final byte PAYMENT_DURATION_DAYS = 5;
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -57,8 +58,9 @@ public class Reservation extends BaseEntity {
     @Column(nullable = false)
     private final String tutorNickname;
 
-    @Column(nullable = false)
-    private final UUID studentManagementId;
+    //todo 지용님 말에 따르면 userId, lectureScheduleId 로도 student 테이블 조회 가능, 만약 다르다면 다시 주석해제
+//    @Column(nullable = false)
+//    private final UUID studentId;
 
 
     public void pay(Payment payment) {
@@ -92,5 +94,20 @@ public class Reservation extends BaseEntity {
 
     public void cancel() {
         this.status = ReservationStatus.CANCELED;
+    }
+
+    public static Reservation makeModel(MakeReservationDto dto) {
+
+        return Reservation.builder()
+                .userId(dto.getUserId())
+                .userNickname(dto.getUserNickname())
+                .status(ReservationStatus.RESERVED_UNPAID)
+                .lectureScheduleId(dto.getLectureScheduleId())
+                .lectureTitle(dto.getLectureTitle())
+                .lectureScheduleStart(dto.getLectureScheduleStart())
+                .lectureScheduleEnd(dto.getLectureScheduleEnd())
+                .tutorId(dto.getTutorId())
+                .tutorNickname(dto.getTutorNickname())
+                .build();
     }
 }

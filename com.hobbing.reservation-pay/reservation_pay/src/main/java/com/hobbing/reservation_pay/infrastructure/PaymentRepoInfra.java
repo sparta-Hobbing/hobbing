@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class PaymentRepository {
+public class PaymentRepoInfra {
 
     private final PaymentJpaRepository jpaRepo;
 

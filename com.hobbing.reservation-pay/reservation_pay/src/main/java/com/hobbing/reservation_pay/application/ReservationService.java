@@ -2,8 +2,9 @@ package com.hobbing.reservation_pay.application;
 
 
 import com.hobbing.reservation_pay.domain.ReservationDomainService;
+import com.hobbing.reservation_pay.domain.model.MakeReservationDto;
 import com.hobbing.reservation_pay.domain.model.Reservation;
-import com.hobbing.reservation_pay.infrastructure.ReservationRepository;
+import com.hobbing.reservation_pay.infrastructure.ReservationRepoInfra;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,7 +24,7 @@ public class ReservationService {
 
     private final ReservationDomainService reservationDomainService;
 
-    private final ReservationRepository reservationRepo;
+    private final ReservationRepoInfra reservationRepo;
 
 
     public Reservation readReservation(UUID id) {
@@ -47,13 +48,12 @@ public class ReservationService {
         LocalDateTime cursor = LocalDateTime.now().with(LocalTime.MIN);
         LocalDateTime lastOfToday = LocalDateTime.now().with(LocalTime.MAX);
 
-        for (List<Reservation> reservations
-             = reservationRepo.searchTop100Reservations(cursor, lastOfToday);
+        for (List<Reservation> reservations = reservationRepo.searchTop100Reservations(cursor, lastOfToday);
 
              !reservations.isEmpty();
 
-             cursor = reservations.get(reservations.size() - 1).getCreatedAt()
-                     , reservations = reservationRepo.searchTop100Reservations(cursor, lastOfToday)
+             cursor = reservations.get(reservations.size() - 1).getCreatedAt(),
+                     reservations = reservationRepo.searchTop100Reservations(cursor, lastOfToday)
         ) {
 
             List<Reservation> expireds
@@ -63,13 +63,17 @@ public class ReservationService {
 
             expireds.forEach(reservationDomainService::cancel);
 
-
-            StringBuilder toLog = new StringBuilder();
-            toLog.append("Canceled Reservations number: ").append(expireds.size()).append("\n");
-            toLog.append("Canceled Reservation ids: \n");
-            expireds.forEach(reservation -> toLog.append(reservation.getId()).append("\n"));
-
-            log.info(toLog.toString());
+            StringBuilder canceledExpiredsLog = new StringBuilder();
+            canceledExpiredsLog.append("Canceled Reservations number: ").append(expireds.size()).append("\n");
+            canceledExpiredsLog.append("Canceled Reservation ids: \n");
+            expireds.forEach(reservation -> canceledExpiredsLog.append(reservation.getId()).append("\n"));
+            log.info(canceledExpiredsLog.toString());
         }
+    }
+
+    @Transactional
+    public Reservation createReservation(MakeReservationDto dto) {
+
+        return reservationDomainService.reserve(dto);
     }
 }

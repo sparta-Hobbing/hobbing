@@ -9,8 +9,8 @@ import com.hobbing.reservation_pay.common.exception.CustomException;
 import com.hobbing.reservation_pay.domain.model.Payment;
 import com.hobbing.reservation_pay.domain.model.Reservation;
 import com.hobbing.reservation_pay.domain.model.status_enum.ReservationStatus;
-import com.hobbing.reservation_pay.infrastructure.PaymentRepository;
-import com.hobbing.reservation_pay.infrastructure.ReservationRepository;
+import com.hobbing.reservation_pay.infrastructure.PaymentRepoInfra;
+import com.hobbing.reservation_pay.infrastructure.ReservationRepoInfra;
 import com.hobbing.reservation_pay.infrastructure.api.CouponFeignClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PaymentService {
 
-    private final PaymentRepository paymentRepo;
-    private final ReservationRepository reservationRepo;
+    private final PaymentRepoInfra paymentRepo;
+    private final ReservationRepoInfra reservationRepo;
 
     private final CouponFeignClient couponServiceClient;
 

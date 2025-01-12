@@ -4,6 +4,7 @@ package com.hobbing.reservation_pay.infrastructure;
 import com.hobbing.reservation_pay.common.exception.CommonErrorCode;
 import com.hobbing.reservation_pay.common.exception.CustomException;
 import com.hobbing.reservation_pay.domain.model.Reservation;
+import com.hobbing.reservation_pay.domain.repository.ReservationRepository;
 import com.hobbing.reservation_pay.infrastructure.dao.ReservationJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class ReservationRepository {
+public class ReservationRepoInfra implements ReservationRepository {
 
     private final ReservationJpaRepository jpaRepo;
 
@@ -32,5 +33,10 @@ public class ReservationRepository {
                                                       LocalDateTime endCreatedAt) {
 
         return jpaRepo.findTop100ByCreatedAtBetween(startCreatedAt, endCreatedAt);
+    }
+
+    @Override
+    public Reservation save(Reservation reservation) {
+        return jpaRepo.save(reservation);
     }
 }

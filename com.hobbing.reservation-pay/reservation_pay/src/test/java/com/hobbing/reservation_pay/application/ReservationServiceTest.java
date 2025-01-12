@@ -2,7 +2,7 @@ package com.hobbing.reservation_pay.application;
 
 import com.hobbing.reservation_pay.domain.ReservationDomainService;
 import com.hobbing.reservation_pay.domain.model.Reservation;
-import com.hobbing.reservation_pay.infrastructure.ReservationRepository;
+import com.hobbing.reservation_pay.infrastructure.ReservationRepoInfra;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 class ReservationServiceTest {
 
     @Mock
-    private ReservationRepository reservationRepository;
+    private ReservationRepoInfra reservationRepository;
 
     @Mock
     private ReservationDomainService domainService;

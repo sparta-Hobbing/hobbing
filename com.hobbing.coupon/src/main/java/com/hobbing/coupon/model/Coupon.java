@@ -11,12 +11,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Entity
 @Table(name = "p_coupon")
 @Getter
 @NoArgsConstructor
-public class Coupon extends BaseEntity {
+public class Coupon {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -66,27 +67,35 @@ public class Coupon extends BaseEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Setter 
+    @Setter
     @Column(name = "updated_by")
     private UUID updatedBy;
 
-    @Setter 
+    @Setter
     @Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isDeleted;
 
-    @Setter 
+    @Setter
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Setter 
+    @Setter
     @Column(name = "deleted_by")
     private UUID deletedBy;
 
+    private static final ReentrantLock lock = new ReentrantLock();
+
+    // 발급 수 증가
     public void incrementIssuedCount() {
-        if (this.issuedCount < this.maxIssue) {
-            this.issuedCount++;
-        } else {
-            throw new IllegalStateException("Maximum issue count reached.");
+        lock.lock();
+        try {
+            if (this.issuedCount < this.maxIssue) {
+                this.issuedCount++;
+            } else {
+                throw new IllegalStateException("Maximum issue count reached.");
+            }
+        } finally {
+            lock.unlock();
         }
     }
 }

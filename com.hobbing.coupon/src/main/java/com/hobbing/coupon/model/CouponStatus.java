@@ -1,4 +1,4 @@
-package com.example.coupon.entity;
+package com.hobbing.coupon.entity;
 
 public enum CouponStatus {
     ACTIVE,

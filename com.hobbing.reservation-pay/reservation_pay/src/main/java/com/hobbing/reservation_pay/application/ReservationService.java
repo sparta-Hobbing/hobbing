@@ -1,12 +1,14 @@
 package com.hobbing.reservation_pay.application;
 
 
+import com.hobbing.reservation_pay.application.dto.SearchReservationsDto;
 import com.hobbing.reservation_pay.domain.ReservationDomainService;
 import com.hobbing.reservation_pay.domain.model.MakeReservationDto;
 import com.hobbing.reservation_pay.domain.model.Reservation;
 import com.hobbing.reservation_pay.infrastructure.ReservationRepoInfra;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +29,16 @@ public class ReservationService {
     private final ReservationRepoInfra reservationRepo;
 
 
+    @Transactional(readOnly = true)
     public Reservation readReservation(UUID id) {
 
         return reservationRepo.readReservation(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Reservation> searchReservations(SearchReservationsDto dto) {
+
+        return reservationRepo.searchPagedReservations(dto);
     }
 
     @Transactional

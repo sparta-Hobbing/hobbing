@@ -1,4 +1,4 @@
-package com.hobbing.reservation_pay.presentation;
+package com.hobbing.reservation_pay.presentation.dto;
 
 import com.hobbing.reservation_pay.domain.model.MakeReservationDto;
 import lombok.Value;

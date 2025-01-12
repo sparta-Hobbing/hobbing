@@ -3,9 +3,11 @@ package com.hobbing.reservation_pay.presentation;
 
 import com.hobbing.reservation_pay.application.ReservationService;
 import com.hobbing.reservation_pay.domain.model.Reservation;
-import com.hobbing.reservation_pay.presentation.dto.DeleteReservationResBody;
-import com.hobbing.reservation_pay.presentation.dto.GetReservationResBody;
+import com.hobbing.reservation_pay.presentation.dto.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +31,24 @@ public class ReservationController {
                 HttpStatus.OK,
                 "예약 조회 성공",
                 GetReservationResBody.from(reservation)
+        );
+    }
+
+    @GetMapping
+    public ApiResponse<PagedModel<SearchedReservationRes>> searchReservations(
+            @Valid @ModelAttribute PageInfo pageInfo,
+            @Valid @ModelAttribute SearchReservationsReqParams params
+    ) {
+
+        Page<SearchedReservationRes> searched
+                = reservationService.searchReservations(params.toDto(pageInfo))
+                .map(SearchedReservationRes::from);
+
+        PagedModel<SearchedReservationRes> resBody
+                = new PagedModel<>(searched);
+
+        return ApiResponse.ofSuccess(
+                HttpStatus.OK, "OK", resBody
         );
     }
 

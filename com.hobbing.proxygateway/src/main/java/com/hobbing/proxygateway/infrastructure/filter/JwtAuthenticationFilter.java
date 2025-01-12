@@ -1,6 +1,5 @@
 package com.hobbing.proxygateway.infrastructure.filter;
 
-import com.hobbing.proxygateway.domain.JwtHeader;
 import com.hobbing.proxygateway.infrastructure.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import static com.hobbing.proxygateway.domain.JwtHeader.*;
+import static com.hobbing.proxygateway.domain.CustomHeader.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,7 +28,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         String token = exchange.getRequest().getHeaders().getFirst(KEY_ACCESS_TOKEN);
         String uri = exchange.getRequest().getURI().getPath();
         log.info(uri);
-        if (uri.startsWith("/auth")) {
+        if (uri.startsWith("/auths")) {
             log.info("Pass the JWT Token Validate, URI: {}", uri);
             return chain.filter(exchange);
         }
@@ -43,7 +42,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         String userId = jwtUtil.getUserIdFromToken(token);
         String userRole = jwtUtil.getUserRoleFromToken(token);
 
-        exchange.getRequest().getHeaders().remove(KEY_ACCESS_TOKEN);
+//        exchange.getRequest().getHeaders().remove(KEY_ACCESS_TOKEN);
 
         exchange = exchange.mutate()
                 .request(exchange.getRequest().mutate()

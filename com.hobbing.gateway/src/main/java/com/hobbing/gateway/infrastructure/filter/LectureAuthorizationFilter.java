@@ -2,7 +2,10 @@ package com.hobbing.gateway.infrastructure.filter;
 
 import com.hobbing.gateway.domain.CustomHeader;
 import com.hobbing.gateway.domain.UrlEnum;
-import com.hobbing.gateway.domain.UserRoleEnum;
+import com.hobbing.gateway.domain.UserRole;
+import com.hobbing.gateway.dto.ApiResponse;
+import com.hobbing.gateway.dto.VerifyResponse;
+import com.hobbing.gateway.infrastructure.client.AuthClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -26,7 +29,12 @@ public class LectureAuthorizationFilter
     @Value("${service.internal.internal-key}")
     private String INTERNAL_KEY;
 
-    public LectureAuthorizationFilter() {super(LectureAuthorizationFilter.Config.class);}
+    private AuthClient authClient;
+
+    public LectureAuthorizationFilter(AuthClient authClient) {
+        super(LectureAuthorizationFilter.Config.class);
+        this.authClient = authClient;
+    }
 
     @Override
     public GatewayFilter apply(LectureAuthorizationFilter.Config config) {
@@ -52,6 +60,14 @@ public class LectureAuthorizationFilter
             }
 
             // 권한 검증
+            ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
+                    .block()
+                    .getBody();
+            VerifyResponse data  = body.data();
+            if(data == null || !data.isVerified()){
+                return errorResponse(exchange, "Permission denied.");
+            }
+
             boolean isPermittedPath = checkPathPermissions(path, method, userRole);
 
             if (isPermittedPath) {
@@ -72,13 +88,13 @@ public class LectureAuthorizationFilter
         if (matchesPathPattern(patternParser, pathContainer, "/lectures")) {
             return (
                     (method == HttpMethod.GET)
-                    || ( method == HttpMethod.POST && checkRole(new UserRoleEnum[]{UserRoleEnum.TUTOR}, userRole) )
+                    || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.TUTOR}, userRole) )
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/lectures/{lectureId}")) {
             return (
-                    (method == HttpMethod.PUT && checkRole(new UserRoleEnum[]{UserRoleEnum.MASTER, UserRoleEnum.MANAGER, UserRoleEnum.TUTOR}, userRole))
-                    || (method == HttpMethod.DELETE && checkRole(new UserRoleEnum[]{UserRoleEnum.MASTER, UserRoleEnum.MANAGER, UserRoleEnum.TUTOR}, userRole))
+                    (method == HttpMethod.PUT && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole))
+                    || (method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole))
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/waitinglist")) {
@@ -96,7 +112,7 @@ public class LectureAuthorizationFilter
         return pathPattern.matches(pathContainer);
     }
 
-    private boolean checkRole(UserRoleEnum[] userRoles, String role) {
+    private boolean checkRole(UserRole[] userRoles, String role) {
         return Arrays.stream(userRoles).anyMatch(userRole -> userRole.name().equals(role));
     }
 

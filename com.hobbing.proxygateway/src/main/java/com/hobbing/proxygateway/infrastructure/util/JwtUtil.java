@@ -1,6 +1,6 @@
 package com.hobbing.proxygateway.infrastructure.util;
 
-import com.hobbing.proxygateway.domain.JwtHeader;
+import com.hobbing.proxygateway.domain.CustomHeader;
 import com.hobbing.proxygateway.domain.UserRoleEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -16,6 +16,7 @@ import javax.crypto.SecretKey;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -24,7 +25,7 @@ public class JwtUtil {
     private final SecretKey SECRET_KEY;
     private final String USERID = "user_id";
     private final String USERROLE = "user_role";
-    private final String ISSUER = "auth";
+    private final String ISSUER = "user";
 
     public JwtUtil(
             @Value("${service.jwt.secret-key}") String secretKey,
@@ -35,7 +36,7 @@ public class JwtUtil {
     }
 
     private Claims getClaimValueFromToken(String token) {
-        token = token.substring(JwtHeader.VALUE_BEARER_PREFIX.length());
+        token = token.substring(CustomHeader.VALUE_BEARER_PREFIX.length());
         return Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
                 .build()
@@ -62,12 +63,12 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            token = token.substring(JwtHeader.VALUE_BEARER_PREFIX.length());
+            String brokenToken = token.substring(CustomHeader.VALUE_BEARER_PREFIX.length());
 
             Claims payload = Jwts.parserBuilder()
                     .setSigningKey(SECRET_KEY)
                     .build()
-                    .parseClaimsJws(token)
+                    .parseClaimsJws(brokenToken)
                     .getBody();
             log.debug("JWT claims string: {}", payload);
 
@@ -79,8 +80,8 @@ public class JwtUtil {
             log.debug("Validated token issuer");
 
             String userId = payload.get(USERID, String.class);
-            Long userIdOrigin = userId != null ? Long.valueOf(userId) : null;
-            if (userIdOrigin != null && userIdOrigin <= 0) {
+            UUID userIdOrigin = userId != null ? UUID.fromString(userId) : null;
+            if (userIdOrigin == null) {
                 log.error("Invalid userId");
                 return false;
             }
@@ -114,7 +115,7 @@ public class JwtUtil {
     }
 
     public String generateAccessToken(Long userId, UserRoleEnum userRole) {
-        return JwtHeader.VALUE_BEARER_PREFIX + Jwts.builder()
+        return CustomHeader.VALUE_BEARER_PREFIX + Jwts.builder()
                 .claim(USERID, String.valueOf(userId))
                 .claim(USERROLE, String.valueOf(userRole))
                 .setIssuer(ISSUER)

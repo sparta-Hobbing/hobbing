@@ -1,6 +1,6 @@
 package com.hobbing.gateway.domain;
 
-public enum UserRoleEnum {
+public enum UserRole {
     MANAGER,
     MASTER,
     TUTOR,

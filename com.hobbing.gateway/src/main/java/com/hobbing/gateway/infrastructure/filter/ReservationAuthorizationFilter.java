@@ -2,7 +2,10 @@ package com.hobbing.gateway.infrastructure.filter;
 
 import com.hobbing.gateway.domain.CustomHeader;
 import com.hobbing.gateway.domain.UrlEnum;
-import com.hobbing.gateway.domain.UserRoleEnum;
+import com.hobbing.gateway.domain.UserRole;
+import com.hobbing.gateway.dto.ApiResponse;
+import com.hobbing.gateway.dto.VerifyResponse;
+import com.hobbing.gateway.infrastructure.client.AuthClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -26,7 +29,12 @@ public class ReservationAuthorizationFilter
     @Value("${service.internal.internal-key}")
     private String INTERNAL_KEY;
 
-    public ReservationAuthorizationFilter() {super(ReservationAuthorizationFilter.Config.class);}
+    private AuthClient authClient;
+
+    public ReservationAuthorizationFilter(AuthClient authClient) {
+        super(ReservationAuthorizationFilter.Config.class);
+        this.authClient = authClient;
+    }
 
     @Override
     public GatewayFilter apply(ReservationAuthorizationFilter.Config config) {
@@ -52,6 +60,14 @@ public class ReservationAuthorizationFilter
             }
 
             // 권한 검증
+            ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
+                    .block()
+                    .getBody();
+            VerifyResponse data  = body.data();
+            if(data == null || !data.isVerified()){
+                return errorResponse(exchange, "Permission denied.");
+            }
+
             boolean isPermittedPath = checkPathPermissions(path, method, userRole);
 
             if (isPermittedPath) {
@@ -71,56 +87,56 @@ public class ReservationAuthorizationFilter
         // Paths and roles validation
         if (matchesPathPattern(patternParser, pathContainer, "/reservations")) {
             return (
-                    ( method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole) )
-                    || ( method == HttpMethod.POST && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole) )
+                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+                    || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/reservations/{reservationId}")) {
             return (
-                    ( method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole) )
-                    || ( method == HttpMethod.DELETE && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole) )
+                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+                    || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
             );
         }
 
         if (matchesPathPattern(patternParser, pathContainer, "/payments/student-view")) {
-            return method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole);
+            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole);
         }
         if (matchesPathPattern(patternParser, pathContainer, "/payments/{paymentId}")) {
             return (
-                    ( method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole) )
-                    || ( method == HttpMethod.DELETE && checkRole(new UserRoleEnum[]{UserRoleEnum.MASTER}, userRole) )
+                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+                    || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER}, userRole) )
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/payments")) {
-            return method == HttpMethod.POST && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole);
+            return method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole);
         }
         if (matchesPathPattern(patternParser, pathContainer, "/payments/{paymentId}/pay-info")) {
-            return method == HttpMethod.PUT && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole);
+            return method == HttpMethod.PUT && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole);
         }
         if (matchesPathPattern(patternParser, pathContainer, "/payments/tutor-view")) {
-            return method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.TUTOR, UserRoleEnum.MASTER}, userRole);
+            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole);
         }
         if (matchesPathPattern(patternParser, pathContainer, "/payments/{paymentId}/logs")) {
-            return method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.USER, UserRoleEnum.MASTER}, userRole);
+            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole);
         }
 
         if (matchesPathPattern(patternParser, pathContainer, "/settlements/{settlementId}")) {
             return (
-                    ( method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.TUTOR, UserRoleEnum.MASTER}, userRole) )
-                    || ( method == HttpMethod.DELETE && checkRole(new UserRoleEnum[]{UserRoleEnum.MASTER}, userRole) )
+                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+                    || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER}, userRole) )
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/settlement")) {
             return (
-                    ( method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.TUTOR, UserRoleEnum.MASTER}, userRole) )
-                    || ( method == HttpMethod.POST && checkRole(new UserRoleEnum[]{UserRoleEnum.TUTOR, UserRoleEnum.MASTER}, userRole) )
+                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+                    || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/settlements/{settlementId}/pay-info")) {
-            return method == HttpMethod.PUT && checkRole(new UserRoleEnum[]{UserRoleEnum.TUTOR, UserRoleEnum.MASTER}, userRole);
+            return method == HttpMethod.PUT && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole);
         }
         if (matchesPathPattern(patternParser, pathContainer, "/settlements/{settlementId}/logs")) {
-            return method == HttpMethod.GET && checkRole(new UserRoleEnum[]{UserRoleEnum.TUTOR, UserRoleEnum.MASTER}, userRole);
+            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole);
         }
 
         return false;
@@ -131,7 +147,7 @@ public class ReservationAuthorizationFilter
         return pathPattern.matches(pathContainer);
     }
 
-    private boolean checkRole(UserRoleEnum[] userRoles, String role) {
+    private boolean checkRole(UserRole[] userRoles, String role) {
         return Arrays.stream(userRoles).anyMatch(userRole -> userRole.name().equals(role));
     }
 

@@ -35,32 +35,32 @@ public class UserCouponService {
     }
 
     // 사용자에게 쿠폰 발급
-    @Transactional
-    public UserCouponResponse issueCouponToUser(IssueCouponRequest request) {
-        lock.lock(); // 동시성 제어
-        try {
-            Coupon coupon = couponRepository.findById(request.getCouponId())
-                    .orElseThrow(() -> new CustomException(CommonErrorCode.COUPON_NOT_FOUND));
+@Transactional
+public UserCouponResponse issueCouponToUser(IssueCouponRequest request) {
+    Coupon coupon = couponRepository.findById(request.getCouponId())
+            .orElseThrow(() -> new CustomException(CommonErrorCode.COUPON_NOT_FOUND));
 
-            if (coupon.getIssuedCount() >= coupon.getMaxIssue()) {
-                throw new CustomException(CommonErrorCode.COUPON_ISSUE_LIMIT_REACHED);
-            }
-
-            coupon.incrementIssuedCount();
-
-            UserCoupon userCoupon = new UserCoupon();
-            userCoupon.setUserId(request.getUserId());
-            userCoupon.setCoupon(coupon);
-            userCoupon.setStatus(CouponStatus.ACTIVE);
-            userCoupon.setExpirationDate(coupon.getExpirationDate());
-
-            userCouponRepository.save(userCoupon);
-
-            return new UserCouponResponse(userCoupon);
-        } finally {
-            lock.unlock();
+    // 발급 수 증가 부분에만 락 적용
+    lock.lock();
+    try {
+        if (coupon.getIssuedCount() >= coupon.getMaxIssue()) {
+            throw new CustomException(CommonErrorCode.COUPON_ISSUE_LIMIT_REACHED);
         }
+        coupon.incrementIssuedCount();
+    } finally {
+        lock.unlock();
     }
+
+    UserCoupon userCoupon = new UserCoupon();
+    userCoupon.setUserId(request.getUserId());
+    userCoupon.setCoupon(coupon);
+    userCoupon.setStatus(CouponStatus.ACTIVE);
+    userCoupon.setExpirationDate(coupon.getExpirationDate());
+
+    userCouponRepository.save(userCoupon);
+
+    return new UserCouponResponse(userCoupon);
+}
 
     // 쿠폰 사용
     @Transactional

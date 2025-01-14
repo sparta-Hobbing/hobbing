@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 @Data
 public class CreateCouponRequest {
     private String couponName;
-    private DiscountType discountType;
-    private BigDecimal discountAmount;
-    private BigDecimal discountRate;
-    private BigDecimal minOrder;
-    private LocalDateTime issueStart;
-    private LocalDateTime issueDeadline;
-    private LocalDateTime expirationDate;
-    private int maxIssue;
+    private DiscountType discountType; // 정액/정률
+    private BigDecimal discountAmount; // 정액 할인 금액
+    private BigDecimal discountRate;   // 정률 할인 비율
+    private BigDecimal minOrder;       // 최소 주문 금액
+    private LocalDateTime issueStart;  // 발급 시작 시간
+    private LocalDateTime issueDeadline; // 발급 종료 시간
+    private LocalDateTime expirationDate; // 만료 시간
+    private int maxIssue;             // 최대 발급 수량
 }

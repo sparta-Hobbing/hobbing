@@ -14,6 +14,7 @@ import java.util.UUID;
 @Builder(access = AccessLevel.PROTECTED)
 public class SearchedReservationRes {
 
+    UUID id;
     ReservationStatus status;
     UUID lectureScheduleId;
     String lectureTitle;
@@ -28,6 +29,7 @@ public class SearchedReservationRes {
 
     public static SearchedReservationRes from(Reservation reservation) {
         return SearchedReservationRes.builder()
+                .id(reservation.getId())
                 .status(reservation.getStatus())
                 .lectureScheduleId(reservation.getLectureScheduleId())
                 .lectureTitle(reservation.getLectureTitle())

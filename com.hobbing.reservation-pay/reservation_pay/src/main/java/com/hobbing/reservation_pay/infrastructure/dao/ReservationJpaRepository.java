@@ -12,15 +12,18 @@ import java.util.UUID;
 
 public interface ReservationJpaRepository extends JpaRepository<Reservation, UUID> {
 
-    List<Reservation> findTop100ByCreatedAtBetween(
-            LocalDateTime startCreatedAt, LocalDateTime endCreatedAt
+    List<Reservation> findTop100ByCreatedAtBetweenAndIsDeleted(
+            LocalDateTime startCreatedAt, LocalDateTime endCreatedAt,
+            boolean isDeleted
     );
 
     Optional<Reservation> findByUserIdAndLectureScheduleId(
             UUID userId, UUID lectureScheduleId
     );
 
-    Page<Reservation> findByCreatedAtBetween(
-            LocalDateTime reservedAfter, LocalDateTime reservedBefore, PageRequest pageRequest
+    Page<Reservation> findByCreatedAtBetweenAndIsDeleted(
+            LocalDateTime reservedAfter, LocalDateTime reservedBefore,
+            PageRequest pageRequest,
+            boolean isDeleted
     );
 }

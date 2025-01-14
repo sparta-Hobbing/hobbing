@@ -36,10 +36,11 @@ public class ReservationRepoInfra implements ReservationRepository {
     public Page<Reservation> searchPagedReservations(SearchReservationsDto dto) {
 
         Page<Reservation> searched
-                = jpaRepo.findByCreatedAtBetween(
+                = jpaRepo.findByCreatedAtBetweenAndIsDeleted(
                 dto.getReservedAfter(),
                 dto.getReservedBefore(),
-                dto.getPageRequest()
+                dto.getPageRequest(),
+                false
         );
 
         if (searched.isEmpty()) {
@@ -52,7 +53,9 @@ public class ReservationRepoInfra implements ReservationRepository {
     public List<Reservation> searchTop100Reservations(LocalDateTime startCreatedAt,
                                                       LocalDateTime endCreatedAt) {
 
-        return jpaRepo.findTop100ByCreatedAtBetween(startCreatedAt, endCreatedAt);
+        return jpaRepo.findTop100ByCreatedAtBetweenAndIsDeleted(
+                startCreatedAt, endCreatedAt, false
+        );
     }
 
     @Override

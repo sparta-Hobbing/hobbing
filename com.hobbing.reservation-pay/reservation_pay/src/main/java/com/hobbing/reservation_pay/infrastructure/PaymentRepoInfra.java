@@ -62,10 +62,11 @@ public class PaymentRepoInfra {
     public Page<Payment> searchPayments(SearchPaymentsDto dto) {
 
         Page<Payment> searched
-                = jpaRepo.findByCreatedAtBetween(
+                = jpaRepo.findByCreatedAtBetweenAndIsDeleted(
                 dto.getPayedAfter(),
                 dto.getPayedBefore(),
-                dto.getPageRequest()
+                dto.getPageRequest(),
+                false
         );
 
         if (searched.isEmpty()) {

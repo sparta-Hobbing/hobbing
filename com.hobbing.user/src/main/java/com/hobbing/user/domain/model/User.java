@@ -2,8 +2,8 @@ package com.hobbing.user.domain.model;
 
 import com.hobbing.user.presentation.dto.PutUserReqDto;
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,6 +12,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@EntityListeners(value = {AuditingEntityListener.class})
 @Entity
 @Table(name = "p_user")
 public class User extends BaseEntity {

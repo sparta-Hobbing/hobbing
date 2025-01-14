@@ -4,7 +4,6 @@ import com.hobbing.coupon.dto.*;
 import com.hobbing.coupon.service.CouponService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -21,30 +20,33 @@ public class CouponController {
     }
 
     @PostMapping // 쿠폰 생성
-    public ResponseEntity<ApiResponse<CouponResponse>> createCoupon(@RequestBody CreateCouponRequest request) {
+    public ApiResponse<CouponResponse> createCoupon(@RequestBody CreateCouponRequest request) {
         logger.info("Received request to create coupon: {}", request);
         CouponResponse response = couponService.createCoupon(request);
-        return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Coupon created successfully", response));
+        return ApiResponse.ofSuccess("Coupon created successfully", response);
     }
 
     @PutMapping("/{couponId}") // 쿠폰 수정
-    public ResponseEntity<ApiResponse<CouponResponse>> updateCoupon(@PathVariable UUID couponId, @RequestBody UpdateCouponRequest request) {
+    public ApiResponse<CouponResponse> updateCoupon(@PathVariable UUID couponId, @RequestBody UpdateCouponRequest request) {
         logger.info("Received request to update coupon: id={}, request={}", couponId, request);
         CouponResponse response = couponService.updateCoupon(couponId, request);
-        return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Coupon updated successfully", response));
+        return ApiResponse.ofSuccess("Coupon updated successfully", response);
     }
 
     @DeleteMapping("/{couponId}") // 쿠폰 삭제
-    public ResponseEntity<ApiResponse<String>> deleteCoupon(@PathVariable UUID couponId) {
+    public ApiResponse<String> deleteCoupon(@PathVariable UUID couponId) {
         logger.info("Received request to delete coupon: id={}", couponId);
         couponService.deleteCoupon(couponId);
-        return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Coupon deleted successfully", null));
+        return ApiResponse.ofSuccess("Coupon deleted successfully", null);
     }
 
     @GetMapping // 쿠폰 목록 조회 (관리자 전용)
-    public ResponseEntity<ApiResponse<PageResponse<CouponResponse>>> getCoupons(@RequestParam(required = false) String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ApiResponse<PageResponse<CouponResponse>> getCoupons(
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         logger.info("Received request to list coupons: status={}, page={}, size={}", status, page, size);
         PageResponse<CouponResponse> response = couponService.getCoupons(status, page, size);
-        return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Coupons fetched successfully", response));
+        return ApiResponse.ofSuccess("Coupons fetched successfully", response);
     }
 }

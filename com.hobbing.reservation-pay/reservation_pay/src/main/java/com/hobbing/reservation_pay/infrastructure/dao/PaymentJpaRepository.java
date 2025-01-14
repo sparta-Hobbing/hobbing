@@ -10,8 +10,10 @@ import java.util.UUID;
 
 public interface PaymentJpaRepository extends JpaRepository<Payment, UUID> {
 
-    Page<Payment> findByCreatedAtBetween(
-            LocalDateTime createdAfter, LocalDateTime createdBefore, Pageable pageRequest
+    Page<Payment> findByCreatedAtBetweenAndIsDeleted(
+            LocalDateTime createdAfter, LocalDateTime createdBefore,
+            Pageable pageRequest,
+            boolean isDeleted
     );
 
 }

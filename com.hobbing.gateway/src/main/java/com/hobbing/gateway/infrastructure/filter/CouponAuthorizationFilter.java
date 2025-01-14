@@ -25,7 +25,9 @@ import java.util.Arrays;
 @Slf4j
 @Component
 public class CouponAuthorizationFilter
-        extends AbstractGatewayFilterFactory<CouponAuthorizationFilter.Config> {
+        extends AbstractGatewayFilterFactory<CouponAuthorizationFilter.Config>{
+//        extends AuthorizationFilter {
+
     @Value("${service.internal.internal-key}")
     private String INTERNAL_KEY;
 
@@ -46,7 +48,6 @@ public class CouponAuthorizationFilter
             String userRole = request.getHeaders().getFirst(CustomHeader.KEY_USER_ROLE);
             String internalKey = request.getHeaders().getFirst(CustomHeader.KEY_INTERNAL_KEY);
 
-            // 에러 처리 메서드로 공통화
             if (userId == null || userRole == null || internalKey == null) {
                 return errorResponse(exchange, "Missing required headers.");
             }
@@ -59,7 +60,6 @@ public class CouponAuthorizationFilter
                 return errorResponse(exchange, "Invalid path prefix.");
             }
 
-            //권한일치 확인로직
             ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
                     .block()
                     .getBody();
@@ -67,7 +67,6 @@ public class CouponAuthorizationFilter
             if(data == null || !data.isVerified()){
                 return errorResponse(exchange, "Permission denied.");
             }
-
 
             if (checkPathPermissions(path, method, userRole)) {
                 return chain.filter(exchange);
@@ -77,13 +76,10 @@ public class CouponAuthorizationFilter
         };
     }
 
-    public static class Config {}
-
-    private boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
+    protected boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
         PathPatternParser patternParser = new PathPatternParser();
         PathContainer pathContainer = PathContainer.parsePath(path);
 
-        // Paths and roles validation
         if (matchesPathPattern(patternParser, pathContainer, "/coupons")) {
             return (method == HttpMethod.GET || method == HttpMethod.POST)
                     && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER}, userRole);
@@ -111,6 +107,8 @@ public class CouponAuthorizationFilter
         return false;
     }
 
+    public static class Config {}
+
     private boolean matchesPathPattern(PathPatternParser parser, PathContainer pathContainer, String pattern) {
         PathPattern pathPattern = parser.parse(pattern);
         return pathPattern.matches(pathContainer);
@@ -127,4 +125,5 @@ public class CouponAuthorizationFilter
         exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
         return exchange.getResponse().setComplete();
     }
+
 }

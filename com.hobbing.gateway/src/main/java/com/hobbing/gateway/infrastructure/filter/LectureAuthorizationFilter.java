@@ -26,10 +26,14 @@ import java.util.Arrays;
 @Component
 public class LectureAuthorizationFilter
         extends AbstractGatewayFilterFactory<LectureAuthorizationFilter.Config> {
+//        extends AuthorizationFilter {
+//    public LectureAuthorizationFilter(AuthClient authClient) {
+//        super(authClient);
+//    }
+    private AuthClient authClient;
+
     @Value("${service.internal.internal-key}")
     private String INTERNAL_KEY;
-
-    private AuthClient authClient;
 
     public LectureAuthorizationFilter(AuthClient authClient) {
         super(LectureAuthorizationFilter.Config.class);
@@ -46,7 +50,6 @@ public class LectureAuthorizationFilter
             String userRole = request.getHeaders().getFirst(CustomHeader.KEY_USER_ROLE);
             String internalKey = request.getHeaders().getFirst(CustomHeader.KEY_INTERNAL_KEY);
 
-            // 에러 처리 메서드로 공통화
             if (userId == null || userRole == null || internalKey == null) {
                 return errorResponse(exchange, "Missing required headers.");
             }
@@ -59,7 +62,6 @@ public class LectureAuthorizationFilter
                 return errorResponse(exchange, "Invalid path prefix.");
             }
 
-            // 권한 검증
             ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
                     .block()
                     .getBody();
@@ -68,9 +70,7 @@ public class LectureAuthorizationFilter
                 return errorResponse(exchange, "Permission denied.");
             }
 
-            boolean isPermittedPath = checkPathPermissions(path, method, userRole);
-
-            if (isPermittedPath) {
+            if (checkPathPermissions(path, method, userRole)) {
                 return chain.filter(exchange);
             } else {
                 return errorResponse(exchange, "Permission denied.");
@@ -80,11 +80,11 @@ public class LectureAuthorizationFilter
 
     public static class Config {}
 
-    private boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
+//    @Override
+    protected boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
         PathPatternParser patternParser = new PathPatternParser();
         PathContainer pathContainer = PathContainer.parsePath(path);
 
-        // Paths and roles validation
         if (matchesPathPattern(patternParser, pathContainer, "/lectures")) {
             return (
                     (method == HttpMethod.GET)

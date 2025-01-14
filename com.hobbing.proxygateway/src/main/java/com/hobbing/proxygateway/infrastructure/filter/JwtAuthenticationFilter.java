@@ -42,8 +42,6 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         String userId = jwtUtil.getUserIdFromToken(token);
         String userRole = jwtUtil.getUserRoleFromToken(token);
 
-//        exchange.getRequest().getHeaders().remove(KEY_ACCESS_TOKEN);
-
         exchange = exchange.mutate()
                 .request(exchange.getRequest().mutate()
                         .header(KEY_USER_ID, userId)

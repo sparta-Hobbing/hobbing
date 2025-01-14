@@ -1,17 +1,14 @@
 package com.hobbing.user.presentation.controller;
 
-import com.hobbing.user.application.dto.SearchUsersReqDto;
 import com.hobbing.user.application.dto.response.ApiResponse;
 import com.hobbing.user.application.dto.response.SearchedUsersResDto;
 import com.hobbing.user.application.dto.response.VerifyResponse;
 import com.hobbing.user.application.service.UserService;
-import com.hobbing.user.domain.model.User;
 import com.hobbing.user.domain.model.UserRole;
 import com.hobbing.user.infrastructure.PageInfo;
 import com.hobbing.user.presentation.dto.PutUserReqDto;
 import com.hobbing.user.presentation.dto.PutUserRoleDto;
 import jakarta.annotation.Nullable;
-import jakarta.ws.rs.PUT;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -43,7 +40,6 @@ public class UserController {
     ResponseEntity<ApiResponse<Void>> updateUser(
             @PathVariable("user_id") @Nullable String id,
             @RequestBody PutUserReqDto dto
-//            ,
 
 //            @RequestHeader(name="user_id") @Nullable String userId,
 //            @RequestHeader(name="user_role") @Nullable UserRole userRole,
@@ -59,7 +55,6 @@ public class UserController {
     ResponseEntity<ApiResponse<Void>> updateUserRole(
             @PathVariable("user_id") @Nullable String id,
             @RequestBody PutUserRoleDto dto
-//            ,
 
 //            @RequestHeader(name="user_id") @Nullable String userId,
 //            @RequestHeader(name="user_role") @Nullable UserRole userRole,
@@ -73,7 +68,6 @@ public class UserController {
     @GetMapping
     ResponseEntity<ApiResponse<PagedModel<SearchedUsersResDto>>> searchUsers(
             @ModelAttribute PageInfo pageInfo
-//            ,
 //            @ModelAttribute SearchUsersReqDto dto,
 
 //            @RequestHeader(name="user_id") @Nullable String userId,

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Sort;
 public class PageInfo {
 
     @NotNull
-    @Min(10)
+    @Min(1)
     Integer pageSize;
 
     @NotNull

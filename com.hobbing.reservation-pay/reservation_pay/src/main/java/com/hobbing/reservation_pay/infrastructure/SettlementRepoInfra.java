@@ -45,10 +45,11 @@ public class SettlementRepoInfra {
     public Page<Settlement> searchSettlements(SearchSettlementsDto dto) {
 
         Page<Settlement> searched
-                = jpaRepo.findByCreatedAtBetween(
+                = jpaRepo.findByCreatedAtBetweenAndIsDeleted(
                 dto.getSettledAfter(),
                 dto.getSettledBefore(),
-                dto.getPageRequest()
+                dto.getPageRequest(),
+                false
         );
         if (searched.isEmpty()) {
             throw new CustomException(CommonErrorCode.SETTLEMENT_NOT_FOUND);

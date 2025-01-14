@@ -10,5 +10,9 @@ import java.util.UUID;
 
 
 public interface SettlementJpaRepository extends JpaRepository<Settlement, UUID> {
-    Page<Settlement> findByCreatedAtBetween(LocalDateTime settledAfter, LocalDateTime settledBefore, Pageable pageRequest);
+    Page<Settlement> findByCreatedAtBetweenAndIsDeleted(
+            LocalDateTime settledAfter, LocalDateTime settledBefore,
+            Pageable pageRequest,
+            boolean isDeleted
+    );
 }

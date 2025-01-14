@@ -1,4 +1,4 @@
-package com.hobbing.reservation_pay.presentation.dto;
+package com.hobbing.reservation_pay.presentation.dto.settlement;
 
 import com.hobbing.reservation_pay.domain.model.Settlement;
 import com.hobbing.reservation_pay.domain.model.status_enum.SettlementStatus;

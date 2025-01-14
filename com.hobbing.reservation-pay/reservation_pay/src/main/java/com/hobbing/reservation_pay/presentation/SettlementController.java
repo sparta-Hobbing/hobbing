@@ -5,6 +5,7 @@ import com.hobbing.reservation_pay.application.SettlementService;
 import com.hobbing.reservation_pay.application.dto.CreateSettlementDto;
 import com.hobbing.reservation_pay.domain.model.Settlement;
 import com.hobbing.reservation_pay.presentation.dto.*;
+import com.hobbing.reservation_pay.presentation.dto.settlement.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

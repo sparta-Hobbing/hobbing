@@ -4,6 +4,7 @@ package com.hobbing.reservation_pay.presentation;
 import com.hobbing.reservation_pay.application.ReservationService;
 import com.hobbing.reservation_pay.domain.model.Reservation;
 import com.hobbing.reservation_pay.presentation.dto.*;
+import com.hobbing.reservation_pay.presentation.dto.reservation.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

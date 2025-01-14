@@ -1,22 +1,20 @@
-package com.hobbing.reservation_pay.presentation.dto;
+package com.hobbing.reservation_pay.presentation.dto.payment;
+
 
 import com.hobbing.reservation_pay.domain.model.Payment;
-import com.hobbing.reservation_pay.domain.model.status_enum.PaymentStatus;
 import lombok.Builder;
 import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
 @Value
 @Builder
-public class GetPaymentResBody {
+public class StudentSearchedPaymentRes {
 
+    UUID id;
     UUID couponId;
     String couponName;
-    String receipt;
-    PaymentStatus status;
     int payedPrice;
     String transactionPgToken;
     int discountedPrice;
@@ -25,13 +23,12 @@ public class GetPaymentResBody {
     LocalDateTime updatedAt;
     UUID updatedBy;
 
+    public static StudentSearchedPaymentRes from(Payment payment) {
 
-    public static GetPaymentResBody from(Payment payment) {
-        return GetPaymentResBody.builder()
+        return StudentSearchedPaymentRes.builder()
+                .id(payment.getId())
                 .couponId(payment.getCouponId())
                 .couponName(payment.getCouponName())
-                .receipt(payment.getReceipt())
-                .status(payment.getStatus())
                 .payedPrice(payment.getPayedPrice())
                 .transactionPgToken(payment.getTransactionPgToken())
                 .discountedPrice(payment.getDiscountedPrice())
@@ -42,4 +39,3 @@ public class GetPaymentResBody {
                 .build();
     }
 }
-

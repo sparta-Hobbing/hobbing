@@ -1,4 +1,4 @@
-package com.hobbing.reservation_pay.presentation.dto;
+package com.hobbing.reservation_pay.presentation.dto.payment;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;

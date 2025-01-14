@@ -1,7 +1,8 @@
-package com.hobbing.reservation_pay.presentation.dto;
+package com.hobbing.reservation_pay.presentation.dto.settlement;
 
 
 import com.hobbing.reservation_pay.application.dto.SearchSettlementsDto;
+import com.hobbing.reservation_pay.presentation.dto.PageInfo;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Value;

@@ -1,0 +1,5 @@
+DB_URL: jdbc:postgresql://localhost:5432/jvccorder
+DB_USER: postgres
+DB_PASSWORD: Soccer9205#
+JWT_SECRET_KEY: "7J2067KIIO2UhOuhnOygne2KuOuKlCDqvK0g7J6YIOuniOustOumrO2VtOyEnOydtOugpeyEnCDsl5DrgqjquLgg64K07Jqp7J2EIOunjOuTpOuPhOuhnSDtirjrn6zruJTsiojtjIXsnYTrp4zrk6TsnpA="
+INTERNAL-KEY: "internal-key"

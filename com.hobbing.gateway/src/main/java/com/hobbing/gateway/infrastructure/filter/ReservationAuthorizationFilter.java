@@ -26,6 +26,11 @@ import java.util.Arrays;
 @Component
 public class ReservationAuthorizationFilter
         extends AbstractGatewayFilterFactory<ReservationAuthorizationFilter.Config> {
+//        extends AuthorizationFilter {
+//    public ReservationAuthorizationFilter(AuthClient authClient) {
+//        super(authClient);
+//    }
+
     @Value("${service.internal.internal-key}")
     private String INTERNAL_KEY;
 
@@ -36,7 +41,6 @@ public class ReservationAuthorizationFilter
         this.authClient = authClient;
     }
 
-    @Override
     public GatewayFilter apply(ReservationAuthorizationFilter.Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
@@ -46,7 +50,6 @@ public class ReservationAuthorizationFilter
             String userRole = request.getHeaders().getFirst(CustomHeader.KEY_USER_ROLE);
             String internalKey = request.getHeaders().getFirst(CustomHeader.KEY_INTERNAL_KEY);
 
-            // 에러 처리 메서드로 공통화
             if (userId == null || userRole == null || internalKey == null) {
                 return errorResponse(exchange, "Missing required headers.");
             }
@@ -59,7 +62,6 @@ public class ReservationAuthorizationFilter
                 return errorResponse(exchange, "Invalid path prefix.");
             }
 
-            // 권한 검증
             ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
                     .block()
                     .getBody();
@@ -68,9 +70,7 @@ public class ReservationAuthorizationFilter
                 return errorResponse(exchange, "Permission denied.");
             }
 
-            boolean isPermittedPath = checkPathPermissions(path, method, userRole);
-
-            if (isPermittedPath) {
+            if (checkPathPermissions(path, method, userRole)) {
                 return chain.filter(exchange);
             } else {
                 return errorResponse(exchange, "Permission denied.");
@@ -80,11 +80,11 @@ public class ReservationAuthorizationFilter
 
     public static class Config {}
 
-    private boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
+//    @Override
+    protected boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
         PathPatternParser patternParser = new PathPatternParser();
         PathContainer pathContainer = PathContainer.parsePath(path);
 
-        // Paths and roles validation
         if (matchesPathPattern(patternParser, pathContainer, "/reservations")) {
             return (
                     ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
@@ -151,10 +151,8 @@ public class ReservationAuthorizationFilter
         return Arrays.stream(userRoles).anyMatch(userRole -> userRole.name().equals(role));
     }
 
-    // 에러 응답 공통 처리
     private Mono<Void> errorResponse(ServerWebExchange exchange, String message) {
         log.error(message);
-        // 예시로 `error`라는 필드를 추가한 에러 응답을 반환
         exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
         return exchange.getResponse().setComplete();
     }

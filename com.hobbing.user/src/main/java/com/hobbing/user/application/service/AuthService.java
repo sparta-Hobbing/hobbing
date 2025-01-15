@@ -15,11 +15,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Slf4j
@@ -55,20 +53,17 @@ public class AuthService {
                 dto.getProfile(),
                 dto.getPhoneNumber()
         ));
-        createdUser.setCreatedBy(createdUser.getId());
+
     }
 
     public PostAuthLoginResDto createAccessToken(PostAuthLoginReqDto dto){
-        //아이디 존재하는지 조회
         User user = userRepository.findByNickname(dto.getNickname())
                 .orElseThrow(()-> new UserException(UserErrorCode.NOT_EXISTED_USER_ERROR));
 
-        //패스워드 일치 확인
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
             throw new UserException(UserErrorCode.NOT_MATCHED_PASSWORD);
         }
 
-        //accesstoken 발급
         Date now = new Date(System.currentTimeMillis());
         return PostAuthLoginResDto.of(
                 Jwts.builder()
@@ -76,6 +71,7 @@ public class AuthService {
                         .claim("user_role", user.getRole())
                         .setIssuer(issuer)
                         .setIssuedAt(now)
+                        .setIssuedAt(new Date(System.currentTimeMillis()))
                         .setExpiration(new Date((now.getTime() + accessExpiration)))
                         .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey)), SignatureAlgorithm.HS512)
                         .compact()

@@ -1,7 +1,6 @@
 package com.hobbing.user.domain.repository;
 
 import com.hobbing.user.domain.model.User;
-import com.hobbing.user.infrastructure.PageInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

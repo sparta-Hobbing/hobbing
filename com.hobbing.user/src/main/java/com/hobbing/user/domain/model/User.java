@@ -3,18 +3,21 @@ package com.hobbing.user.domain.model;
 import com.hobbing.user.presentation.dto.PutUserReqDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Builder(access = AccessLevel.PRIVATE)
+
 @Getter
+@Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@EntityListeners(value = {AuditingEntityListener.class})
+//@EntityListeners(value = {AuditingEntityListener.class})
 @Entity
 @Table(name = "p_user")
+@DynamicInsert
 public class User extends BaseEntity {
 
     private static final String REMOVED_HYPHEN = "-";
@@ -80,6 +83,11 @@ public class User extends BaseEntity {
         super.deletedAt = LocalDateTime.now();
         super.isDeleted = true;
         super.deletedBy = this.getId();
+    }
+
+    @PrePersist
+    public void createdByUerId(){
+        super.createdBy = this.getId();
     }
 
 }

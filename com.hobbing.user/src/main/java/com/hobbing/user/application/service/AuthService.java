@@ -5,7 +5,6 @@ import com.hobbing.user.application.exception.UserErrorCode;
 import com.hobbing.user.application.exception.UserException;
 import com.hobbing.user.domain.model.User;
 import com.hobbing.user.domain.repository.UserRepository;
-import com.hobbing.user.infrastructure.filter.CustomAuthentication;
 import com.hobbing.user.presentation.dto.PostAuthLoginReqDto;
 import com.hobbing.user.presentation.dto.PostAuthSignupReqDto;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +15,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +53,6 @@ public class AuthService {
                 dto.getProfile(),
                 dto.getPhoneNumber()
         ));
-
 
     }
 

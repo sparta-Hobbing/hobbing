@@ -1,9 +1,9 @@
 package com.hobbing.gateway.infrastructure.filter;
 
-import com.hobbing.gateway.domain.CustomHeader;
+import com.hobbing.common.application.dto.ApiResponse;
+import com.hobbing.common.infrastructure.util.CustomHeader;
+import com.hobbing.common.domain.model.UserRole;
 import com.hobbing.gateway.domain.UrlEnum;
-import com.hobbing.gateway.domain.UserRole;
-import com.hobbing.gateway.dto.ApiResponse;
 import com.hobbing.gateway.dto.VerifyResponse;
 import com.hobbing.gateway.infrastructure.client.AuthClient;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,6 @@ public class LectureAuthorizationFilter
             String userRole = request.getHeaders().getFirst(CustomHeader.KEY_USER_ROLE);
             String internalKey = request.getHeaders().getFirst(CustomHeader.KEY_INTERNAL_KEY);
 
-            // 에러 처리 메서드로 공통화
             if (userId == null || userRole == null || internalKey == null) {
                 return errorResponse(exchange, "Missing required headers.");
             }
@@ -59,7 +58,6 @@ public class LectureAuthorizationFilter
                 return errorResponse(exchange, "Invalid path prefix.");
             }
 
-            // 권한 검증
             ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
                     .block()
                     .getBody();
@@ -88,13 +86,13 @@ public class LectureAuthorizationFilter
         if (matchesPathPattern(patternParser, pathContainer, "/lectures")) {
             return (
                     (method == HttpMethod.GET)
-                    || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.TUTOR}, userRole) )
+                            || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.TUTOR}, userRole) )
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/lectures/{lectureId}")) {
             return (
                     (method == HttpMethod.PUT && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole))
-                    || (method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole))
+                            || (method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole))
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/waitinglist")) {
@@ -124,3 +122,45 @@ public class LectureAuthorizationFilter
         return exchange.getResponse().setComplete();
     }
 }
+//@Slf4j
+//public class LectureAuthorizationFilter extends AuthorizationFilter {
+//
+//    public LectureAuthorizationFilter(AuthClient authClient) {
+//        super(LectureAuthorizationFilter.Config.class, authClient);
+//    }
+//
+//    @Override
+//    protected boolean validatePath(String path) {
+//        return path.startsWith(UrlEnum.PREFIX_USERS.getUrl());
+//    }
+//
+//    @Override
+//    protected boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
+//        PathPatternParser patternParser = new PathPatternParser();
+//        PathContainer pathContainer = PathContainer.parsePath(path);
+//
+//        if (matchesPathPattern(patternParser, pathContainer, "/lectures")) {
+//            return (
+//                    (method == HttpMethod.GET)
+//                            || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.TUTOR}, userRole) )
+//            );
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/lectures/{lectureId}")) {
+//            return (
+//                    (method == HttpMethod.PUT && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole))
+//                            || (method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole))
+//            );
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/waitinglist")) {
+//            return method == HttpMethod.POST;
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/waitinglist/{userId}")) {
+//            return method == HttpMethod.GET;
+//        }
+//
+//        return false;
+//    }
+//
+//    private static class Config extends AuthorizationFilter.Config {}
+//
+//}

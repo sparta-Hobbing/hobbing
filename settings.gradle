@@ -1,0 +1,16 @@
+rootProject.name = 'hobbing'
+include 'coupon'
+include 'eurekaserver'
+include 'gateway'
+include 'proxygateway'
+include 'reservation-pay'
+include 'user'
+include 'common'
+
+project(':coupon').projectDir = file('com.hobbing.coupon')
+project(':eurekaserver').projectDir = file('com.hobbing.eurekaserver')
+project(':gateway').projectDir = file('com.hobbing.gateway')
+project(':proxygateway').projectDir = file('com.hobbing.proxygateway')
+project(':reservation-pay').projectDir = file('com.hobbing.reservation-pay')
+project(':user').projectDir = file('com.hobbing.user')
+

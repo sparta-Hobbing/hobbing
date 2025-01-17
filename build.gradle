@@ -60,12 +60,12 @@ subprojects {
 
 bootJar { enabled = false }
 
-//project(':coupon') {
-//    dependencies {
-//        implementation project(':common')
-//        implementation(testFixtures(project(":common")))
-//    }
-//}
+project(':coupon') {
+    dependencies {
+        implementation project(':common')
+        implementation(testFixtures(project(":common")))
+    }
+}
 
 //project(':eurekaserver') {
 //}
@@ -84,12 +84,12 @@ project(':proxygateway') {
     }
 }
 
-//project(':reservation_pay') {
-//    dependencies {
-//        implementation project(':common')
-//        implementation(testFixtures(project(":common")))
-//    }
-//}
+project(':reservation-pay') {
+    dependencies {
+        implementation project(':common')
+        implementation(testFixtures(project(":common")))
+    }
+}
 
 project(':user') {
     dependencies {

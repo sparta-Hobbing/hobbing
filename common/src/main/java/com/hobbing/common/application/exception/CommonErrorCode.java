@@ -1,4 +1,4 @@
-package com.hobbing.user.application.exception;
+package com.hobbing.common.application.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

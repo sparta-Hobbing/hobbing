@@ -1,10 +1,9 @@
 package com.hobbing.user.domain.model;
 
+import com.hobbing.common.domain.model.BaseEntity;
 import com.hobbing.user.presentation.dto.PutUserReqDto;
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

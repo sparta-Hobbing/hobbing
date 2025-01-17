@@ -1,4 +1,4 @@
-package com.hobbing.user.domain.model;
+package com.hobbing.common.domain.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

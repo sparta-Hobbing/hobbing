@@ -1,0 +1,63 @@
+package com.hobbing.reservation_pay.domain.model;
+
+import com.hobbing.reservation_pay.domain.model.status_enum.SettlementStatus;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.UUID;
+
+@Entity
+@Table(name = "p_settlement")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@AllArgsConstructor
+@Builder
+public class Settlement extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @Column(nullable = false)
+    private UUID tutorId;
+
+    @Column(nullable = false)
+    private UUID lectureId;
+
+    @Column(nullable = false)
+    private String lectureTitle;
+
+    @Column(nullable = false)
+    private long totalAmount;
+
+    @Column(nullable = false)
+    private long commission;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SettlementStatus status;
+
+    @Column(columnDefinition = "TEXT")
+    private String receipt;
+
+    @Column(nullable = false)
+    private String transactionPgToken;
+
+
+    public final long getTutorAmount() {
+        return totalAmount - commission;
+    }
+
+    public void updatePayInfo(long totalAmount,
+                              long commission,
+                              SettlementStatus status,
+                              String receipt,
+                              String transactionPgToken) {
+
+        this.totalAmount = totalAmount;
+        this.commission = commission;
+        this.status = status;
+        this.receipt = receipt;
+        this.transactionPgToken = transactionPgToken;
+    }
+}

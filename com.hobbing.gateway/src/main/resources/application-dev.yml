@@ -1,0 +1,61 @@
+server:
+  port: 19006
+
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+        - id: user
+          uri: lb://user
+          predicates:
+            - Path=/users/**
+          filters:
+            - name: UserAuthorizationFilter
+
+        - id: lecture
+          uri: lb://lecture
+          predicates:
+            - Path=/lectures/**, /waitinglist/**
+          filters:
+            - name: LectureAuthorizationFilter
+
+        - id: coupon
+          uri: lb://coupon
+          predicates:
+            - Path=/coupons/**, /users/me/coupons
+          filters:
+            - name: CouponAuthorizationFilter
+
+        - id: reservation
+          uri: lb://reservation
+          predicates:
+            - Path=/reservations/**, /payments/**, settlements/**
+          filters:
+            - name: ReservationAuthorizationFilter
+
+      discovery:
+        locator:
+          enabled: true
+
+  config:
+    import: classpath:application-key.yml
+  data:
+    redis:
+      host: localhost
+      port: 6379
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19000/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+service:
+  internal:
+    internal-key: ${INTERNAL-KEY}

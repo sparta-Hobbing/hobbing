@@ -8,6 +8,30 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/com.hobbing.coupon" />
+            <option value="$PROJECT_DIR$/com.hobbing.eurekaserver" />
+            <option value="$PROJECT_DIR$/com.hobbing.gateway" />
+            <option value="$PROJECT_DIR$/com.hobbing.lecture" />
+            <option value="$PROJECT_DIR$/com.hobbing.proxygateway" />
+            <option value="$PROJECT_DIR$/com.hobbing.reservation-pay" />
+            <option value="$PROJECT_DIR$/com.hobbing.user" />
+            <option value="$PROJECT_DIR$/common" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/com.hobbing.lecture" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/com.hobbing.coupon" />
+            <option value="$PROJECT_DIR$/com.hobbing.eurekaserver" />
+            <option value="$PROJECT_DIR$/com.hobbing.gateway" />
+            <option value="$PROJECT_DIR$/com.hobbing.lecture" />
+            <option value="$PROJECT_DIR$/com.hobbing.proxygateway" />
+            <option value="$PROJECT_DIR$/com.hobbing.reservation-pay" />
+            <option value="$PROJECT_DIR$/com.hobbing.user" />
+            <option value="$PROJECT_DIR$/common" />
           </set>
         </option>
       </GradleProjectSettings>

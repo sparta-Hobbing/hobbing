@@ -1,5 +1,6 @@
 package com.hobbing.gateway.infrastructure.filter;
 
+<<<<<<< HEAD
 import com.hobbing.gateway.domain.CustomHeader;
 import com.hobbing.gateway.domain.UrlEnum;
 import com.hobbing.gateway.domain.UserRole;
@@ -16,6 +17,20 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+=======
+import com.hobbing.common.application.dto.ApiResponse;
+import com.hobbing.common.infrastructure.util.CustomHeader;
+import com.hobbing.common.domain.model.UserRole;
+import com.hobbing.gateway.domain.UrlEnum;
+import com.hobbing.gateway.dto.VerifyResponse;
+import com.hobbing.gateway.infrastructure.client.AuthClient;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+>>>>>>> dev
 import org.springframework.http.server.PathContainer;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -33,6 +48,7 @@ public class UserAuthorizationFilter
 
     @Value("${service.internal.internal-key}")
     private String INTERNAL_KEY;
+<<<<<<< HEAD
 
 //    private UserClient userClient;
 
@@ -42,6 +58,10 @@ public class UserAuthorizationFilter
 //        super(Config.class);
 //        this.userClient = userClient;
 //    }
+=======
+    private AuthClient authClient;
+
+>>>>>>> dev
     public UserAuthorizationFilter(AuthClient authClient) {
         super(Config.class);
         this.authClient = authClient;
@@ -70,8 +90,11 @@ public class UserAuthorizationFilter
                 return errorResponse(exchange, "Invalid path prefix.");
             }
 
+<<<<<<< HEAD
             // 권한 검증
 
+=======
+>>>>>>> dev
             ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
                     .block()
                     .getBody();
@@ -79,6 +102,7 @@ public class UserAuthorizationFilter
             if(data == null || !data.isVerified()){
                 return errorResponse(exchange, "Permission denied.");
             }
+<<<<<<< HEAD
 //            responseEntityMono.flatMap(resposeEntity -> {
 //                ApiResponse<VerifyResponse> apiResponse = resposeEntity.getBody();
 //
@@ -99,6 +123,8 @@ public class UserAuthorizationFilter
 //            }
 
 
+=======
+>>>>>>> dev
 
             if (checkPathPermissions(path, method, userRole)) {
                 return chain.filter(exchange);
@@ -114,7 +140,10 @@ public class UserAuthorizationFilter
         PathPatternParser patternParser = new PathPatternParser();
         PathContainer pathContainer = PathContainer.parsePath(path);
 
+<<<<<<< HEAD
         // Paths and roles validation
+=======
+>>>>>>> dev
         if (matchesPathPattern(patternParser, pathContainer, "/users")) {
             return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole);
         }
@@ -148,3 +177,42 @@ public class UserAuthorizationFilter
     }
 
 }
+<<<<<<< HEAD
+=======
+
+//@Slf4j
+//public class UserAuthorizationFilter extends AuthorizationFilter {
+//
+//    public UserAuthorizationFilter(AuthClient authClient) {
+//        super(Config.class, authClient);
+//    }
+//
+//    @Override
+//    protected boolean validatePath(String path) {
+//        return path.startsWith(UrlEnum.PREFIX_USERS.getUrl());
+//    }
+//
+//    @Override
+//    protected boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
+//        PathPatternParser patternParser = new PathPatternParser();
+//        PathContainer pathContainer = PathContainer.parsePath(path);
+//
+//        if (matchesPathPattern(patternParser, pathContainer, "/users")) {
+//            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER, UserRole.TUTOR}, userRole);
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/users/{userId}")) {
+//            return method == HttpMethod.GET || method == HttpMethod.PUT || method == HttpMethod.DELETE;
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/users/{userId}/role")) {
+//            return method == HttpMethod.PUT && checkRole(new UserRole[]{UserRole.MASTER}, userRole);
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/users/{userId}/student")) {
+//            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR}, userRole);
+//        }
+//        return false;
+//    }
+//
+//    private static class Config extends AuthorizationFilter.Config {}
+//
+//}
+>>>>>>> dev

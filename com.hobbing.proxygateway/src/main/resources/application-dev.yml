@@ -23,10 +23,27 @@ spring:
 
   config:
     import: classpath:application-key.yml
+<<<<<<< HEAD
   data:
     redis:
       host: localhost
       port: 6379
+=======
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    passowrd:
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+>>>>>>> dev
 
 eureka:
   client:
@@ -44,4 +61,9 @@ management:
   endpoints:
     web:
       exposure:
+<<<<<<< HEAD
         include: "*"
+=======
+        include: "*"
+
+>>>>>>> dev

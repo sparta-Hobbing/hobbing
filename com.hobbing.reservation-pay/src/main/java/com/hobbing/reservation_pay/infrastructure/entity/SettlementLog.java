@@ -1,0 +1,40 @@
+package com.hobbing.reservation_pay.infrastructure.entity;
+
+import com.hobbing.reservation_pay.domain.model.BaseEntity;
+import com.hobbing.reservation_pay.domain.model.Settlement;
+import com.hobbing.reservation_pay.domain.model.status_enum.SettlementStatus;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.UUID;
+
+
+@Entity
+@Table(name = "p_settlement_log")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+@RequiredArgsConstructor
+public class SettlementLog extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private final Settlement settlement;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SettlementStatus settlementStatus;
+
+    @Column(nullable = false)
+    private String transactionPgToken;
+
+    @Column
+    private Integer transactedMoney;
+
+    @Column(columnDefinition = "TEXT")
+    private String receipt;
+
+}

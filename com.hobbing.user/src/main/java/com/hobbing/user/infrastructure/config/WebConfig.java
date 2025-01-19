@@ -1,6 +1,10 @@
 package com.hobbing.user.infrastructure.config;
 
+<<<<<<< HEAD
 import com.hobbing.user.infrastructure.filter.CustomHeaderFilter;
+=======
+import com.hobbing.user.infrastructure.filter.CustomAuthenticationFilter;
+>>>>>>> dev
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +32,14 @@ public class WebConfig {
     }
 
     @Bean
+<<<<<<< HEAD
+=======
+    public CustomAuthenticationFilter customAuthorizationFilter() {
+        return new CustomAuthenticationFilter();
+    }
+
+    @Bean
+>>>>>>> dev
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf((csrf) -> csrf.disable());
@@ -36,6 +48,7 @@ public class WebConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
+<<<<<<< HEAD
         http.addFilterBefore(new CustomHeaderFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests((authorizeHttpRequests) ->
@@ -48,6 +61,18 @@ public class WebConfig {
 
 //        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
+=======
+        http.addFilterBefore(customAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.authorizeHttpRequests((authorizeHttpRequests) ->
+                authorizeHttpRequests
+                        .requestMatchers("/auths/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/users/**").permitAll()
+                        .anyRequest().authenticated()
+        );
+
+>>>>>>> dev
         return http.build();
     }
 

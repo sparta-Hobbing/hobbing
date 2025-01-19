@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Optional;
 import java.util.UUID;
 
+<<<<<<< HEAD
 //public class SecurityAuditorAware implements AuditorAware<String> {
 public class SecurityAuditorAware implements AuditorAware<UUID> {
     @Override
@@ -20,6 +21,17 @@ public class SecurityAuditorAware implements AuditorAware<UUID> {
         }
 
         // 인증된 사용자 이름 반환
+=======
+public class SecurityAuditorAware implements AuditorAware<UUID> {
+    @Override
+    public Optional<UUID> getCurrentAuditor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return Optional.empty();
+        }
+
+>>>>>>> dev
         return Optional.of(UUID.fromString(authentication.getPrincipal().toString()));
     }
 }

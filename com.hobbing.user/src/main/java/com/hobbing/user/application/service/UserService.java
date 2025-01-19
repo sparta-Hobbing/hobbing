@@ -1,6 +1,9 @@
 package com.hobbing.user.application.service;
 
+<<<<<<< HEAD
 import com.hobbing.user.application.dto.response.ApiResponse;
+=======
+>>>>>>> dev
 import com.hobbing.user.application.dto.response.SearchedUsersResDto;
 import com.hobbing.user.application.dto.response.VerifyResponse;
 import com.hobbing.user.application.exception.UserErrorCode;
@@ -15,6 +18,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
+=======
+import org.springframework.stereotype.Service;
+
+>>>>>>> dev
 import java.util.UUID;
 
 @RequiredArgsConstructor

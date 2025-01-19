@@ -1,0 +1,36 @@
+spring:
+  application.name: reservation-pay
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties.hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      show_sql: true
+      format_sql: true
+      use_sql_comments: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/hobbing     # local url
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  sql.init.platform: postgres
+
+server:
+  port: 19050
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:19000/eureka/
+
+logging:
+  level:
+    org:
+      hibernate:
+        engine.jdbc.env.internal.JdbcEnvironmentInitiator: DEBUG
+        SQL: DEBUG
+      springframework:
+        web: DEBUG
+        http.converter: DEBUG
+        beans.factory: DEBUG
+        jdbc.datasource: DEBUG

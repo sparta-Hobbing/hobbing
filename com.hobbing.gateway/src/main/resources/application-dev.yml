@@ -39,6 +39,15 @@ spring:
         locator:
           enabled: true
 
+<<<<<<< HEAD
+=======
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    passowrd:
+
+>>>>>>> dev
   config:
     import: classpath:application-key.yml
   data:

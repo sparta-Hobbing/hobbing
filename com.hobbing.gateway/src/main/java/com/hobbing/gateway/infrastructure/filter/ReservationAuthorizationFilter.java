@@ -1,9 +1,16 @@
 package com.hobbing.gateway.infrastructure.filter;
 
+<<<<<<< HEAD
 import com.hobbing.gateway.domain.CustomHeader;
 import com.hobbing.gateway.domain.UrlEnum;
 import com.hobbing.gateway.domain.UserRole;
 import com.hobbing.gateway.dto.ApiResponse;
+=======
+import com.hobbing.common.application.dto.ApiResponse;
+import com.hobbing.common.infrastructure.util.CustomHeader;
+import com.hobbing.common.domain.model.UserRole;
+import com.hobbing.gateway.domain.UrlEnum;
+>>>>>>> dev
 import com.hobbing.gateway.dto.VerifyResponse;
 import com.hobbing.gateway.infrastructure.client.AuthClient;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +53,10 @@ public class ReservationAuthorizationFilter
             String userRole = request.getHeaders().getFirst(CustomHeader.KEY_USER_ROLE);
             String internalKey = request.getHeaders().getFirst(CustomHeader.KEY_INTERNAL_KEY);
 
+<<<<<<< HEAD
             // 에러 처리 메서드로 공통화
+=======
+>>>>>>> dev
             if (userId == null || userRole == null || internalKey == null) {
                 return errorResponse(exchange, "Missing required headers.");
             }
@@ -59,7 +69,10 @@ public class ReservationAuthorizationFilter
                 return errorResponse(exchange, "Invalid path prefix.");
             }
 
+<<<<<<< HEAD
             // 권한 검증
+=======
+>>>>>>> dev
             ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
                     .block()
                     .getBody();
@@ -88,13 +101,21 @@ public class ReservationAuthorizationFilter
         if (matchesPathPattern(patternParser, pathContainer, "/reservations")) {
             return (
                     ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+<<<<<<< HEAD
                     || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+=======
+                            || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+>>>>>>> dev
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/reservations/{reservationId}")) {
             return (
                     ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+<<<<<<< HEAD
                     || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+=======
+                            || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+>>>>>>> dev
             );
         }
 
@@ -104,7 +125,11 @@ public class ReservationAuthorizationFilter
         if (matchesPathPattern(patternParser, pathContainer, "/payments/{paymentId}")) {
             return (
                     ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+<<<<<<< HEAD
                     || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER}, userRole) )
+=======
+                            || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER}, userRole) )
+>>>>>>> dev
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/payments")) {
@@ -123,13 +148,21 @@ public class ReservationAuthorizationFilter
         if (matchesPathPattern(patternParser, pathContainer, "/settlements/{settlementId}")) {
             return (
                     ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+<<<<<<< HEAD
                     || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER}, userRole) )
+=======
+                            || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER}, userRole) )
+>>>>>>> dev
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/settlement")) {
             return (
                     ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+<<<<<<< HEAD
                     || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+=======
+                            || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+>>>>>>> dev
             );
         }
         if (matchesPathPattern(patternParser, pathContainer, "/settlements/{settlementId}/pay-info")) {
@@ -159,3 +192,83 @@ public class ReservationAuthorizationFilter
         return exchange.getResponse().setComplete();
     }
 }
+<<<<<<< HEAD
+=======
+
+//@Slf4j
+//public class ReservationAuthorizationFilter extends AuthorizationFilter {
+//    public ReservationAuthorizationFilter(AuthClient authClient) {
+//        super(ReservationAuthorizationFilter.Config.class, authClient);
+//    }
+//
+//    @Override
+//    protected boolean validatePath(String path) {
+//        return path.startsWith(UrlEnum.PREFIX_USERS.getUrl());
+//    }
+//
+//    @Override
+//    protected boolean checkPathPermissions(String path, HttpMethod method, String userRole) {
+//        PathPatternParser patternParser = new PathPatternParser();
+//        PathContainer pathContainer = PathContainer.parsePath(path);
+//
+//        if (matchesPathPattern(patternParser, pathContainer, "/reservations")) {
+//            return (
+//                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+//                            || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+//            );
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/reservations/{reservationId}")) {
+//            return (
+//                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+//                            || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+//            );
+//        }
+//
+//        if (matchesPathPattern(patternParser, pathContainer, "/payments/student-view")) {
+//            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole);
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/payments/{paymentId}")) {
+//            return (
+//                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
+//                            || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER}, userRole) )
+//            );
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/payments")) {
+//            return method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole);
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/payments/{paymentId}/pay-info")) {
+//            return method == HttpMethod.PUT && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole);
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/payments/tutor-view")) {
+//            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole);
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/payments/{paymentId}/logs")) {
+//            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole);
+//        }
+//
+//        if (matchesPathPattern(patternParser, pathContainer, "/settlements/{settlementId}")) {
+//            return (
+//                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+//                            || ( method == HttpMethod.DELETE && checkRole(new UserRole[]{UserRole.MASTER}, userRole) )
+//            );
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/settlement")) {
+//            return (
+//                    ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+//                            || ( method == HttpMethod.POST && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole) )
+//            );
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/settlements/{settlementId}/pay-info")) {
+//            return method == HttpMethod.PUT && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole);
+//        }
+//        if (matchesPathPattern(patternParser, pathContainer, "/settlements/{settlementId}/logs")) {
+//            return method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.TUTOR, UserRole.MASTER}, userRole);
+//        }
+//
+//        return false;
+//    }
+//
+//    private static class Config extends AuthorizationFilter.Config {}
+//
+//}
+>>>>>>> dev

@@ -1,7 +1,7 @@
 package com.hobbing.user.infrastructure.filter;
 
 import com.hobbing.common.infrastructure.util.CustomHeader;
-import com.hobbing.user.domain.model.UserRole;
+import com.hobbing.common.domain.model.UserRole;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

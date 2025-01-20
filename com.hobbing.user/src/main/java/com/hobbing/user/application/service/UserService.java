@@ -1,49 +1,55 @@
 package com.hobbing.user.application.service;
 
-<<<<<<< HEAD
-import com.hobbing.user.application.dto.response.ApiResponse;
-=======
->>>>>>> dev
-import com.hobbing.user.application.dto.response.SearchedUsersResDto;
+import com.hobbing.common.domain.model.UserRole;
+import com.hobbing.user.application.dto.response.UserDto;
 import com.hobbing.user.application.dto.response.VerifyResponse;
 import com.hobbing.user.application.exception.UserErrorCode;
 import com.hobbing.user.application.exception.UserException;
 import com.hobbing.user.domain.model.User;
-import com.hobbing.user.domain.model.UserRole;
 import com.hobbing.user.domain.repository.UserRepository;
-import com.hobbing.user.infrastructure.PageInfo;
+import com.hobbing.user.presentation.dto.PageInfo;
 import com.hobbing.user.presentation.dto.PutUserReqDto;
 import com.hobbing.user.presentation.dto.PutUserRoleDto;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
-<<<<<<< HEAD
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Optional;
-=======
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
->>>>>>> dev
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final RedisTemplate<String, UserDto> userRedisTemplate;
+    private final ValueOperations<String, UserDto> userListOps;
 
     @Value("${service.internal.internal-key}")
     private String secretKey;
 
+    public UserService(UserRepository userRepository, RedisTemplate<String, UserDto> userRedisTemplate) {
+        this.userRepository = userRepository;
+        this.userRedisTemplate = userRedisTemplate;
+        this.userListOps = this.userRedisTemplate.opsForValue();
+    }
+
+
     public VerifyResponse verify(String userId, UserRole userRole, String secretKey) {
-        User user = userRepository.findByIdAndDeletedAtIsNull(UUID.fromString(userId))
-                .orElse(null);
+        UserDto userDto = userListOps.get("userCache::"+userId);
+        User user;
+        if(userDto == null || userDto.isDeleted()){
+            user = userRepository.findByIdAndDeletedAtIsNull(UUID.fromString(userId))
+                    .orElse(null);
+            userListOps.set("userCache::"+user.getId(), UserDto.fromEntity(user));
+        }else{
+            user = User.getUserRedis(userDto);
+        }
 
         boolean verified = true;
         if(user == null) {
@@ -55,32 +61,61 @@ public class UserService {
         if(!this.secretKey.equals(secretKey)){
             verified = false;
         }
+
+
+
         return new VerifyResponse(verified);
     }
 
     @Transactional
-    public void updateUser(String id, PutUserReqDto dto) {
+    @CachePut(cacheNames = "userCache", key = "#id")
+    public UserDto updateUser(String id, PutUserReqDto dto) {
         User user = userRepository.findByIdAndDeletedAtIsNull(UUID.fromString(id))
                 .orElseThrow(()-> new UserException(UserErrorCode.NOT_EXISTED_USER_ERROR));
         user.modifyUser(dto);
+        return UserDto.fromEntity(user);
     }
 
+    @CachePut(cacheNames = "userCache", key = "#id")
     @Transactional
-    public void updateUserRole(String id, PutUserRoleDto dto) {
+    public UserDto updateUserRole(String id, PutUserRoleDto dto) {
         User user = userRepository.findByIdAndDeletedAtIsNull(UUID.fromString(id))
                 .orElseThrow(()-> new UserException(UserErrorCode.NOT_EXISTED_USER_ERROR));
         user.modifyUserRole(dto.getUserRole());
+        return UserDto.fromEntity(user);
     }
 
-    public Page<User> searchUsers(PageInfo pageInfo) {
+    @Cacheable(cacheNames = "userAllCache", key = "methodName")
+    public Page<UserDto> searchUsers(LocalDateTime startDate, LocalDateTime endDate, PageInfo pageInfo) {
+        LocalDateTime changedStartDate = startDate;
+        LocalDateTime changedEndDate = endDate;
+        if(startDate == null){
+            changedStartDate = LocalDateTime.now().minusMonths(1);
+        }
 
-        return userRepository.findUsers(pageInfo);
+        if(endDate == null){
+            changedEndDate = LocalDateTime.now();
+        }
+
+        return userRepository.findUsers(changedStartDate, changedEndDate, pageInfo).map(UserDto::fromEntity);
     }
 
-    public SearchedUsersResDto searchUser(String id) {
+    @Cacheable(cacheNames = "userCache", key = "#id")
+    public UserDto searchUser(String id) {
         User userDetails = userRepository.findByIdAndDeletedAtIsNull(UUID.fromString(id))
                 .orElseThrow(()-> new UserException(UserErrorCode.NOT_EXISTED_USER_ERROR));
 
-        return SearchedUsersResDto.from(userDetails);
+        return UserDto.fromEntity(userDetails);
+    }
+
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "userCache", key = "#id"),
+            @CacheEvict(cacheNames = "userAllCache", allEntries = true)
+    })
+    public void deleteUser(String id) {
+        User user = userRepository.findByIdAndDeletedAtIsNull(UUID.fromString(id))
+                .orElseThrow(()-> new UserException(UserErrorCode.NOT_EXISTED_USER_ERROR));
+        user.delete();
     }
 }

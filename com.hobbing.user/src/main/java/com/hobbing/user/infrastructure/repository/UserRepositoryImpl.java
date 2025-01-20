@@ -3,11 +3,12 @@ package com.hobbing.user.infrastructure.repository;
 import com.hobbing.user.domain.model.User;
 import com.hobbing.user.domain.repository.JpaUserRepository;
 import com.hobbing.user.domain.repository.UserRepository;
-import com.hobbing.user.infrastructure.PageInfo;
+import com.hobbing.user.presentation.dto.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,8 +33,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Page<User> findUsers(PageInfo pageInfo) {
-        return jpaUserRepository.findAllByDeletedAtIsNull(pageInfo.toPageRequest());
+    public Page<User> findUsers(LocalDateTime startDate, LocalDateTime endDate, PageInfo pageInfo) {
+        return jpaUserRepository.findAllByDeletedAtIsNull(startDate, endDate, pageInfo.toPageRequest());
     }
 
 }

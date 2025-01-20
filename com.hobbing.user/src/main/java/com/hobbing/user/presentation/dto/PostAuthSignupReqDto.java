@@ -1,7 +1,7 @@
 package com.hobbing.user.presentation.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hobbing.user.domain.model.UserRole;
+import com.hobbing.common.domain.model.UserRole;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;

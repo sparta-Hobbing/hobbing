@@ -1,8 +1,8 @@
 package com.hobbing.gateway.infrastructure.filter;
 
-import com.hobbing.common.application.dto.ApiResponse;
-import com.hobbing.common.infrastructure.util.CustomHeader;
-import com.hobbing.common.domain.model.UserRole;
+import com.hobbing.gateway.application.dto.ApiResponse;
+import com.hobbing.gateway.infrastructure.util.CustomHeader;
+import com.hobbing.gateway.domain.model.UserRole;
 import com.hobbing.gateway.domain.UrlEnum;
 import com.hobbing.gateway.dto.VerifyResponse;
 import com.hobbing.gateway.infrastructure.client.AuthClient;

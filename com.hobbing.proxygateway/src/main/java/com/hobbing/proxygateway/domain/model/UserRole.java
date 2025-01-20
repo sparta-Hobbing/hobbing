@@ -1,8 +1,8 @@
-package com.hobbing.user.domain.model;
+package com.hobbing.proxygateway.domain.model;
 
 public enum UserRole {
     MANAGER,
     MASTER,
     TUTOR,
-    USER;
+    USER
 }

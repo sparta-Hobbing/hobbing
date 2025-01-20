@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import static com.hobbing.common.infrastructure.util.CustomHeader.*;
+import static com.hobbing.proxygateway.infrastructure.util.CustomHeader.*;
 
 @Slf4j
 @RequiredArgsConstructor

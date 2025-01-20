@@ -21,7 +21,7 @@ public interface JpaUserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE u.createdAt BETWEEN :startDate AND :endDate")
     Page<User> findAllByDeletedAtIsNull(@Param("startDate") LocalDateTime startDate,
-                         @Param("endDate")LocalDateTime endDate,
-                         Pageable pageInfo);
+                                        @Param("endDate")LocalDateTime endDate,
+                                        Pageable pageInfo);
 
 }

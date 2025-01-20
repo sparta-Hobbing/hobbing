@@ -1,5 +1,6 @@
 package com.hobbing.proxygateway.infrastructure.util;
 
+
 import com.hobbing.proxygateway.domain.model.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -77,7 +78,7 @@ public class JwtUtil {
             }
             log.debug("Validated token issuer");
 
-            String userId = payload.get(USERID, String.class);
+            String userId = payload.get(KEY_USER_ID, String.class);
             UUID userIdOrigin = userId != null ? UUID.fromString(userId) : null;
             if (userIdOrigin == null) {
                 log.error("Invalid userId");

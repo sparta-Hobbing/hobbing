@@ -27,8 +27,8 @@ spring:
     redis:
       host: localhost
       port: 6379
-      username: default
-      password: systempass
+      username: %{REDIS_USER}
+      password: %{REDIS_PASSWORD}
 
 service:
   jwt:

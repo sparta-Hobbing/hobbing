@@ -30,7 +30,7 @@ public class UserAuthorizationFilter
     @Value("${service.internal.internal-key}")
     private String INTERNAL_KEY;
     private AuthClient authClient;
-
+  
     public UserAuthorizationFilter(AuthClient authClient) {
         super(Config.class);
         this.authClient = authClient;
@@ -148,3 +148,4 @@ public class UserAuthorizationFilter
 //    private static class Config extends AuthorizationFilter.Config {}
 //
 //}
+

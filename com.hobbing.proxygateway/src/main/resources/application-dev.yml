@@ -23,7 +23,7 @@ spring:
 
   config:
     import: classpath:application-key.yml
-
+    
 eureka:
   client:
     service-url:

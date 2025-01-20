@@ -10,6 +10,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class PutUserReqDto {
 
+<<<<<<< HEAD
+//    @NotBlank(message = "이름을 입력해주세요.")
+//    private String name;
+
+=======
+>>>>>>> dev
     @Email(message = "이메일을 입력해주세요.")
     private String email;
 

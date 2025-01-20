@@ -82,7 +82,6 @@ public class LectureAuthorizationFilter
         PathPatternParser patternParser = new PathPatternParser();
         PathContainer pathContainer = PathContainer.parsePath(path);
 
-        // Paths and roles validation
         if (matchesPathPattern(patternParser, pathContainer, "/lectures")) {
             return (
                     (method == HttpMethod.GET)
@@ -122,6 +121,7 @@ public class LectureAuthorizationFilter
         return exchange.getResponse().setComplete();
     }
 }
+
 //@Slf4j
 //public class LectureAuthorizationFilter extends AuthorizationFilter {
 //

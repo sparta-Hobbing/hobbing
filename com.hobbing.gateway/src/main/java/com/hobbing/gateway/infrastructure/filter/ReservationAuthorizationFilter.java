@@ -82,7 +82,6 @@ public class ReservationAuthorizationFilter
         PathPatternParser patternParser = new PathPatternParser();
         PathContainer pathContainer = PathContainer.parsePath(path);
 
-        // Paths and roles validation
         if (matchesPathPattern(patternParser, pathContainer, "/reservations")) {
             return (
                     ( method == HttpMethod.GET && checkRole(new UserRole[]{UserRole.USER, UserRole.MASTER}, userRole) )
@@ -149,10 +148,8 @@ public class ReservationAuthorizationFilter
         return Arrays.stream(userRoles).anyMatch(userRole -> userRole.name().equals(role));
     }
 
-    // 에러 응답 공통 처리
     private Mono<Void> errorResponse(ServerWebExchange exchange, String message) {
         log.error(message);
-        // 예시로 `error`라는 필드를 추가한 에러 응답을 반환
         exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
         return exchange.getResponse().setComplete();
     }

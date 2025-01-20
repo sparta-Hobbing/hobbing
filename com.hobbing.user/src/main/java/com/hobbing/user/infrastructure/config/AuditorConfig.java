@@ -10,6 +10,10 @@ import java.util.UUID;
 public class AuditorConfig {
 
     @Bean
+<<<<<<< HEAD
+//    public AuditorAware<String> auditorProvider() {
+=======
+>>>>>>> dev
     public AuditorAware<UUID> auditorProvider() {
         return new SecurityAuditorAware();
     }

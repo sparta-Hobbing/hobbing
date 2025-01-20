@@ -80,6 +80,7 @@ public class CouponAuthorizationFilter
         PathPatternParser patternParser = new PathPatternParser();
         PathContainer pathContainer = PathContainer.parsePath(path);
 
+        // Paths and roles validation
         if (matchesPathPattern(patternParser, pathContainer, "/coupons")) {
             return (method == HttpMethod.GET || method == HttpMethod.POST)
                     && checkRole(new UserRole[]{UserRole.MASTER, UserRole.MANAGER}, userRole);

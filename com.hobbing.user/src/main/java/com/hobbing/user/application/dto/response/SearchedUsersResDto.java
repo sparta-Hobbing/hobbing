@@ -32,8 +32,4 @@ public class SearchedUsersResDto {
                 .build();
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 }

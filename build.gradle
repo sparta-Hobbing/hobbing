@@ -67,23 +67,6 @@ project(':coupon') {
     }
 }
 
-//project(':eurekaserver') {
-//}
-
-project(':gateway') {
-    dependencies {
-        implementation project(':common')
-        implementation(testFixtures(project(":common")))
-    }
-}
-
-project(':proxygateway') {
-    dependencies {
-        implementation project(':common')
-        implementation(testFixtures(project(":common")))
-    }
-}
-
 project(':reservation-pay') {
     dependencies {
         implementation project(':common')
@@ -97,3 +80,10 @@ project(':user') {
         implementation(testFixtures(project(":common")))
     }
 }
+
+//project(':lecture') {
+//    dependencies {
+//        implementation project(':common')
+//        implementation(testFixtures(project(":common")))
+//    }
+//}

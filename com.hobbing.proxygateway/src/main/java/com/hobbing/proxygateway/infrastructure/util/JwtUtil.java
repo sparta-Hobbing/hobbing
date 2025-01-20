@@ -1,7 +1,7 @@
 package com.hobbing.proxygateway.infrastructure.util;
 
 
-import com.hobbing.common.domain.model.UserRole;
+import com.hobbing.proxygateway.domain.model.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -18,7 +18,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
 
-import static com.hobbing.common.infrastructure.util.CustomHeader.*;
+import static com.hobbing.proxygateway.infrastructure.util.CustomHeader.*;
 
 @Slf4j
 @Component

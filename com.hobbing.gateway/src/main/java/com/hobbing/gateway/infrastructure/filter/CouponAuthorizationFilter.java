@@ -1,8 +1,8 @@
 package com.hobbing.gateway.infrastructure.filter;
 
-import com.hobbing.common.application.dto.ApiResponse;
-import com.hobbing.common.infrastructure.util.CustomHeader;
-import com.hobbing.common.domain.model.UserRole;
+import com.hobbing.gateway.application.dto.ApiResponse;
+import com.hobbing.gateway.infrastructure.util.CustomHeader;
+import com.hobbing.gateway.domain.model.UserRole;
 import com.hobbing.gateway.domain.UrlEnum;
 import com.hobbing.gateway.dto.VerifyResponse;
 import com.hobbing.gateway.infrastructure.client.AuthClient;
@@ -120,7 +120,6 @@ public class CouponAuthorizationFilter
     // 에러 응답 공통 처리
     private Mono<Void> errorResponse(ServerWebExchange exchange, String message) {
         log.error(message);
-        // 예시로 `error`라는 필드를 추가한 에러 응답을 반환
         exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
         return exchange.getResponse().setComplete();
     }

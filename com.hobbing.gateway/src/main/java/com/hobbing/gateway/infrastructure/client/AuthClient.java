@@ -1,6 +1,6 @@
 package com.hobbing.gateway.infrastructure.client;
 
-import com.hobbing.common.application.dto.ApiResponse;
+import com.hobbing.gateway.application.dto.ApiResponse;
 import com.hobbing.gateway.dto.VerifyResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import static com.hobbing.common.infrastructure.util.CustomHeader.*;
+import static com.hobbing.gateway.infrastructure.util.CustomHeader.*;
 
 @Slf4j
 @Service

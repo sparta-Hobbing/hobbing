@@ -15,10 +15,10 @@ COPY com.hobbing.eurekaserver/src /app/eurekaserver/src
 COPY settings.gradle /app/
 
 # Ensure gradlew is executable
-RUN chmod +x /gradlew
+RUN chmod +x /app/gradlew
 
 # Build the application
-RUN ./gradlew build -x test --stacktrace
+RUN ./gradlew build
 #BUILD /app/gradlew
 #COPY ${JAR_FILE} /eurekaserver.jar
 

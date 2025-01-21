@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-slim
 
 VOLUME /app
 
-ARG JAR_FILE=com.hobbing.eurekaserver/build/libs/eurekaserver.jar
+ARG JAR_FILE=./com.hobbing.eurekaserver/build/libs/eurekaserver.jar
 
 #COPY ${JAR_FILE} hobbing.jar
 COPY gradlew /app/

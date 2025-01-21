@@ -18,7 +18,7 @@ COPY settings.gradle /app/
 RUN chmod +x /app/gradlew
 
 # Build the application
-RUN ./gradlew build
+RUN ./app/gradlew build
 #BUILD /app/gradlew
 #COPY ${JAR_FILE} /eurekaserver.jar
 

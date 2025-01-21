@@ -19,9 +19,9 @@ COPY settings.gradle /app/
 RUN chmod +x /app/gradlew
 
 # Build the application
-RUN /app/gradlew build -x test --stacktrace
-
-COPY ${JAR_FILE} /eurekaserver.jar
+#RUN /app/gradlew build -x test --stacktrace
+BUILD /app/gradlew
+#COPY ${JAR_FILE} /eurekaserver.jar
 
 EXPOSE 19000
 

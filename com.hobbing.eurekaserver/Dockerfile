@@ -11,7 +11,7 @@ COPY build.gradle /app/
 
 COPY com.hobbing.eurekaserver/build.gradle /app/eurekaserver/
 COPY com.hobbing.eurekaserver/src /app/eurekaserver/src
-COPY ${JAR_FILE} /eurekaserver.jar
+COPY com.hobbing.eurekaserver/build/libs/eurekaserver.jar /eurekaserver.jar
 
 COPY settings.gradle /app/
 

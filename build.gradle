@@ -87,3 +87,10 @@ project(':user') {
         implementation(testFixtures(project(":common")))
     }
 }
+
+project(':queue') {
+    dependencies {
+        implementation project(':queue')
+        implementation(testFixtures(project(":queue")))
+    }
+}

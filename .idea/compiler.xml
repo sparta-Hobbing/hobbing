@@ -8,6 +8,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.36/5a30490a6e14977d97d9c73c924c1f1b5311ea95/lombok-1.18.36.jar" />
         </processorPath>
         <module name="hobbing.coupon.main" />
+        <module name="hobbing.queue.main" />
         <module name="hobbing.reservation-pay.main" />
         <module name="hobbing.proxygateway.main" />
         <module name="hobbing.lecture.main" />

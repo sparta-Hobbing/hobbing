@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class QueueService {
@@ -18,7 +19,7 @@ public class QueueService {
     }
 
     // 대기열에 사용자 추가
-    public void enterQueue(String lectureId, String userId) {
+    public int enterQueue(UUID lectureId, UUID userId) {
         QueueEntry entry = new QueueEntry(userId, LocalDateTime.now());
         redisTemplate.opsForList().rightPush("queue:" + lectureId, entry);
     }
@@ -30,7 +31,7 @@ public class QueueService {
     }
 
     // 대기열에서 사용자 제거
-    public void leaveQueue(String lectureId, String userId) {
+    public void leaveQueue(UUID lectureId, UUID userId) {
         List<Object> queue = redisTemplate.opsForList().range("queue:" + lectureId, 0, -1);
         if (queue != null) {
             for (Object obj : queue) {

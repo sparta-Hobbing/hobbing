@@ -7,6 +7,7 @@ include 'proxygateway'
 include 'reservation-pay'
 include 'user'
 include 'common'
+include 'queue'
 
 project(':coupon').projectDir = file('com.hobbing.coupon')
 project(':lecture').projectDir = file('com.hobbing.lecture')
@@ -15,3 +16,4 @@ project(':gateway').projectDir = file('com.hobbing.gateway')
 project(':proxygateway').projectDir = file('com.hobbing.proxygateway')
 project(':reservation-pay').projectDir = file('com.hobbing.reservation-pay')
 project(':user').projectDir = file('com.hobbing.user')
+project(':queue').projectDir = file('com.hobbing.queue')

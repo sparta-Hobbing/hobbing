@@ -5,6 +5,7 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="corretto-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -13,6 +14,7 @@
             <option value="$PROJECT_DIR$/com.hobbing.gateway" />
             <option value="$PROJECT_DIR$/com.hobbing.lecture" />
             <option value="$PROJECT_DIR$/com.hobbing.proxygateway" />
+            <option value="$PROJECT_DIR$/com.hobbing.queue" />
             <option value="$PROJECT_DIR$/com.hobbing.reservation-pay" />
             <option value="$PROJECT_DIR$/com.hobbing.user" />
             <option value="$PROJECT_DIR$/common" />
@@ -21,6 +23,7 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/com.hobbing.lecture" />
+        <option name="gradleJvm" value="corretto-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -29,6 +32,7 @@
             <option value="$PROJECT_DIR$/com.hobbing.gateway" />
             <option value="$PROJECT_DIR$/com.hobbing.lecture" />
             <option value="$PROJECT_DIR$/com.hobbing.proxygateway" />
+            <option value="$PROJECT_DIR$/com.hobbing.queue" />
             <option value="$PROJECT_DIR$/com.hobbing.reservation-pay" />
             <option value="$PROJECT_DIR$/com.hobbing.user" />
             <option value="$PROJECT_DIR$/common" />

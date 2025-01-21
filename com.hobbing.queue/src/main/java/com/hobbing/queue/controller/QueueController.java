@@ -1,53 +1,43 @@
 package com.hobbing.queue.controller;
 
+import com.hobbing.common.application.dto.ApiResponse;
 import com.hobbing.queue.service.QueueService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.UUID;
+
 
 @RestController
-@RequestMapping("/queue")
+@RequestMapping("/queues")
+@RequiredArgsConstructor
 public class QueueController {
 
     private final QueueService queueService;
 
-    public QueueController(QueueService queueService) {
-        this.queueService = queueService;
+
+    @PostMapping("/{lectureId}/awaiters")
+    public ApiResponse<Integer> enterQueue(@PathVariable UUID lectureId,
+                                           @RequestBody UUID userId) {
+
+        int rank = queueService.enterQueue(lectureId, userId);
+
+        return ApiResponse.ofSuccess(
+                HttpStatus.CREATED, "대기 성공", rank
+        );
     }
 
-    // 대기열 입장
-    @PostMapping("/enter/{lectureId}")
-    public ResponseEntity<String> enterQueue(@PathVariable String lectureId, @RequestParam String userId) {
-        boolean success = queueService.enterQueueWithLock(lectureId, userId);
-        if (success) {
-            return ResponseEntity.ok("User successfully added to queue for lecture: " + lectureId);
-        } else {
-            return ResponseEntity.status(429).body("Queue is busy. Please try again later.");
-        }
-    }
+    @DeleteMapping("/{lectureId}/awaiters/{userId}")
+    public ApiResponse<Void> leaveQueue(@PathVariable UUID lectureId,
+                                        @PathVariable UUID userId) {
 
-    // 대기열 상태 조회
-    @GetMapping("/status/{lectureId}")
-    public ResponseEntity<List<Object>> getQueueStatus(@PathVariable String lectureId) {
-        return ResponseEntity.ok(queueService.getQueueStatus(lectureId));
-    }
-
-    // 대기열 나가기
-    @DeleteMapping("/leave/{lectureId}")
-    public ResponseEntity<String> leaveQueue(@PathVariable String lectureId, @RequestParam String userId) {
         queueService.leaveQueue(lectureId, userId);
-        return ResponseEntity.ok("User removed from queue for lecture: " + lectureId);
+
+        return ApiResponse.ofSuccess(
+                HttpStatus.OK, "대기 취소 성공", null
+        );
     }
 
-    // TTL 설정
-    @PostMapping("/set-ttl/{lectureId}")
-    public ResponseEntity<String> setQueueTTL(@PathVariable String lectureId, @RequestParam long ttlInSeconds) {
-        boolean success = queueService.setQueueTTL(lectureId, ttlInSeconds);
-        if (success) {
-            return ResponseEntity.ok("TTL set for queue: " + lectureId);
-        } else {
-            return ResponseEntity.status(404).body("Queue not found for lecture: " + lectureId);
-        }
-    }
 }

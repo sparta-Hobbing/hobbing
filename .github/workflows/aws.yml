@@ -164,28 +164,28 @@ jobs:
 #        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 #        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
     - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
+      id: eureka-server-task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.eureka-server-image.outputs.image }}
     - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
+      id: proxy-gateway-task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.proxy-gateway-image.outputs.image }}
     - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
+      id: gateway-task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.gateway-imagee.outputs.image }}
     - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
+      id: user-task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
@@ -195,7 +195,28 @@ jobs:
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        task-definition: ${{ steps.eureka-server-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.proxy-gateway-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.gateway-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.user-task-def.outputs.task-definition }}
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true

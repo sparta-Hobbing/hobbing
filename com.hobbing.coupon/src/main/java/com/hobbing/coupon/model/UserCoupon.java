@@ -1,8 +1,9 @@
-package com.hobbing.coupon.entity;
+package com.hobbing.coupon.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;  // Lombok @Setter 추가
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,8 +13,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "p_usercoupon")
 @Getter
+@Setter  // Lombok을 사용하여 setter 메서드 자동 생성
 @NoArgsConstructor
-public class UserCoupon extends BaseEntity {
+public class UserCoupon {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -30,7 +32,7 @@ public class UserCoupon extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private CouponStatus status;
+    private CouponStatus status;  // 상태: ACTIVE, USED, EXPIRED
 
     @Column(name = "used_at")
     private LocalDateTime usedAt;
@@ -71,5 +73,10 @@ public class UserCoupon extends BaseEntity {
         if (this.status == CouponStatus.ACTIVE) {
             this.status = CouponStatus.EXPIRED;
         }
+    }
+
+    // 상태 검증 (선택적, 다른 상태로 인한 처리 로직)
+    private boolean isStatusValid(CouponStatus status) {
+        return status != null && status != CouponStatus.EXPIRED;  // 상태가 EXPIRED가 아니어야 유효
     }
 }

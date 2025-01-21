@@ -1,6 +1,6 @@
 package com.hobbing.coupon.dto;
 
-import com.hobbing.coupon.entity.DiscountType;
+import com.hobbing.coupon.model.DiscountType;
 import lombok.Data;
 
 import java.math.BigDecimal;

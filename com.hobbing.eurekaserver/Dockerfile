@@ -15,10 +15,10 @@ COPY settings.gradle /app/
 RUN chmod +x /app/eurekaserver/gradlew
 
 #Clean with Gradle
-RUN /app/eurekaserver/gradle clean
+RUN /app/eurekaserver/gradlew clean
 
 # Build the application
-RUN /app/eurekaserver/gradle build -x test --stacktrace
+RUN /app/eurekaserver/gradlew build -x test --stacktrace
 
 #COPY com.hobbing.eurekaserver/gradlew /app/eurekaserver/
 #COPY com.hobbing.eurekaserver/gradle /app/eurekaserver/

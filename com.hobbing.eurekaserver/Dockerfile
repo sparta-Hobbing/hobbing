@@ -15,7 +15,7 @@ COPY settings.gradle /app/
 RUN chmod +x /app/eurekaserver/gradlew
 
 #Clean with Gradle
-RUN /app/eurekaserver/gradlew clean
+#RUN /app/eurekaserver/gradlew clean
 
 # Build the application
 RUN /app/eurekaserver/gradlew build -x test --stacktrace

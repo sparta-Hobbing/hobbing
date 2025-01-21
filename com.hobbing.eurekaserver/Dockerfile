@@ -4,22 +4,36 @@ VOLUME /app
 
 ARG JAR_FILE=./com.hobbing.eurekaserver/build/libs/eurekaserver.jar
 
-#COPY ${JAR_FILE} hobbing.jar
 COPY gradlew /app/
-COPY gradle /app/gradle/
+COPY gradle /app/
 COPY build.gradle /app/
-
-COPY com.hobbing.eurekaserver/build.gradle /app/eurekaserver/
-COPY com.hobbing.eurekaserver/src /app/eurekaserver/src
-COPY com.hobbing.eurekaserver/build/libs/eurekaserver.jar /eurekaserver.jar
 
 COPY settings.gradle /app/
 
 # Ensure gradlew is executable
 RUN chmod +x /app/gradlew
 
+#Clean with Gradle
+RUN /app/gradlew clean
+
 # Build the application
-#RUN /app/gradlew build -x test --stacktrace
+RUN /app/gradlew build -x test --stacktrace
+
+COPY com.hobbing.eurekaserver/gradlew /app/eurekaserver/
+COPY com.hobbing.eurekaserver/gradle /app/eurekaserver/
+COPY com.hobbing.eurekaserver/build.gradle /app/eurekaserver/
+COPY com.hobbing.eurekaserver/src /app/eurekaserver/src
+
+# Ensure gradlew is executable
+RUN chmod +x /app/eurekaserver/gradlew
+
+#Clean with Gradle
+RUN /app/eurekaserver/gradlew clean
+
+# Build the application
+RUN /app/eurekaserver/gradlew build -x test --stacktrace
+
+COPY com.hobbing.eurekaserver/build/libs/eurekaserver.jar /eurekaserver.jar
 
 EXPOSE 19000
 

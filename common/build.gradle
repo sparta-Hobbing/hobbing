@@ -7,3 +7,11 @@ dependencies {
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
+
+springBoot{
+    mainClass.set('com.hobbing.user.UserApplication')
+}
+
+bootJar {
+    archiveFileName = 'common.jar'
+}

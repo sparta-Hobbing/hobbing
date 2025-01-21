@@ -1,26 +1,29 @@
-#version: '2.30.3'
-
 networks:
   hobbing-network:
     driver: bridge
 
 services:
-  hobbing:
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - SPRING_REDIS_HOST=/path/to/redis.conf
+      - SPRING_REDIS_PORT=6379
+    networks:
+      - hobbing-network
+
+
+  eureka-server:
     build:
       context: ./
-    image: hobbing
-    ports:
-      - "19000:19001"
-    networks:
-          - hobbing-network
-  eurekaserver:
-    build:
-      context: ./com.hobbing.eurekaserver
-    image: eurekaserver
+      dockerfile: com.hobbing.eurekaserver/Dockerfile
+    image: eureka-server
     ports:
       - "19000:19000"
     depends_on:
-      - hobbing
+      - redis
     networks:
       - hobbing-network
 
@@ -37,57 +40,67 @@ services:
 
   gateway:
     build:
-      context: ./com.hobbing.gateway
+      context: ./
+      dockerfile: com.hobbing.gateway/Dockerfile
     image: gateway
     ports:
-      - "19000:19006"
+      - "19006:19006"
     depends_on:
-      - eurekaserver
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:19000/eureka/
     networks:
       - hobbing-network
 
-  proxygateway:
+  proxy-gateway:
     build:
-      context: ./com.hobbing.proxygateway
-    image: proxygateway
+      context: ./
+      dockerfile: com.hobbing.proxygateway/Dockerfile
+    image: proxy-gateway
     ports:
-      - "19000:19005"
+      - "19005:19005"
     depends_on:
-      - eurekaserver
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:19000/eureka/
     networks:
       - hobbing-network
 
-  reservation-pay:
-    build:
-      context: ./com.hobbing.reservation-pay
-    image: reservation-pay
-    ports:
-      - "19000:19050"
-    depends_on:
-      - eurekaserver
-    networks:
-      - hobbing-network
+#  reservation-pay:
+#    build:
+#      context: ./com.hobbing.reservation-pay
+#    image: reservation-pay
+#    ports:
+#      - "19000:19050"
+#    depends_on:
+#      - eurekaserver
+#    networks:
+#      - hobbing-network
 
   user:
     build:
-      context: ./com.hobbing.user
+      context: ./
+      dockerfile: com.hobbing.user/Dockerfile
     image: user
     ports:
-      - "19000:19020"
+      - "19020:19020"
     depends_on:
-      - eurekaserver
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:19000/eureka/
     networks:
       - hobbing-network
 
-  lecture:
-    build:
-      context: ./com.hobbing.lecture
-    image: lecture
-    ports:
-      - "19000:19030"
-    depends_on:
-      - eurekaserver
-    networks:
-      - hobbing-network
+#  lecture:
+#    build:
+#      context: ./com.hobbing.lecture
+#    image: lecture
+#    ports:exit
+
+#      - "19000:19030"
+#    depends_on:
+#      - eurekaserver
+#    networks:
+#      - hobbing-network
 
 

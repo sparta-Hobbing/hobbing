@@ -3,3 +3,11 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 }
 
+springBoot{
+	mainClass.set('com.hobbing.eurekaserver.EurekaserverApplication')
+}
+
+bootJar {
+	archiveFileName = 'eurekaserver.jar'
+}
+

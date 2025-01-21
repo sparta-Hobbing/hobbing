@@ -124,7 +124,7 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REGISTRY: hobbing
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker tag eureka-server ${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}

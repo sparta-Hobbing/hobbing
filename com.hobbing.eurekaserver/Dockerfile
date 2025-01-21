@@ -24,13 +24,13 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR file from the builder stage
-COPY --from=builder /app/build/libs/*.jar app.jar
+COPY --from=builder /app/build/libs/*.jar eurekaserver.jar
 
 # Expose the application port
 EXPOSE 19000
 
 # Run the application
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "eurekaserver.jar"]
 
 #FROM openjdk:17-jdk-slim
 #

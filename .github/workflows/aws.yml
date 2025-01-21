@@ -127,7 +127,7 @@ jobs:
         ECR_REGISTRY: hobbing
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker tag docker.io/hobbing/eureka-server ${{ env.ECR_REGISTRY }}/eureka-server:latest
+        docker tag ${{ env.ECR_REGISTRY }}/eureka-server:latest docker.io/hobbing/eureka-server
         docker push ${{ env.ECR_REGISTRY }}/eureka-server:latest
 
     - name: Build, tag, and push image to Amazon ECR

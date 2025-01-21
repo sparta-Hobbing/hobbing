@@ -20,11 +20,11 @@ RUN chmod +x /app/gradlew
 # Build the application
 RUN ./app/gradlew build -x test --stacktrace
 #BUILD /app/gradlew
-COPY ${JAR_FILE} /eurekaserver.jar
+#COPY ${JAR_FILE} /eurekaserver.jar
 
 EXPOSE 19000
 
-ENTRYPOINT ["java", "-jar", "/eurekaserver.jar"]
+ENTRYPOINT ["java", "-jar", "/app/eurekaserver/build/libs/eurekaserver.jar"]
 
 #FROM openjdk:17-jdk-slim
 #

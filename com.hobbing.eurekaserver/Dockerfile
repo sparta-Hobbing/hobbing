@@ -19,8 +19,8 @@ RUN /app/gradlew clean
 # Build the application
 RUN /app/gradlew build -x test --stacktrace
 
-COPY com.hobbing.eurekaserver/gradlew /app/eurekaserver/
-COPY com.hobbing.eurekaserver/gradle /app/eurekaserver/
+#COPY com.hobbing.eurekaserver/gradlew /app/eurekaserver/
+#COPY com.hobbing.eurekaserver/gradle /app/eurekaserver/
 COPY com.hobbing.eurekaserver/build.gradle /app/eurekaserver/
 COPY com.hobbing.eurekaserver/src /app/eurekaserver/src
 

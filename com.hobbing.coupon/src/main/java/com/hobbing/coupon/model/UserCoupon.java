@@ -30,6 +30,9 @@ public class UserCoupon {
     @JoinColumn(name = "coupon_id", nullable = false)
     private Coupon coupon;
 
+    @Transient
+    private UUID couponId;
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private CouponStatus status;  // 상태: ACTIVE, USED, EXPIRED

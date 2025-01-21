@@ -1,6 +1,8 @@
 package com.hobbing.coupon.repository;
 
-import com.hobbing.coupon.entity.Coupon;
+import com.hobbing.coupon.model.Coupon;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -14,4 +16,5 @@ public interface CouponRepository extends JpaRepository<Coupon, UUID> {
     // 활성화된 쿠폰 조회 (삭제되지 않은 쿠폰)
     Optional<Coupon> findByCouponNameAndIsDeletedFalse(String couponName);
 
+    Page<Coupon> findByStatus(String status, Pageable pageable);
 }

@@ -58,13 +58,13 @@ public class CouponAuthorizationFilter
                 return errorResponse(exchange, "Invalid path prefix.");
             }
 
-            ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
-                    .block()
-                    .getBody();
-            VerifyResponse data  = body.data();
-            if(data == null || !data.isVerified()){
-                return errorResponse(exchange, "Permission denied.");
-            }
+//            ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey, request.getURI())
+//                    .block()
+//                    .getBody();
+//            VerifyResponse data  = body.data();
+//            if(data == null || !data.isVerified()){
+//                return errorResponse(exchange, "Permission denied.");
+//            }
 
             if (checkPathPermissions(path, method, userRole)) {
                 return chain.filter(exchange);

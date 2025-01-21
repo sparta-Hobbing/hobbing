@@ -95,4 +95,9 @@ public class User extends BaseEntity {
         super.deletedBy = this.getId();
     }
 
+    @PrePersist
+    public void prePersist(){
+        this.createdBy = this.getId();
+    }
+
 }

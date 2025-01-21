@@ -9,7 +9,7 @@ COPY gradle /app/eurekaserver/
 COPY build.gradle /app/eurekaserver/
 COPY src /app/eurekaserver/src
 
-COPY settings.gradle /app/
+COPY settings.gradle /app/eurekaserver/
 
 # Ensure gradlew is executable
 RUN chmod +x /app/eurekaserver/gradlew

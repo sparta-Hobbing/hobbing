@@ -4,7 +4,7 @@ VOLUME /app
 
 ARG JAR_FILE=./com.hobbing.eurekaserver/build/libs/eurekaserver.jar
 
-COPY gradlew /app/eurekaserver
+COPY gradlew /app/eurekaserver/
 COPY gradle /app/eurekaserver/
 COPY build.gradle /app/eurekaserver/
 COPY src /app/eurekaserver/src

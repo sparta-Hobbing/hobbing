@@ -1,7 +1,7 @@
 package com.hobbing.user.application.dto.response;
 
 import com.hobbing.user.domain.model.User;
-import com.hobbing.user.domain.model.UserRole;
+import com.hobbing.common.domain.model.UserRole;
 import lombok.Builder;
 import lombok.Value;
 
@@ -19,17 +19,17 @@ public class SearchedUsersResDto {
     String profile;
     String phoneNumber;
 
-    public static SearchedUsersResDto from(User user) {
+    public static SearchedUsersResDto from(
+            UserDto user) {
         return SearchedUsersResDto.builder()
-                .id(user.getId())
+                .id(UUID.fromString(user.getId()))
                 .nickname(user.getNickname())
                 .name(user.getName())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .profile(user.getProfile())
-                .phoneNumber(user.getPhone_number())
+                .phoneNumber(user.getPhoneNumber())
                 .build();
     }
-
 
 }

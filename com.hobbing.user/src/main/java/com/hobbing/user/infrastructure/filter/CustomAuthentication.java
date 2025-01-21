@@ -7,13 +7,14 @@ import java.util.UUID;
 
 public class CustomAuthentication extends AbstractAuthenticationToken {
 
-    private final String userId;
+    private final UUID userId;
     private final String userRole;
 
     public CustomAuthentication(String userId, String userRole) {
         super(Collections.emptyList());
-        this.userId = userId;
+        this.userId = UUID.fromString(userId);;
         this.userRole = userRole;
+        super.setAuthenticated(true);
     }
 
     @Override

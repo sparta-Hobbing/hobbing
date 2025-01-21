@@ -1,9 +1,10 @@
 package com.hobbing.user.domain.repository;
 
 import com.hobbing.user.domain.model.User;
-import com.hobbing.user.infrastructure.PageInfo;
+import com.hobbing.user.presentation.dto.PageInfo;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,5 +16,5 @@ public interface UserRepository {
 
     Optional<User> findByIdAndDeletedAtIsNull(UUID id);
 
-    Page<User> findUsers(PageInfo pageInfo);
+    Page<User> findUsers(LocalDateTime startDate, LocalDateTime endDate, PageInfo pageInfo);
 }

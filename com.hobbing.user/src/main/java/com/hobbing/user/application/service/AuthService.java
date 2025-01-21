@@ -1,6 +1,7 @@
 package com.hobbing.user.application.service;
 
 import com.hobbing.user.application.dto.response.PostAuthLoginResDto;
+import com.hobbing.user.application.dto.response.UserDto;
 import com.hobbing.user.application.exception.UserErrorCode;
 import com.hobbing.user.application.exception.UserException;
 import com.hobbing.user.domain.model.User;
@@ -12,30 +13,42 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Slf4j
-@RequiredArgsConstructor
 @Transactional
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RedisTemplate<String, UserDto> userRedisTemplate;
+    private final ValueOperations<String, UserDto> userListOps;
     @Value("${spring.application.name}")
     private String issuer;
     @Value("${service.jwt.access-expiration}")
     private Long accessExpiration;
     @Value("${service.jwt.secret-key}")
     private String secretKey;
+
+    public AuthService(
+            UserRepository userRepository, PasswordEncoder passwordEncoder,
+            RedisTemplate<String, UserDto> userRedisTemplate
+
+    ) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userRedisTemplate = userRedisTemplate;
+        this.userListOps = this.userRedisTemplate.opsForValue();
+    }
 
     @Transactional
     public void createUser(PostAuthSignupReqDto dto){
@@ -46,7 +59,7 @@ public class AuthService {
             throw new UserException(UserErrorCode.DUPLICATED_USER_ERROR);
         }
 
-        User createdUser = userRepository.save(User.create(
+        userRepository.save(User.create(
                 dto.getNickname(),
                 dto.getName(),
                 dto.getEmail(),
@@ -55,9 +68,9 @@ public class AuthService {
                 dto.getProfile(),
                 dto.getPhoneNumber()
         ));
-        createdUser.setCreatedBy(createdUser.getId());
     }
 
+    @CacheEvict(cacheNames = "userAllCache", allEntries = true)
     public PostAuthLoginResDto createAccessToken(PostAuthLoginReqDto dto){
         //아이디 존재하는지 조회
         User user = userRepository.findByNickname(dto.getNickname())
@@ -67,6 +80,8 @@ public class AuthService {
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
             throw new UserException(UserErrorCode.NOT_MATCHED_PASSWORD);
         }
+
+        userListOps.set("userCache::"+user.getId(), UserDto.fromEntity(user));
 
         //accesstoken 발급
         Date now = new Date(System.currentTimeMillis());

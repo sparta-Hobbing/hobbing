@@ -1,10 +1,11 @@
 package com.hobbing.user.domain.model;
 
+import com.hobbing.common.domain.model.BaseEntity;
+import com.hobbing.common.domain.model.UserRole;
+import com.hobbing.user.application.dto.response.UserDto;
 import com.hobbing.user.presentation.dto.PutUserReqDto;
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -50,8 +51,8 @@ public class User extends BaseEntity {
     }
 
     public static User create(
-        String nickname, String name, String email, String password,
-        UserRole role, String profile, String phone_number
+            String nickname, String name, String email, String password,
+            UserRole role, String profile, String phone_number
     ) {
         return User.builder()
                 .nickname(nickname)
@@ -61,6 +62,19 @@ public class User extends BaseEntity {
                 .role(role)
                 .profile(profile)
                 .phone_number(removeHyphen(phone_number))
+                .build();
+    }
+
+    public static User getUserRedis(UserDto userDto) {
+        return User.builder()
+                .id(UUID.fromString(userDto.getId()))
+                .nickname(userDto.getNickname())
+                .name(userDto.getName())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .role(userDto.getRole())
+                .profile(userDto.getProfile())
+                .phone_number(userDto.getPhoneNumber())
                 .build();
     }
 

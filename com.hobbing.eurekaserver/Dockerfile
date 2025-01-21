@@ -4,9 +4,10 @@ VOLUME /app
 
 ARG JAR_FILE=./com.hobbing.eurekaserver/build/libs/eurekaserver.jar
 
-COPY gradlew /app/
-COPY gradle /app/
-COPY build.gradle /app/
+COPY gradlew /app/eurekaserver
+COPY gradle /app/eurekaserver
+COPY build.gradle /app/eurekaserver
+COPY src /app/eurekaserver/src
 
 COPY settings.gradle /app/
 
@@ -14,24 +15,24 @@ COPY settings.gradle /app/
 RUN chmod +x /app/gradlew
 
 #Clean with Gradle
-RUN /app/gradlew clean
-
-# Build the application
-RUN /app/gradlew build -x test --stacktrace
-
-#COPY com.hobbing.eurekaserver/gradlew /app/eurekaserver/
-#COPY com.hobbing.eurekaserver/gradle /app/eurekaserver/
-COPY com.hobbing.eurekaserver/build.gradle /app/eurekaserver/
-COPY com.hobbing.eurekaserver/src /app/eurekaserver/src
-
-# Ensure gradlew is executable
-RUN chmod +x /app/eurekaserver/gradlew
-
-#Clean with Gradle
 RUN /app/eurekaserver/gradlew clean
 
 # Build the application
 RUN /app/eurekaserver/gradlew build -x test --stacktrace
+
+#COPY com.hobbing.eurekaserver/gradlew /app/eurekaserver/
+#COPY com.hobbing.eurekaserver/gradle /app/eurekaserver/
+#COPY eurekaserver/build.gradle /app/eurekaserver/
+
+
+# Ensure gradlew is executable
+#RUN chmod +x /app/eurekaserver/gradlew
+
+#Clean with Gradle
+#RUN /app/eurekaserver/gradlew clean
+
+# Build the application
+#RUN /app/eurekaserver/gradlew build -x test --stacktrace
 
 COPY /app/eurekaserver/build/libs/*.jar /eurekaserver.jar
 

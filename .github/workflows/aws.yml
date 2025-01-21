@@ -65,8 +65,6 @@ jobs:
 #    - name: Build with Gradle Wrapper
 #      run: ./gradlew build
 #
-#    - name: Run dock-compose.yml
-#      run: dock compose up
 #
 #
 #    - name: Grant execute permission for gradlew
@@ -119,6 +117,9 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Run dock-compose.yml
+      run: dock compose up
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image

@@ -33,7 +33,7 @@ RUN /app/eurekaserver/gradlew clean
 # Build the application
 RUN /app/eurekaserver/gradlew build -x test --stacktrace
 
-COPY /app/eurekaserver/build/libs/eurekaserver.jar /eurekaserver.jar
+COPY /app/eurekaserver/build/libs/*.jar /eurekaserver.jar
 
 EXPOSE 19000
 

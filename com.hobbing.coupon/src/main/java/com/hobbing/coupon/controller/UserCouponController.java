@@ -38,7 +38,7 @@ public class UserCouponController {
     // 결제 취소 시 쿠폰 복원
     @PostMapping("/{userCouponId}/restore")
     public ResponseEntity<ApiResponse<String>> restoreCouponAfterCancellation(@PathVariable UUID userCouponId) {
-        userCouponService.restoreCoupon(userCouponId);
+        userCouponService.restoreCoupon(userId, couponId);
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", "Coupon restored successfully", null));
     }
 

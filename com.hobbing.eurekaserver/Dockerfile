@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-slim
 
 VOLUME /app
 
-ARG JAR_FILE=com.hobbing.eurekaserver/build/libs/eurekaserver.jar
+ARG JAR_FILE=/app/eurekaserver/build/libs/eurekaserver.jar
 
 #COPY ${JAR_FILE} hobbing.jar
 COPY gradlew /app/
@@ -19,9 +19,9 @@ COPY settings.gradle /app/
 RUN chmod +x /app/gradlew
 
 # Build the application
-RUN ./gradlew build -x test --stacktrace
+RUN /app/gradlew build -x test --stacktrace
 
-RUN cp ${JAR_FILE} /eurekaserver.jar
+COPY ${JAR_FILE} /eurekaserver.jar
 
 EXPOSE 19000
 

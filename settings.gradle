@@ -1,5 +1,5 @@
 rootProject.name = 'hobbing'
-include 'coupon'
+//include 'coupon'
 include 'lecture'
 include 'eurekaserver'
 include 'gateway'
@@ -8,7 +8,7 @@ include 'reservation-pay'
 include 'user'
 include 'common'
 
-project(':coupon').projectDir = file('com.hobbing.coupon')
+//project(':coupon').projectDir = file('com.hobbing.coupon')
 project(':lecture').projectDir = file('com.hobbing.lecture')
 project(':eurekaserver').projectDir = file('com.hobbing.eurekaserver')
 project(':gateway').projectDir = file('com.hobbing.gateway')

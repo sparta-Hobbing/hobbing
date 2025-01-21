@@ -77,8 +77,8 @@ jobs:
     - name: Upload Build eurekaserver Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: com.hobbing.eurekaserverbuild-libs
-        path: com.hobbing.eurekaserverbuild/libs/*.jar
+        name: com.hobbing.eurekaserver/build-libs
+        path: com.hobbing.eurekaserver/build/libs/*.jar
 #==========================================end
   deploy:
     name: Deploy

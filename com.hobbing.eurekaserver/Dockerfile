@@ -12,7 +12,7 @@ COPY src /app/eurekaserver/src
 COPY settings.gradle /app/
 
 # Ensure gradlew is executable
-RUN chmod +x /app/gradlew
+RUN chmod +x /app/eurekaserver/gradlew
 
 #Clean with Gradle
 RUN /app/eurekaserver/gradlew clean

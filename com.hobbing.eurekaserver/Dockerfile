@@ -15,7 +15,7 @@ COPY com.hobbing.eurekaserver/src /app/eurekaserver/src
 COPY settings.gradle /app/
 
 # Ensure gradlew is executable
-RUN chmod +x /app/gradlew
+RUN chmod +x /gradlew
 
 # Build the application
 RUN ./gradlew build -x test --stacktrace

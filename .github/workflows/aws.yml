@@ -119,7 +119,7 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Run dock-compose.yml
-      run: dock compose up
+      run: docker compose up
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image

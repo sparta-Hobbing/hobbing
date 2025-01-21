@@ -73,6 +73,12 @@ jobs:
 
     - name: Grant eurekaserver execute permission for gradlew
       run: chmod +x com.hobbing.eurekaserver/gradlew
+
+    - name: Upload Build eurekaserver Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: com.hobbing.eurekaserverbuild-libs
+        path: com.hobbing.eurekaserverbuild/libs/*.jar
 #==========================================end
   deploy:
     name: Deploy

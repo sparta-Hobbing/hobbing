@@ -76,8 +76,8 @@ public class UserCouponService {
 
     // 쿠폰 복원
     @Transactional
-    public void restoreCoupon(UUID userCouponId) {
-        UserCoupon userCoupon = userCouponRepository.findById(userCouponId)
+    public void restoreCoupon(UUID userId, UUID couponId) {
+        UserCoupon userCoupon = userCouponRepository.findByUserIdAndCouponId(userId, couponId)
                 .orElseThrow(() -> new CustomException(CommonErrorCode.COUPON_NOT_FOUND));
 
         if (userCoupon.getStatus() != CouponStatus.USED) {

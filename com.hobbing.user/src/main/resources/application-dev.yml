@@ -25,11 +25,11 @@ spring:
     open-in-view: false
   data:
     redis:
-      host: localhost
+      host: redis
       port: 6379
-      username: %{REDIS_USER}
-      password: %{REDIS_PASSWORD}
-
+      database: 0
+      username: ${REDIS_USER}
+      password: ${REDIS_PASSWORD}
 service:
   jwt:
     secret-key: ${JWT_SECRET_KEY}

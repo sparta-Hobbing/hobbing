@@ -19,7 +19,7 @@ services:
     build:
       context: ./
       dockerfile: com.hobbing.eurekaserver/Dockerfile
-    image: eureka-server
+    image: eureka-server:latest
     ports:
       - "19000:19000"
     depends_on:
@@ -46,7 +46,7 @@ services:
     ports:
       - "19006:19006"
     depends_on:
-      - eureka-server
+      - eureka-server:latest
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:19000/eureka/
     networks:
@@ -56,7 +56,7 @@ services:
     build:
       context: ./
       dockerfile: com.hobbing.proxygateway/Dockerfile
-    image: proxy-gateway
+    image: proxy-gateway:latest
     ports:
       - "19005:19005"
     depends_on:
@@ -81,7 +81,7 @@ services:
     build:
       context: ./
       dockerfile: com.hobbing.user/Dockerfile
-    image: user
+    image: user:latest
     ports:
       - "19020:19020"
     depends_on:

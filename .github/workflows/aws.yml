@@ -127,36 +127,42 @@ jobs:
         ECR_REGISTRY: hobbing
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker tag ${{ env.ECR_REGISTRY }}/eureka-server:latest docker.io/hobbing/eureka-server
+        docker tag eureka-server:latest ${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}
         docker push ${{ env.ECR_REGISTRY }}/eureka-server:latest
+        echo "image=${{ env.ECR_REGISTRY }}/eureka-server:latest" >> $GITHUB_OUTPUT
 
-    - name: Build, tag, and push image to Amazon ECR
-      id: proxy-gateway-image
-      env:
-        ECR_REGISTRY: hobbing
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        docker tag docker.io/hobbing/proxy-gateway ${{ env.ECR_REGISTRY }}/proxy-gateway:${{ env.IMAGE_TAG }}
-        docker push ${{ env.ECR_REGISTRY }}/proxy-gateway:${{ env.IMAGE_TAG }}
+#    - name: Build, tag, and push image to Amazon ECR
+#      id: proxy-gateway-image
+#      env:
+#        ECR_REGISTRY: hobbing
+#        IMAGE_TAG: ${{ github.sha }}
+#      run: |
+#        docker tag docker.io/hobbing/proxy-gateway ${{ env.ECR_REGISTRY }}/proxy-gateway:${{ env.IMAGE_TAG }}
+#        docker push ${{ env.ECR_REGISTRY }}/proxy-gateway:${{ env.IMAGE_TAG }}
+#        echo "image=${{ env.ECR_REGISTRY }}/proxy-gateway:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+#
+#    - name: Build, tag, and push image to Amazon ECR
+#      id: gateway-image
+#      env:
+#        ECR_REGISTRY: hobbing
+#        IMAGE_TAG: ${{ github.sha }}
+#      run: |
+#        docker tag docker.io/hobbing/gateway ${{ env.ECR_REGISTRY }}/gateway:${{ env.IMAGE_TAG }}
+#        docker push ${{ env.ECR_REGISTRY }}/gateway:${{ env.IMAGE_TAG }}
+#        echo "image=${{ env.ECR_REGISTRY }}/gateway:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+#
+#
+#    - name: Build, tag, and push image to Amazon ECR
+#      id: user-image
+#      env:
+#        ECR_REGISTRY: hobbing
+#        IMAGE_TAG: ${{ github.sha }}
+#      run: |
+#        docker tag docker.io/hobbing/user ${{ env.ECR_REGISTRY }}/user:${{ env.IMAGE_TAG }}
+#        docker push ${{ env.ECR_REGISTRY }}/user:${{ env.IMAGE_TAG }}
+#        echo "image=${{ env.ECR_REGISTRY }}/user:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
 
-    - name: Build, tag, and push image to Amazon ECR
-      id: gateway-image
-      env:
-        ECR_REGISTRY: hobbing
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        docker tag docker.io/hobbing/gateway ${{ env.ECR_REGISTRY }}/gateway:${{ env.IMAGE_TAG }}
-        docker push ${{ env.ECR_REGISTRY }}/gateway:${{ env.IMAGE_TAG }}
 
-
-    - name: Build, tag, and push image to Amazon ECR
-      id: user-image
-      env:
-        ECR_REGISTRY: hobbing
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        docker tag docker.io/hobbing/user ${{ env.ECR_REGISTRY }}/user:${{ env.IMAGE_TAG }}
-        docker push ${{ env.ECR_REGISTRY }}/user:${{ env.IMAGE_TAG }}
 #        # Build a docker container and
 #        # push it to ECR so that it can
 #        # be deployed to ECS.
@@ -170,27 +176,27 @@ jobs:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.eureka-server-image.outputs.image }}
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: proxy-gateway-task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-        container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.proxy-gateway-image.outputs.image }}
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: gateway-task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-        container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.gateway-imagee.outputs.image }}
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: user-task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-        container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.user-image.outputs.image }}
+#    - name: Fill in the new image ID in the Amazon ECS task definition
+#      id: proxy-gateway-task-def
+#      uses: aws-actions/amazon-ecs-render-task-definition@v1
+#      with:
+#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+#        container-name: ${{ env.CONTAINER_NAME }}
+#        image: ${{ steps.proxy-gateway-image.outputs.image }}
+#    - name: Fill in the new image ID in the Amazon ECS task definition
+#      id: gateway-task-def
+#      uses: aws-actions/amazon-ecs-render-task-definition@v1
+#      with:
+#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+#        container-name: ${{ env.CONTAINER_NAME }}
+#        image: ${{ steps.gateway-imagee.outputs.image }}
+#    - name: Fill in the new image ID in the Amazon ECS task definition
+#      id: user-task-def
+#      uses: aws-actions/amazon-ecs-render-task-definition@v1
+#      with:
+#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+#        container-name: ${{ env.CONTAINER_NAME }}
+#        image: ${{ steps.user-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -199,24 +205,24 @@ jobs:
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.proxy-gateway-task-def.outputs.task-definition }}
-        service: ${{ env.ECS_SERVICE }}
-        cluster: ${{ env.ECS_CLUSTER }}
-        wait-for-service-stability: true
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.gateway-task-def.outputs.task-definition }}
-        service: ${{ env.ECS_SERVICE }}
-        cluster: ${{ env.ECS_CLUSTER }}
-        wait-for-service-stability: true
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.user-task-def.outputs.task-definition }}
-        service: ${{ env.ECS_SERVICE }}
-        cluster: ${{ env.ECS_CLUSTER }}
-        wait-for-service-stability: true
+#    - name: Deploy Amazon ECS task definition
+#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#      with:
+#        task-definition: ${{ steps.proxy-gateway-task-def.outputs.task-definition }}
+#        service: ${{ env.ECS_SERVICE }}
+#        cluster: ${{ env.ECS_CLUSTER }}
+#        wait-for-service-stability: true
+#    - name: Deploy Amazon ECS task definition
+#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#      with:
+#        task-definition: ${{ steps.gateway-task-def.outputs.task-definition }}
+#        service: ${{ env.ECS_SERVICE }}
+#        cluster: ${{ env.ECS_CLUSTER }}
+#        wait-for-service-stability: true
+#    - name: Deploy Amazon ECS task definition
+#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#      with:
+#        task-definition: ${{ steps.user-task-def.outputs.task-definition }}
+#        service: ${{ env.ECS_SERVICE }}
+#        cluster: ${{ env.ECS_CLUSTER }}
+#        wait-for-service-stability: true

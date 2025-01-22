@@ -127,7 +127,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker tag docker.io/library/eureka-server:latest ${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}
+        docker tag docker.io/library/eureka-server:latest ${{ env.ECR_REGISTRY }}/hobbing/eureka-server:${{ env.IMAGE_TAG }}
         docker push ${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}
         echo "image=${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
 

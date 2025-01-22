@@ -35,9 +35,9 @@ env:
 #  ECR_REPOSITORY: hobbing/hobbing-ecr           # set this to your Amazon ECR repository name
   ECS_SERVICE: hobbing-ecs-service                # set this to your Amazon ECS service name
   ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .github/workflows/hobbing-ecs-task-revision1.json # set this to the path to your Amazon ECS task definition
+  ECS_TASK_DEFINITION: .github/workflows/hobbing-ecs-task-revision3.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: hobbing-container           # set this to the name of the container in the
+  CONTAINER_NAME: hobbing-container-01           # set this to the name of the container in the
 #  CONTAINER_NAME: hobbing/hobbing-ecr           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 

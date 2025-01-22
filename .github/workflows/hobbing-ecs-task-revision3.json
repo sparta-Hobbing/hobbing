@@ -8,7 +8,7 @@
         {
           "name": "hobbing-container-19005-tcp",
           "containerPort": 19000,
-          "hostPort": 19005,
+          "hostPort": 19000,
           "protocol": "tcp",
           "appProtocol": "http"
         }

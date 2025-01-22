@@ -114,7 +114,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker tag docker.io/hobbing/user:latest ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
+        docker tag docker.io/library/user:latest ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
         docker push ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
         echo "image=${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
 

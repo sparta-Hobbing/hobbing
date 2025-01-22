@@ -1,11 +1,11 @@
 package com.hobbing.queue.infrastructre;
 
 
-import com.hobbing.queue.domain.model.WaitingUser;
+import com.hobbing.queue.domain.model.QueueWaitingUser;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
 
-public interface WaitingUserRedisRepo extends CrudRepository<WaitingUser, UUID> {
+public interface WaitingUserRedisRepo extends CrudRepository<QueueWaitingUser, UUID> {
 }

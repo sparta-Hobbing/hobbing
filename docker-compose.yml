@@ -42,11 +42,11 @@ services:
     build:
       context: ./
       dockerfile: com.hobbing.gateway/Dockerfile
-    image: gateway
+    image: gateway:latest
     ports:
       - "19006:19006"
     depends_on:
-      - eureka-server:latest
+      - eureka-server
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:19000/eureka/
     networks:

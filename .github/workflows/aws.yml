@@ -37,8 +37,8 @@ env:
   ECS_CLUSTER: hobbing-ecs-cluster                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .github/workflows/hobbing-ecs-task-revision1.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json
-#  CONTAINER_NAME: hobbing-container           # set this to the name of the container in the
-  CONTAINER_NAME: hobbing/hobbing-ecr           # set this to the name of the container in the
+  CONTAINER_NAME: hobbing-container           # set this to the name of the container in the
+#  CONTAINER_NAME: hobbing/hobbing-ecr           # set this to the name of the container in the
                                                # containerDefinitions section of your task definition
 
 permissions:

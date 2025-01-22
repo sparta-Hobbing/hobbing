@@ -3,7 +3,7 @@
     "containerDefinitions": [
         {
             "name": "hobbing-container",
-            "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/hobbing-ecr",
+            "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/hobbing-ecr:latest",
             "cpu": 0,
             "portMappings": [
                 {

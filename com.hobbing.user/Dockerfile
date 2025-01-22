@@ -25,7 +25,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR file from the builder stage
-COPY --from=builder /app/com.hobbing.user/build/libs/*.jar user.jar
+COPY --from=builder /app/com.hobbing.user/build/libs/user.jar user.jar
 
 # Expose the application port
 EXPOSE 19020

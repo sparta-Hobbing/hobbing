@@ -14,10 +14,10 @@ COPY . .
 # Make the Gradle wrapper executable
 RUN chmod +x gradlew
 
+RUN ./gradlew clean
 # Build the project using Gradle and skip tests
 RUN ./gradlew build -x test
 
-RUN ./gradlew clean
 # Step 2: Base image for running the application
 FROM openjdk:17-jdk-slim
 
@@ -25,7 +25,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR file from the builder stage
-COPY --from=builder /app/com.hobbing.gateway/build/libs/*.jar gateway.jar
+COPY --from=builder /app/com.hobbing.gateway/build/libs/gateway.jar gateway.jar
 
 # Expose the application port
 EXPOSE 19006

@@ -25,7 +25,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR file from the builder stage
-COPY --from=builder /app/com.hobbing.proxygateway/build/libs/*.jar proxygateway.jar
+COPY --from=builder /app/com.hobbing.proxygateway/build/libs/proxygateway.jar proxygateway.jar
 
 # Expose the application port
 EXPOSE 19005

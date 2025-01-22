@@ -1,15 +1,23 @@
 {
   "containerDefinitions": [
     {
-      "name": "hobbing-eureka-server-container",
+      "name": "hobbing-eureka-server-container-01",
       "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/eureka-server:latest",
       "cpu": 0,
       "portMappings": [
         {
-          "name": "hobbing-eureka-server-container-19000-tcp",
+          "name": "hobbing-eureka-server-container-01-80-tcp",
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        },
+        {
+          "name": "hobbing-eureka-server-container-01-19000-tcp",
           "containerPort": 19000,
           "hostPort": 19000,
-          "protocol": "tcp"
+          "protocol": "tcp",
+          "appProtocol": "http"
         }
       ],
       "essential": true,
@@ -21,7 +29,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/hobbing-eureka-server-test",
+          "awslogs-group": "/ecs/hobbing-eureka-server-task-01",
           "mode": "non-blocking",
           "awslogs-create-group": "true",
           "max-buffer-size": "25m",
@@ -33,7 +41,7 @@
       "systemControls": []
     }
   ],
-  "family": "hobbing-eureka-server-task",
+  "family": "hobbing-eureka-server-task-01",
   "taskRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
   "executionRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",

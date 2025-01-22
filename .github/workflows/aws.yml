@@ -124,7 +124,7 @@ jobs:
       id: eureka-server-task-def
       env:
         ECS_TASK_DEFINITION: .github/workflows/hobbing-eureka-server-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
-        CONTAINER_NAME: hobbing-eureka-server-container           # set this to the name of the container in the
+        CONTAINER_NAME: hobbing-eureka-server-container-01           # set this to the name of the container in the
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
@@ -134,7 +134,7 @@ jobs:
       id: proxy-gateway-task-def
       env:
         ECS_TASK_DEFINITION: .github/workflows/hobbing-proxy-gateway-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
-        CONTAINER_NAME: hobbing-proxy-gateway-container           # set this to the name of the container in the
+        CONTAINER_NAME: hobbing-proxy-server-container           # set this to the name of the container in the
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
@@ -144,7 +144,7 @@ jobs:
       id: gateway-task-def
       env:
         ECS_TASK_DEFINITION: .github/workflows/hobbing-gateway-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
-        CONTAINER_NAME: hobbing-gateway-container           # set this to the name of the container in the
+        CONTAINER_NAME: hobbing-gateway-server-container           # set this to the name of the container in the
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
@@ -154,7 +154,7 @@ jobs:
       id: user-task-def
       env:
         ECS_TASK_DEFINITION: .github/workflows/hobbing-user-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
-        CONTAINER_NAME: hobbing-user-container           # set this to the name of the container in the
+        CONTAINER_NAME: hobbing-user-service-container           # set this to the name of the container in the
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}

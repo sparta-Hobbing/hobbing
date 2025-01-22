@@ -1,12 +1,19 @@
 {
   "containerDefinitions": [
     {
-      "name": "hobbing-user-container",
+      "name": "hobbing-user-service-container",
       "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/user:latest",
       "cpu": 0,
       "portMappings": [
         {
-          "name": "hobbing-user-container-19020-tcp",
+          "name": "hobbing-user-service-container-80-tcp",
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        },
+        {
+          "name": "hobbing-user-service-container-19020-tcp",
           "containerPort": 19020,
           "hostPort": 19020,
           "protocol": "tcp",
@@ -22,7 +29,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/hobbing-user-task",
+          "awslogs-group": "/ecs/hobbing-user-task-01",
           "mode": "non-blocking",
           "awslogs-create-group": "true",
           "max-buffer-size": "25m",
@@ -34,7 +41,7 @@
       "systemControls": []
     }
   ],
-  "family": "hobbing-user-task",
+  "family": "hobbing-user-task-01",
   "taskRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
   "executionRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",

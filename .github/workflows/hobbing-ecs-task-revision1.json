@@ -2,7 +2,7 @@
     "containerDefinitions": [
         {
             "name": "hobbing-container",
-            "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/hobbing-ecr:latest",
+            "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/eureka-server:latest",
             "cpu": 0,
             "portMappings": [
                 {

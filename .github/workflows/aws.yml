@@ -30,23 +30,14 @@ on:
   push:
     branches: [ "common/feature_common" ]  # 필요시 dev로 변경가능
 
-
 env:
   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
-#  ECR_REPOSITORY: hobbing/hobbing-ecr           # set this to your Amazon ECR repository name
-  ECS_SERVICE: hobbing-ecs-service-01                # set this to your Amazon ECS service name
-  ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .github/workflows/hobbing-ecs-task-revision3.json # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: hobbing-container-01           # set this to the name of the container in the
-#  CONTAINER_NAME: hobbing/hobbing-ecr           # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
+
 
 permissions:
   contents: read
 
 jobs:
-#==========================================start
   build:
     name: Build Jar
     runs-on: ubuntu-latest
@@ -64,35 +55,6 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
-#    - name: Build with Gradle Wrapper
-#      run: ./gradlew build
-#
-#
-#
-#    - name: Grant execute permission for gradlew
-#      run: chmod +x gradlew
-#
-##    - name: Clean with Gradle
-##      run: gradlew clean build
-##
-##    - name: Upload Build Artifacts
-##      uses: actions/upload-artifact@v3
-##      with:
-##        name: build-libs
-##        path: build/libs/*.jar
-##
-##    - name: Grant eurekaserver execute permission for gradlew
-##      run: chmod +x com.hobbing.eurekaserver/gradlew
-##
-##    - name: Clean eurekaserver with Gradle
-##      run: com.hobbing.eurekaserver/gradlew clean build
-##
-##    - name: Upload Build eurekaserver Artifacts
-##      uses: actions/upload-artifact@v3
-##      with:
-##        name: com.hobbing.eurekaserver/build-libs
-##        path: com.hobbing.eurekaserver/build/libs/*.jar
-#==========================================end
   deploy:
     needs: build
     name: Deploy
@@ -102,13 +64,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-#==========================================start  
-#    - name: Download Build Artifacts
-#      uses: actions/download-artifact@v3
-#      with:
-#        name: build-libs
-#        path: build/libs
-#==========================================end
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -123,6 +79,8 @@ jobs:
     - name: Build dock-compose.yml
       run: docker compose build
 
+
+
     - name: Build, tag, and push image to Amazon ECR
       id: eureka-server-image
       env:
@@ -132,92 +90,116 @@ jobs:
         docker tag docker.io/library/eureka-server:latest ${{ env.ECR_REGISTRY }}/hobbing/eureka-server:${{ env.IMAGE_TAG }}
         docker push ${{ env.ECR_REGISTRY }}/hobbing/eureka-server:${{ env.IMAGE_TAG }}
         echo "image=${{ env.ECR_REGISTRY }}/hobbing/eureka-server:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+    - name: Build, tag, and push image to Amazon ECR
+      id: proxy-gateway-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker tag docker.io/library/proxy-gateway:latest ${{ env.ECR_REGISTRY }}/hobbing/proxy-gateway:${{ env.IMAGE_TAG }}
+        docker push ${{ env.ECR_REGISTRY }}/hobbing/proxy-gateway:${{ env.IMAGE_TAG }}
+        echo "image=${{ env.ECR_REGISTRY }}/hobbing/proxy-gateway:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+    - name: Build, tag, and push image to Amazon ECR
+      id: gateway-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker tag docker.io/library/gateway:latest ${{ env.ECR_REGISTRY }}/hobbing/gateway:${{ env.IMAGE_TAG }}
+        docker push ${{ env.ECR_REGISTRY }}/hobbing/gateway:${{ env.IMAGE_TAG }}
+        echo "image=${{ env.ECR_REGISTRY }}/hobbing/gateway:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+    - name: Build, tag, and push image to Amazon ECR
+      id: user-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker tag docker.io/hobbing/user:latest ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
+        docker push ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
+        echo "image=${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
 
-#    - name: Build, tag, and push image to Amazon ECR
-#      id: proxy-gateway-image
-#      env:
-#        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#        IMAGE_TAG: ${{ github.sha }}
-#      run: |
-#        docker tag docker.io/library/proxy-gateway:latest ${{ env.ECR_REGISTRY }}/hobbing/proxy-gateway:${{ env.IMAGE_TAG }}
-#        docker push ${{ env.ECR_REGISTRY }}/hobbing/proxy-gateway:${{ env.IMAGE_TAG }}
-#        echo "image=${{ env.ECR_REGISTRY }}/hobbing/proxy-gateway:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
-#
-#    - name: Build, tag, and push image to Amazon ECR
-#      id: proxy-gateway-image
-#      env:
-#        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#        IMAGE_TAG: ${{ github.sha }}
-#      run: |
-#        docker tag docker.io/library/gateway:latest ${{ env.ECR_REGISTRY }}/hobbing/gateway:${{ env.IMAGE_TAG }}
-#        docker push ${{ env.ECR_REGISTRY }}/hobbing/gateway:${{ env.IMAGE_TAG }}
-#        echo "image=${{ env.ECR_REGISTRY }}/hobbing/gateway:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
-#
-#
-#    - name: Build, tag, and push image to Amazon ECR
-#      id: user-image
-#      env:
-#        ECR_REGISTRY: hobbing
-#        IMAGE_TAG: ${{ github.sha }}
-#      run: |
-#        docker tag docker.io/hobbing/user ${{ env.ECR_REGISTRY }}/user:${{ env.IMAGE_TAG }}
-#        docker push ${{ env.ECR_REGISTRY }}/user:${{ env.IMAGE_TAG }}
-#        echo "image=${{ env.ECR_REGISTRY }}/user:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: eureka-server-task-def
+      env:
+        ECS_TASK_DEFINITION: .github/workflows/hobbing-eureka-server-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+        CONTAINER_NAME: hobbing-eureka-server-container           # set this to the name of the container in the
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.eureka-server-image.outputs.image }}
-#    - name: Fill in the new image ID in the Amazon ECS task definition
-#      id: proxy-gateway-task-def
-#      uses: aws-actions/amazon-ecs-render-task-definition@v1
-#      with:
-#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-#        container-name: ${{ env.CONTAINER_NAME }}
-#        image: ${{ steps.proxy-gateway-image.outputs.image }}
-#    - name: Fill in the new image ID in the Amazon ECS task definition
-#      id: gateway-task-def
-#      uses: aws-actions/amazon-ecs-render-task-definition@v1
-#      with:
-#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-#        container-name: ${{ env.CONTAINER_NAME }}
-#        image: ${{ steps.gateway-imagee.outputs.image }}
-#    - name: Fill in the new image ID in the Amazon ECS task definition
-#      id: user-task-def
-#      uses: aws-actions/amazon-ecs-render-task-definition@v1
-#      with:
-#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-#        container-name: ${{ env.CONTAINER_NAME }}
-#        image: ${{ steps.user-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: proxy-gateway-task-def
+      env:
+        ECS_TASK_DEFINITION: .github/workflows/hobbing-proxy-gateway-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+        CONTAINER_NAME: hobbing-proxy-gateway-container           # set this to the name of the container in the
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.proxy-gateway-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: gateway-task-def
+      env:
+        ECS_TASK_DEFINITION: .github/workflows/hobbing-gateway-task-revision3.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+        CONTAINER_NAME: hobbing-gateway-container           # set this to the name of the container in the
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.gateway-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: user-task-def
+      env:
+        ECS_TASK_DEFINITION: .github/workflows/hobbing-user-task-revision3.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+        CONTAINER_NAME: hobbing-user-container           # set this to the name of the container in the
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.user-image.outputs.image }}
+
+
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      env:
+        ECS_SERVICE: hobbing-eureka-service                # set this to your Amazon ECS service name
+        ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
       with:
         task-definition: ${{ steps.eureka-server-task-def.outputs.task-definition }}
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
-#    - name: Deploy Amazon ECS task definition
-#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#      with:
-#        task-definition: ${{ steps.proxy-gateway-task-def.outputs.task-definition }}
-#        service: ${{ env.ECS_SERVICE }}
-#        cluster: ${{ env.ECS_CLUSTER }}
-#        wait-for-service-stability: true
-#    - name: Deploy Amazon ECS task definition
-#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#      with:
-#        task-definition: ${{ steps.gateway-task-def.outputs.task-definition }}
-#        service: ${{ env.ECS_SERVICE }}
-#        cluster: ${{ env.ECS_CLUSTER }}
-#        wait-for-service-stability: true
-#    - name: Deploy Amazon ECS task definition
-#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#      with:
-#        task-definition: ${{ steps.user-task-def.outputs.task-definition }}
-#        service: ${{ env.ECS_SERVICE }}
-#        cluster: ${{ env.ECS_CLUSTER }}
-#        wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      env:
+        ECS_SERVICE: hobbing-proxy-service                # set this to your Amazon ECS service name
+        ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
+      with:
+        task-definition: ${{ steps.proxy-gateway-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      env:
+        ECS_SERVICE: hobbing-gateway-service                # set this to your Amazon ECS service name
+        ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
+      with:
+        task-definition: ${{ steps.gateway-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      env:
+        ECS_SERVICE: hobbing-user-service                # set this to your Amazon ECS service name
+        ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
+      with:
+        task-definition: ${{ steps.user-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true

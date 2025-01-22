@@ -1,0 +1,54 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "hobbing-proxy-gateway-container",
+      "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/proxy-gateway:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "name": "hobbing-proxy-gateway-container-19005-tcp",
+          "containerPort": 19005,
+          "hostPort": 19005,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/hobbing-proxy-gateway-task",
+          "mode": "non-blocking",
+          "awslogs-create-group": "true",
+          "max-buffer-size": "25m",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "systemControls": []
+    }
+  ],
+  "family": "hobbing-proxy-gateway-task",
+  "taskRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "volumes": [],
+  "status": "ACTIVE",
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "1024",
+  "memory": "3072",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "tags": []
+}

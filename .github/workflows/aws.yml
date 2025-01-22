@@ -127,7 +127,7 @@ jobs:
         ECR_REGISTRY: hobbing
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker tag eureka-server ${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}
+        docker tag docker.io/hobbing/eureka-server ${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}
         docker push ${{ env.ECR_REGISTRY }}/eureka-server:latest
         echo "image=${{ env.ECR_REGISTRY }}/eureka-server:latest" >> $GITHUB_OUTPUT
 

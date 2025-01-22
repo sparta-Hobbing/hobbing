@@ -124,12 +124,12 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: eureka-server-image
       env:
-        ECR_REGISTRY: hobbing
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker tag docker.io/library/eureka-server:latest ${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}
-        docker push ${{ env.ECR_REGISTRY }}/eureka-server:latest
-        echo "image=${{ env.ECR_REGISTRY }}/eureka-server:latest" >> $GITHUB_OUTPUT
+        docker push ${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}
+        echo "image=${{ env.ECR_REGISTRY }}/eureka-server:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
 
 #    - name: Build, tag, and push image to Amazon ECR
 #      id: proxy-gateway-image

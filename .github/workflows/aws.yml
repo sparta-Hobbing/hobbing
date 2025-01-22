@@ -166,7 +166,7 @@ jobs:
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       env:
-        ECS_SERVICE: hobbing-eureka-service-01                # set this to your Amazon ECS service name
+        ECS_SERVICE: hobbing-eureka-service-02                # set this to your Amazon ECS service name
         ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
       with:
         task-definition: ${{ steps.eureka-server-task-def.outputs.task-definition }}
@@ -176,7 +176,7 @@ jobs:
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       env:
-        ECS_SERVICE: hobbing-proxy-service-02                # set this to your Amazon ECS service name
+        ECS_SERVICE: hobbing-proxy-service-01                # set this to your Amazon ECS service name
         ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
       with:
         task-definition: ${{ steps.proxy-gateway-task-def.outputs.task-definition }}
@@ -186,7 +186,7 @@ jobs:
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       env:
-        ECS_SERVICE: hobbing-gateway-service-02                # set this to your Amazon ECS service name
+        ECS_SERVICE: hobbing-gateway-service-01                # set this to your Amazon ECS service name
         ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
       with:
         task-definition: ${{ steps.gateway-task-def.outputs.task-definition }}
@@ -196,7 +196,7 @@ jobs:
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       env:
-        ECS_SERVICE: hobbing-user-service-02                # set this to your Amazon ECS service name
+        ECS_SERVICE: hobbing-user-service-01                # set this to your Amazon ECS service name
         ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
       with:
         task-definition: ${{ steps.user-task-def.outputs.task-definition }}

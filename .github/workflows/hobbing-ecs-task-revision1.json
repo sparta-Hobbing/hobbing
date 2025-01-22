@@ -3,7 +3,7 @@
         {
             "name": "hobbing-container",
             "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/eureka-server:latest",
-            "cpu": 0,
+            "cpu": 1024,
             "portMappings": [
                 {
                     "name": "hobbing-container-19005-tcp",
@@ -35,6 +35,7 @@
         }
     ],
     "family": "hobbing-ecs-task",
+    "taskRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "volumes": [],

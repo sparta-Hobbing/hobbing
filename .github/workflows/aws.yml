@@ -33,7 +33,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2                   # set this to your preferred AWS region, e.g. us-west-1
 #  ECR_REPOSITORY: hobbing/hobbing-ecr           # set this to your Amazon ECR repository name
-  ECS_SERVICE: hobbing-ecs-service                 # set this to your Amazon ECS service name
+  ECS_SERVICE: hobbing-ecs-service3                 # set this to your Amazon ECS service name
   ECS_CLUSTER: hobbing-ecs-cluster                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .github/workflows/hobbing-ecs-task-revision1.json # set this to the path to your Amazon ECS task definition
                                                # file, e.g. .aws/task-definition.json

@@ -6,8 +6,8 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://hobbing-eureka:19000/eureka/
+      defaultZone: http://eureka-server:19000/eureka/
   server:
     enable-self-preservation: false
   instance:
-    hostname: hobbing-eureka
+    hostname: eureka-server

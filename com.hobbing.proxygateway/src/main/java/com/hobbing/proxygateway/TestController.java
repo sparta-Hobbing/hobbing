@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @GetMapping("/")
+
     public ResponseEntity<Void> signup() {
         return ResponseEntity.ok(null);
     }

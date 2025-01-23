@@ -10,6 +10,7 @@ public class TestController {
 
     @GetMapping("/")
     public String signup() {
+
         return "Test 확인";
     }
 

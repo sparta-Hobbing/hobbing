@@ -43,3 +43,7 @@ eureka:
       defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com/eureka/
   instance:
     initial-status: UP
+    lease-renewal-interval-in-seconds: 60  # heartbeat 주기
+    lease-expiration-duration-in-seconds: 180  # 만료 시간
+    metadata-map:
+      region: ap-northeast-2

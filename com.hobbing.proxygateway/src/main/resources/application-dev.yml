@@ -35,10 +35,10 @@ eureka:
   client:
     service-url:
       defaultZone: http://hobbing-eureka/eureka/
-  instance:
+#  instance:
 #    initial-status: UP
-    lease-renewal-interval-in-seconds: 60  # heartbeat 주기
-    lease-expiration-duration-in-seconds: 180  # 만료 시간
+#    lease-renewal-interval-in-seconds: 60  # heartbeat 주기
+#    lease-expiration-duration-in-seconds: 180  # 만료 시간
 #    metadata-map:
 #      region: ap-northeast-2
 

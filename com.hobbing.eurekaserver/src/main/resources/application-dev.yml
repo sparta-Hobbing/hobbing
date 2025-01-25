@@ -6,7 +6,7 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://hobbing-eureka/eureka/
+      defaultZone: http://hobbing-eureka:19000/eureka/
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 120000

@@ -34,7 +34,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://hobbing-eureka/eureka/
+      defaultZone: http://hobbing-eureka:19000/eureka/
 #  instance:
 #    initial-status: UP
 #    lease-renewal-interval-in-seconds: 60  # heartbeat 주기

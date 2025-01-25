@@ -28,7 +28,7 @@ WORKDIR /app
 COPY --from=builder /app/com.hobbing.proxygateway/build/libs/proxygateway.jar proxygateway.jar
 
 # Expose the application port
-#EXPOSE 19005
+EXPOSE 19005
 
 # Run the application
 CMD ["java", "-jar", "proxygateway.jar"]

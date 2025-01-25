@@ -28,7 +28,7 @@ WORKDIR /app
 COPY --from=builder /app/com.hobbing.user/build/libs/user.jar user.jar
 
 # Expose the application port
-#EXPOSE 19020
+EXPOSE 19020
 
 # Run the application
 CMD ["java", "-jar", "user.jar"]

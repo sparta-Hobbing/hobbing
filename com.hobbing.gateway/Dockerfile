@@ -28,7 +28,7 @@ WORKDIR /app
 COPY --from=builder /app/com.hobbing.gateway/build/libs/gateway.jar gateway.jar
 
 # Expose the application port
-#EXPOSE 19006
+EXPOSE 19006
 
 # Run the application
 CMD ["java", "-jar", "gateway.jar"]

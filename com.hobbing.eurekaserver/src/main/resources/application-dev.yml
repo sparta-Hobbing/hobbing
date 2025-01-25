@@ -12,3 +12,5 @@ eureka:
     eviction-interval-timer-in-ms: 120000
   instance:
     hostname: hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com
+    metadata-map:
+      region: ap-northeast-2

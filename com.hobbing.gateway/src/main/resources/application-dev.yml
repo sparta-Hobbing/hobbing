@@ -46,6 +46,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com/eureka/
+  instance:
+    initial-status: UP
 
 management:
   endpoints:

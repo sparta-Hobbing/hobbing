@@ -40,4 +40,4 @@ service:
 eureka:
   client:
     service-url:
-      defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com/eureka/
+      defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:19000/eureka/

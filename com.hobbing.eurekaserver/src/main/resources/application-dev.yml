@@ -9,7 +9,7 @@ eureka:
       defaultZone: http://hobbing-eureka:19000/eureka/
   server:
     enable-self-preservation: false
-    eviction-interval-timer-in-ms: 120000
+    eviction-interval-timer-in-ms: 60000
   instance:
 #    hostname: hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com
     hostname: hobbing-eureka

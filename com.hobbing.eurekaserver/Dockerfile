@@ -28,7 +28,7 @@ WORKDIR /app
 COPY --from=builder /app/com.hobbing.eurekaserver/build/libs/eurekaserver.jar eurekaserver.jar
 
 # Expose the application port
-EXPOSE 19000
+#EXPOSE 19000
 
 # Run the application
 CMD ["java", "-jar", "eurekaserver.jar"]

@@ -30,6 +30,14 @@ spring:
       database: 0
       username: ${REDIS_USER}
       password: ${REDIS_PASSWORD}
+
+  cache:
+    type: caffeine
+    cache-names:
+      - loadbalancer
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=300s
+
 service:
   jwt:
     secret-key: ${JWT_SECRET_KEY}

@@ -21,6 +21,13 @@ spring:
         locator:
           enabled: true
 
+  cache:
+    type: caffeine
+    cache-names:
+      - loadbalancer
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=300s
+
   config:
     import: classpath:application-key.yml
     

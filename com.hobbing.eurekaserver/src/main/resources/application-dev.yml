@@ -6,9 +6,9 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:19000/eureka/
+      defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com/eureka/
   server:
     enable-self-preservation: false
-    eviction-interval-timer-in-ms: 300000
+    eviction-interval-timer-in-ms: 120000
   instance:
     hostname: hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com

@@ -10,10 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -23,6 +20,11 @@ import java.util.UUID;
 @RequestMapping("/auths")
 public class AuthController {
     private final AuthService authService;
+
+    @GetMapping("/")
+    public String signup() {
+        return "Test 확인";
+    }
 
     @PostMapping("/signup")
     public ApiResponse<Void> signup(@RequestBody @Valid PostAuthSignupReqDto dto) {

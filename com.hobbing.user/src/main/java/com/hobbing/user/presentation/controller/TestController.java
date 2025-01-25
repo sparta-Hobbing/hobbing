@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @GetMapping("/")
-    public ApiResponse<String> signup() {
-        return ApiResponse.ofSuccess(HttpStatus.OK, "회원가입했습니다.", "Test 확인");
+    public String signup() {
+        return "Test 확인";
     }
 
 }

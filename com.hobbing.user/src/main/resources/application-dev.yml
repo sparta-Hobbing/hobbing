@@ -48,7 +48,7 @@ service:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19000/eureka/
+      defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:19000/eureka/
   instance:
 #    initial-status: UP
     lease-renewal-interval-in-seconds: 60  # heartbeat 주기

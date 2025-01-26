@@ -1,4 +1,9 @@
+server:
+  port: 19030
+
 spring:
+  application:
+    name: lecture
   datasource:
     url: ${DB_URL}
     username: ${DB_USER}

@@ -1,0 +1,5 @@
+DB_URL: "jdbc:postgresql://database-1.crm4w6m8w3t1.ap-northeast-2.rds.amazonaws.com:5432/reservation"
+DB_USER: "postgres"
+DB_PASSWORD: "Tmvkfmxk123"
+JWT_SECRET_KEY: "7J2067KIIO2UhOuhnOygne2KuOuKlCDqvK0g7J6YIOuniOustOumrO2VtOyEnOydtOugpeyEnCDsl5DrgqjquLgg64K07Jqp7J2EIOunjOuTpOuPhOuhnSDtirjrn6zruJTsiojtjIXsnYTrp4zrk6TsnpA="
+INTERNAL-KEY: "aW50ZXJuYWwta2V5"

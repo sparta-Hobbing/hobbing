@@ -48,7 +48,7 @@ services:
     depends_on:
       - eureka-server
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-eureka:19000/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
     networks:
       - hobbing-network
 
@@ -62,7 +62,7 @@ services:
     depends_on:
       - eureka-server
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-eureka:19000/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
     networks:
       - hobbing-network
 
@@ -87,7 +87,7 @@ services:
     depends_on:
       - eureka-server
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-eureka:19000/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
     networks:
       - hobbing-network
 

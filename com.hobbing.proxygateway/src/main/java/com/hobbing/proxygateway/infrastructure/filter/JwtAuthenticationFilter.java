@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = exchange.getRequest().getHeaders().getFirst(KEY_ACCESS_TOKEN);
         String uri = exchange.getRequest().getURI().getPath();
-        log.info(uri);
+        log.info("uri : " + uri);
         if (uri.contains("auths")) {
             log.info("Pass the JWT Token Validate, URI: {}", uri);
             return chain.filter(exchange);

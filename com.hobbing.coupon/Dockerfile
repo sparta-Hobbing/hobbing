@@ -21,6 +21,6 @@ WORKDIR /app
 
 COPY --from=builder /app/com.hobbing.coupon/build/libs/coupon.jar coupon.jar
 
-EXPOSE 19020
+EXPOSE 19040
 
 CMD ["java", "-jar", "coupon.jar"]

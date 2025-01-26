@@ -21,6 +21,6 @@ WORKDIR /app
 
 COPY --from=builder /app/com.hobbing.reservation-pay/build/libs/reservation-pay.jar reservation-pay.jar
 
-EXPOSE 19020
+EXPOSE 19050
 
 CMD ["java", "-jar", "reservation-pay.jar"]

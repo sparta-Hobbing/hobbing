@@ -21,6 +21,6 @@ WORKDIR /app
 
 COPY --from=builder /app/com.hobbing.lecture/build/libs/lecture.jar lecture.jar
 
-EXPOSE 19020
+EXPOSE 19030
 
 CMD ["java", "-jar", "lecture.jar"]

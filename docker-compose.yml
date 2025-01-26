@@ -3,17 +3,17 @@ networks:
     driver: bridge
 
 services:
-#  redis:
-#    image: redis/redis-stack-server:latest
-##    image: redis:latest
+  redis:
+    image: redis/redis-stack-server:latest
+#    image: redis:latest
 #    container_name: redis
-#    ports:
-#      - "6379:6379"
-#    environment:
-#      - SPRING_REDIS_HOST=/path/to/redis.conf
-#      - SPRING_REDIS_PORT=6379
-#    networks:
-#      - hobbing-network
+    ports:
+      - "6379:6379"
+    environment:
+      - SPRING_REDIS_HOST=/path/to/redis.conf
+      - SPRING_REDIS_PORT=6379
+    networks:
+      - hobbing-network
 
 
   eureka-server:
@@ -23,8 +23,8 @@ services:
     image: eureka-server:latest
     ports:
       - "19000:19000"
-#    depends_on:
-#      - redis
+    depends_on:
+      - redis
     networks:
       - hobbing-network
 

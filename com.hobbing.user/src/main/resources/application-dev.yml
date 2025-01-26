@@ -25,11 +25,11 @@ spring:
     open-in-view: false
   data:
     redis:
-      host: redis
+      host: redis/redis-stack-server
       port: 6379
       database: 0
       username: ${REDIS_USER}
-      password: ${REDIS_PASSWORD}
+#      password: ${REDIS_PASSWORD}
 
 #  cache:
 #    type: caffeine

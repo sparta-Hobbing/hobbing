@@ -273,7 +273,7 @@ jobs:
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       env:
-        ECS_SERVICE: hobbing-coupon-service-03               # set this to your Amazon ECS service name
+        ECS_SERVICE: hobbing-coupon-service-04               # set this to your Amazon ECS service name
         ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
       with:
         task-definition: ${{ steps.coupon-task-def.outputs.task-definition }}

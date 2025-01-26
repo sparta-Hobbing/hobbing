@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: classpath:application-key.yml
   application.name: reservation-pay
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

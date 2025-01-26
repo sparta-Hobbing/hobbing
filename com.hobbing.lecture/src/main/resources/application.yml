@@ -2,6 +2,8 @@ server:
   port: 19030
 
 spring:
+  config:
+    import: classpath:application-key.yml
   application:
     name: lecture
   datasource:

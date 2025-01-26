@@ -31,12 +31,12 @@ spring:
       username: ${REDIS_USER}
       password: ${REDIS_PASSWORD}
 
-  cache:
-    type: caffeine
-    cache-names:
-      - loadbalancer
-    caffeine:
-      spec: maximumSize=500,expireAfterAccess=300s
+#  cache:
+#    type: caffeine
+#    cache-names:
+#      - loadbalancer
+#    caffeine:
+#      spec: maximumSize=500,expireAfterAccess=300s
 
 service:
   jwt:
@@ -49,11 +49,15 @@ eureka:
   client:
     service-url:
       defaultZone: http://hobbing-eureka:19000/eureka/
-    fetch-registry: true
-    register-with-eureka: true
+#    fetch-registry: true
+#    register-with-eureka: true
   instance:
     lease-renewal-interval-in-seconds: 30  # heartbeat 주기
     lease-expiration-duration-in-seconds: 60  # 만료 시간
 #    initial-status: UP
 #    metadata-map:
 #      region: ap-northeast-2
+
+security:
+  basic:
+    enabled: false

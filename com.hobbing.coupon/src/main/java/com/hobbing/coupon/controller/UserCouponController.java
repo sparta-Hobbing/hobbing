@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/user-coupons")
+@RequestMapping("/user-coupons")
 public class UserCouponController {
 
     private final UserCouponService userCouponService;

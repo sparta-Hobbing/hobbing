@@ -9,7 +9,7 @@ eureka:
     service-url:
       defaultZone: http://169.254.172.2:eureka-server:19000/eureka/
   server:
-    enable-self-preservation: false
+    enableSelfPreservation: false
     eviction-interval-timer-in-ms: 60000
 
   instance:

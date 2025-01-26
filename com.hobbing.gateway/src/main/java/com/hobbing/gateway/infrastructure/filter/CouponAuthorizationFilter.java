@@ -41,7 +41,7 @@ public class CouponAuthorizationFilter
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             String path = request.getURI().getPath();
-            if(path.contains("/coupon/health")) chain.filter(exchange);
+            if(path.contains("/coupon/health")) return chain.filter(exchange);
 
             HttpMethod method = request.getMethod();
             String userId = request.getHeaders().getFirst(CustomHeader.KEY_USER_ID);

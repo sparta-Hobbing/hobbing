@@ -44,6 +44,15 @@ public class LectureService {
     public LectureResponseDto getLectureById(UUID id) {
         Lecture lecture = lectureRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Lecture not found with id: " + id));
+
+        // Null-safe 처리
+        if (lecture.getStartDateTime() == null) {
+            lecture.setStartDateTime(LocalDateTime.now());
+        }
+        if (lecture.getEndDateTime() == null) {
+            lecture.setEndDateTime(LocalDateTime.now().plusHours(1));
+        }
+
         return toResponseDto(lecture);
     }
 
@@ -70,7 +79,6 @@ public class LectureService {
         lectureRepository.save(lecture);
     }
 
-    // 특정 시간 이후 강의 검색
     public List<LectureResponseDto> findLecturesStartingAfter(LocalDateTime startTime) {
         return lectureRepository.findAllByStartDateTimeAfter(startTime)
                 .stream()
@@ -78,13 +86,11 @@ public class LectureService {
                 .collect(Collectors.toList());
     }
 
-    // 제목 및 상태 기반 검색 (페이징 지원)
     public Page<LectureResponseDto> searchLectures(String title, String status, Pageable pageable) {
         return lectureRepository.findByTitleContainingIgnoreCaseAndStatusContainingIgnoreCase(title, status, pageable)
                 .map(this::toResponseDto);
     }
 
-    // 특정 시간 범위 내 강의 검색
     public List<LectureResponseDto> findLecturesInDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return lectureRepository.findAllByStartDateTimeBetween(startDate, endDate)
                 .stream()

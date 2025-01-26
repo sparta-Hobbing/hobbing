@@ -35,11 +35,22 @@ public class Lecture {
     private String location; // 강의 장소
 
     @Column(nullable = false)
+    private boolean isDeleted = false; // 삭제 여부
+
     private LocalDateTime startDateTime; // 강의 시작 시간
 
-    @Column(nullable = false)
     private LocalDateTime endDateTime; // 강의 종료 시간
 
-    @Column(nullable = false)
-    private boolean isDeleted = false; // 삭제 여부
+    @PrePersist
+    public void prePersist() {
+        // startDateTime이 null인 경우 기본값 설정
+        if (this.startDateTime == null) {
+            this.startDateTime = LocalDateTime.now();
+        }
+
+        // endDateTime이 null인 경우 기본값 설정
+        if (this.endDateTime == null) {
+            this.endDateTime = this.startDateTime.plusHours(1);
+        }
+    }
 }

@@ -27,5 +27,5 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, UUID> {
     boolean isCouponUsed(@Param("userCouponId") UUID userCouponId);
 
     // 특정 사용자의 특정 쿠폰 조회
-    Optional<UserCoupon> findByUserIdAndCouponId(UUID userId, UUID couponId);
+    Optional<UserCoupon> findByUserIdAndCouponId(UUID userId, Coupon coupon);
 }

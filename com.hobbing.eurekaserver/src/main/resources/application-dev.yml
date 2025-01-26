@@ -3,8 +3,8 @@ server:
 
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: false
+    fetch-registry: false
     allowedOrigins: "*"
     service-url:
       defaultZone: http://169.254.172.2:eureka-server:19000/eureka/

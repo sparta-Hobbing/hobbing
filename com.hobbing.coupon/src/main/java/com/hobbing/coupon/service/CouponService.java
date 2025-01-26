@@ -5,6 +5,7 @@ import com.hobbing.coupon.dto.CouponResponse;
 import com.hobbing.coupon.dto.PageResponse;
 import com.hobbing.coupon.dto.UpdateCouponRequest;
 import com.hobbing.coupon.model.Coupon;
+import com.hobbing.coupon.model.CouponStatus;
 import com.hobbing.coupon.repository.CouponRepository;
 import com.hobbing.coupon.common.CustomException;
 import com.hobbing.coupon.common.CommonErrorCode;
@@ -31,7 +32,7 @@ public class CouponService {
     // 쿠폰 생성
     @Transactional
     public CouponResponse createCoupon(CreateCouponRequest request) {
-        if (couponRepository.existsByCouponName(request.getCouponName())) {
+        if (couponRepository.existsByCouponNameAndIsDeletedFalse(request.getCouponName())) {
             throw new CustomException(CommonErrorCode.COUPON_NOT_FOUND);
         }
 
@@ -83,7 +84,7 @@ public class CouponService {
 
     // 쿠폰 목록 조회 (관리자 전용)
     @Transactional(readOnly = true)
-    public PageResponse<CouponResponse> getCoupons(String status, int page, int size) {
+    public PageResponse<CouponResponse> getCoupons(CouponStatus status, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Coupon> couponPage;
 

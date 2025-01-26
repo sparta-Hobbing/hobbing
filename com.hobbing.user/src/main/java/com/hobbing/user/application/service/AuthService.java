@@ -72,18 +72,15 @@ public class AuthService {
 
     @CacheEvict(cacheNames = "userAllCache", allEntries = true)
     public PostAuthLoginResDto createAccessToken(PostAuthLoginReqDto dto){
-        //아이디 존재하는지 조회
         User user = userRepository.findByNickname(dto.getNickname())
                 .orElseThrow(()-> new UserException(UserErrorCode.NOT_EXISTED_USER_ERROR));
 
-        //패스워드 일치 확인
         if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())){
             throw new UserException(UserErrorCode.NOT_MATCHED_PASSWORD);
         }
 
         userListOps.set("userCache::"+user.getId(), UserDto.fromEntity(user));
 
-        //accesstoken 발급
         Date now = new Date(System.currentTimeMillis());
         return PostAuthLoginResDto.of(
                 Jwts.builder()

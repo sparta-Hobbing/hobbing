@@ -71,7 +71,6 @@ public class UserController {
             @ModelAttribute @Valid PageInfo pageInfo,
             @RequestParam(name = "start_date", required = false) LocalDateTime startDate,
             @RequestParam(name = "end_date", required = false) LocalDateTime endDate,
-//            @ModelAttribute SearchUsersReqDto dto,
 
             @RequestHeader(name="user_id") @Nullable String userId,
             @RequestHeader(name="user_role") @Nullable UserRole userRole,

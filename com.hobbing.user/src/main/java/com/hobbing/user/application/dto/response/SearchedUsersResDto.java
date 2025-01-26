@@ -1,6 +1,5 @@
 package com.hobbing.user.application.dto.response;
 
-import com.hobbing.user.domain.model.User;
 import com.hobbing.common.domain.model.UserRole;
 import lombok.Builder;
 import lombok.Value;

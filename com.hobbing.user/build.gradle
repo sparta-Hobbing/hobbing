@@ -29,9 +29,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
-//springBoot{
-//	mainClass.set('com.hobbing.user.UserApplication')
-//}
 jar {
 	manifest {
 		attributes(

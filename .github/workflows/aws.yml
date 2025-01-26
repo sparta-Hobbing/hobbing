@@ -215,7 +215,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.coupon-image.outputs.image }}
+        image: ${{ steps.lecture-image.outputs.image }}
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: reservation-task-def
       env:
@@ -225,7 +225,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.coupon-image.outputs.image }}
+        image: ${{ steps.reservation-image.outputs.image }}
 
 
 

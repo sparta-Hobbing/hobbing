@@ -21,7 +21,7 @@ import java.util.UUID;
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping("/")
+    @GetMapping("/health")
     public String signup() {
         return "Test 확인";
     }

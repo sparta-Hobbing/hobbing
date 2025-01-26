@@ -80,7 +80,7 @@ public class UserCouponService {
         Coupon coupon = couponRepository.findById(couponId) // Coupon 객체 조회
                 .orElseThrow(() -> new CustomException(CommonErrorCode.COUPON_NOT_FOUND));
 
-        UserCoupon userCoupon = userCouponRepository.findByUserIdAndCouponId(userId, couponId)
+        UserCoupon userCoupon = userCouponRepository.findByUserIdAndCoupon(userId, coupon)
                 .orElseThrow(() -> new CustomException(CommonErrorCode.COUPON_NOT_FOUND));
 
         if (userCoupon.getStatus() != CouponStatus.USED) {

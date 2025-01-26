@@ -34,4 +34,7 @@ public class CouponResponse {
         this.maxIssue = coupon.getMaxIssue();
         this.issuedCount = coupon.getIssuedCount();
     }
+
+    public CouponResponse(String string, String testCoupon, DiscountType discountType, BigDecimal bigDecimal, BigDecimal bigDecimal1, BigDecimal bigDecimal2, LocalDateTime now, LocalDateTime localDateTime, LocalDateTime localDateTime1, int i, int i1) {
+    }
 }

@@ -33,6 +33,10 @@ public class Coupon {
     @Column(name = "discount_type", nullable = false)
     private DiscountType discountType;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false) // 새로운 필드 추가
+    private CouponStatus status;
+
     @Column(name = "discount_amount", precision = 10, scale = 2, nullable = true, columnDefinition = "DECIMAL(10,2) DEFAULT 0.00")
     private BigDecimal discountAmount;
 

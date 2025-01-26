@@ -17,4 +17,7 @@ public class CreateCouponRequest {
     private LocalDateTime issueDeadline; // 발급 종료 시간
     private LocalDateTime expirationDate; // 만료 시간
     private int maxIssue;             // 최대 발급 수량
+
+    public CreateCouponRequest(String testCoupon, DiscountType discountType, BigDecimal bigDecimal, BigDecimal bigDecimal1, BigDecimal bigDecimal2, LocalDateTime now, LocalDateTime localDateTime, LocalDateTime localDateTime1, int i) {
+    }
 }

@@ -1,4 +1,4 @@
-package com.hobbing.coupon.common.exception;
+package com.hobbing.coupon.common;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

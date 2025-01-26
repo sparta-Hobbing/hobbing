@@ -1,11 +1,12 @@
 package com.hobbing.coupon.repository;
 
-import com.hobbing.coupon.entity.UserCoupon;
+import com.hobbing.coupon.model.UserCoupon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface UserCouponRepository extends JpaRepository<UserCoupon, UUID> {
@@ -17,7 +18,10 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, UUID> {
     @Query("SELECT uc FROM UserCoupon uc WHERE uc.expirationDate < CURRENT_TIMESTAMP AND uc.status = 'ACTIVE'")
     List<UserCoupon> findExpiredCoupons();
 
-    // 특정 쿠폰 사용 여부 확인
-    @Query("SELECT COUNT(uc) > 0 FROM UserCoupon uc WHERE uc.userCouponId = :userCouponId AND uc.isUsed = true")
+    // 특정 쿠폰 사용 여부 확인 (status를 'USED'로 체크)
+    @Query("SELECT COUNT(uc) > 0 FROM UserCoupon uc WHERE uc.userCouponId = :userCouponId AND uc.status = 'USED'")
     boolean isCouponUsed(@Param("userCouponId") UUID userCouponId);
+
+    Optional<UserCoupon> findByUserIdAndCouponId(UUID userId, UUID couponId);
+
 }

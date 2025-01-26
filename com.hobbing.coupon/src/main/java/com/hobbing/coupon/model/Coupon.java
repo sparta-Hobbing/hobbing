@@ -1,9 +1,9 @@
-package com.hobbing.coupon.entity;
+package com.hobbing.coupon.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Setter;  // Lombok @Setter 추가
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,6 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Entity
 @Table(name = "p_coupon")
 @Getter
+@Setter  // 모든 필드에 대해 setter 메서드를 자동으로 생성
 @NoArgsConstructor
 public class Coupon {
 

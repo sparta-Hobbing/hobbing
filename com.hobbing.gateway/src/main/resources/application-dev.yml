@@ -52,6 +52,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://hobbing-eureka:19000/eureka/
+    fetch-registry: true
+    register-with-eureka: true
   instance:
     lease-renewal-interval-in-seconds: 30  # heartbeat 주기
     lease-expiration-duration-in-seconds: 60  # 만료 시간

@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/com.hobbing.coupon" />
             <option value="$PROJECT_DIR$/com.hobbing.eurekaserver" />
             <option value="$PROJECT_DIR$/com.hobbing.gateway" />
             <option value="$PROJECT_DIR$/com.hobbing.lecture" />
@@ -23,6 +24,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/com.hobbing.coupon" />
             <option value="$PROJECT_DIR$/com.hobbing.eurekaserver" />
             <option value="$PROJECT_DIR$/com.hobbing.gateway" />
             <option value="$PROJECT_DIR$/com.hobbing.lecture" />

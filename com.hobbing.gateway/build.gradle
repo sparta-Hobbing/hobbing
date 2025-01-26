@@ -12,9 +12,6 @@ dependencies {
 	implementation 'com.github.ben-manes.caffeine:caffeine'
 }
 
-//springBoot{
-//	mainClass.set('com.hobbing.gateway.GatewayApplication')
-//}
 jar {
 	manifest {
 		attributes(

@@ -45,9 +45,6 @@ eureka:
     lease-renewal-interval-in-seconds: 30  # heartbeat 주기
     lease-expiration-duration-in-seconds: 90  # 만료 시간
     hostname: proxy-gateway
-#    initial-status: UP
-#    metadata-map:
-#      region: ap-northeast-2
 
 service:
   jwt:

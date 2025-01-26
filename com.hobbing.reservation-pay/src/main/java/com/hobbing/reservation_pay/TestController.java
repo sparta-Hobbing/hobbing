@@ -1,4 +1,4 @@
-package com.hobbing.proxygateway;
+package com.hobbing.reservation_pay;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

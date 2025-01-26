@@ -117,6 +117,33 @@ jobs:
         docker tag docker.io/library/user:latest ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
         docker push ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
         echo "image=${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+    - name: Build, tag, and push image to Amazon ECR
+      id: coupon-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker tag docker.io/library/coupon:latest ${{ env.ECR_REGISTRY }}/hobbing/coupon:${{ env.IMAGE_TAG }}
+        docker push ${{ env.ECR_REGISTRY }}/hobbing/coupon:${{ env.IMAGE_TAG }}
+        echo "image=${{ env.ECR_REGISTRY }}/hobbing/coupon:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+    - name: Build, tag, and push image to Amazon ECR
+      id: lecture-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker tag docker.io/library/lecture:latest ${{ env.ECR_REGISTRY }}/hobbing/lecture:${{ env.IMAGE_TAG }}
+        docker push ${{ env.ECR_REGISTRY }}/hobbing/lecture:${{ env.IMAGE_TAG }}
+        echo "image=${{ env.ECR_REGISTRY }}/hobbing/lecture:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+    - name: Build, tag, and push image to Amazon ECR
+      id: reservation-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker tag docker.io/library/reservation-pay:latest ${{ env.ECR_REGISTRY }}/hobbing/reservation-pay:${{ env.IMAGE_TAG }}
+        docker push ${{ env.ECR_REGISTRY }}/hobbing/reservation-pay:${{ env.IMAGE_TAG }}
+        echo "image=${{ env.ECR_REGISTRY }}/hobbing/reservation-pay:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
 
 
     - name: Fill in the new image ID in the Amazon ECS task definition
@@ -169,6 +196,36 @@ jobs:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.user-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: coupon-task-def
+      env:
+        ECS_TASK_DEFINITION: .github/workflows/hobbing-coupon-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+        CONTAINER_NAME: hobbing-coupon-server-container          # set this to the name of the container in the
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.coupon-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: lecture-task-def
+      env:
+        ECS_TASK_DEFINITION: .github/workflows/hobbing-lecture-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+        CONTAINER_NAME: hobbing-lecture-server-container-01          # set this to the name of the container in the
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.coupon-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: reservation-task-def
+      env:
+        ECS_TASK_DEFINITION: .github/workflows/hobbing-reservation-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+        CONTAINER_NAME: hobbing-reservation-server-container          # set this to the name of the container in the
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.coupon-image.outputs.image }}
 
 
 
@@ -210,6 +267,36 @@ jobs:
         ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
       with:
         task-definition: ${{ steps.user-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: false
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      env:
+        ECS_SERVICE: hobbing-coupon-service-03               # set this to your Amazon ECS service name
+        ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
+      with:
+        task-definition: ${{ steps.coupon-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: false
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      env:
+        ECS_SERVICE: hobbing-lecture-service-03               # set this to your Amazon ECS service name
+        ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
+      with:
+        task-definition: ${{ steps.lecture-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: false
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      env:
+        ECS_SERVICE: hobbing-reservation-service-03               # set this to your Amazon ECS service name
+        ECS_CLUSTER: hobbing-cluster-01                 # set this to your Amazon ECS cluster name
+      with:
+        task-definition: ${{ steps.reservation-task-def.outputs.task-definition }}
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: false

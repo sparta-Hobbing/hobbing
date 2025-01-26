@@ -2,6 +2,7 @@ server:
   port: 19006
 
 spring:
+
   main:
     web-application-type: reactive
   cloud:

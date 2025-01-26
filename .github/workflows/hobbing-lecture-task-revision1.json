@@ -1,0 +1,54 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "hobbing-lecture-server-container-01",
+      "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/lecture:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "name": "hobbing-lecture-server-container-01-19030-tcp",
+          "containerPort": 19030,
+          "hostPort": 19030,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/hobbing-lecture-task-01",
+          "mode": "non-blocking",
+          "awslogs-create-group": "true",
+          "max-buffer-size": "25m",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "systemControls": []
+    }
+  ],
+  "family": "hobbing-lecture-task-01",
+  "taskRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "volumes": [],
+  "status": "ACTIVE",
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "1024",
+  "memory": "3072",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "tags": []
+}

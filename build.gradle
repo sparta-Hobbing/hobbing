@@ -60,12 +60,12 @@ subprojects {
 
 bootJar { enabled = false }
 
-//project(':coupon') {
-//    dependencies {
-//        implementation project(':common')
-//        implementation(testFixtures(project(":common")))
-//    }
-//}
+project(':coupon') {
+    dependencies {
+        implementation project(':common')
+        implementation(testFixtures(project(":common")))
+    }
+}
 
 project(':lecture') {
     dependencies {

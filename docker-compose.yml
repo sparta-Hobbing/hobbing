@@ -13,16 +13,19 @@ services:
     networks:
       - hobbing-network
 
-#  coupon:
-#    build:
-#      context: ./com.hobbing.coupon
-#    image: coupon
-#    ports:
-#      - "19000:19040"
-#    depends_on:
-#      - eurekaserver
-#    networks:
-#      - hobbing-network
+  coupon:
+    build:
+      context: ./
+      dockerfile: com.hobbing.coupon/Dockerfile
+    image: coupon:latest
+    ports:
+      - "19040:19040"
+    depends_on:
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
+    networks:
+      - hobbing-network
 
   gateway:
     build:
@@ -52,16 +55,19 @@ services:
     networks:
       - hobbing-network
 
-#  reservation-pay:
-#    build:
-#      context: ./com.hobbing.reservation-pay
-#    image: reservation-pay
-#    ports:
-#      - "19000:19050"
-#    depends_on:
-#      - eurekaserver
-#    networks:
-#      - hobbing-network
+  reservation-pay:
+    build:
+      context: ./
+      dockerfile: com.hobbing.reservation-pay/Dockerfile
+    image: reservation-pay:latest
+    ports:
+      - "19050:19050"
+    depends_on:
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
+    networks:
+      - hobbing-network
 
   user:
     build:
@@ -77,16 +83,18 @@ services:
     networks:
       - hobbing-network
 
-#  lecture:
-#    build:
-#      context: ./com.hobbing.lecture
-#    image: lecture
-#    ports:exit
-
-#      - "19000:19030"
-#    depends_on:
-#      - eurekaserver
-#    networks:
-#      - hobbing-network
+  lecture:
+    build:
+      context: ./
+      dockerfile: com.hobbing.lecture/Dockerfile
+    image: lecture:latest
+    ports:
+      - "19030:19030"
+    depends_on:
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
+    networks:
+      - hobbing-network
 
 

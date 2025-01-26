@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
         if (token == null){
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-            log.error("JWT Token Validate Fail, Token: {}", token);
+            log.error("JWT Token Validate Fail");
             return exchange.getResponse().setComplete();
         }
 

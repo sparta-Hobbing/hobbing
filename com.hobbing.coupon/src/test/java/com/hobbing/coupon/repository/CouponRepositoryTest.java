@@ -1,67 +1,48 @@
 package com.hobbing.coupon.repository;
 
-import com.hobbing.coupon.entity.Coupon;
-import com.hobbing.coupon.entity.DiscountType;
+import com.hobbing.coupon.model.Coupon;
+import com.hobbing.coupon.model.CouponStatus;
+import com.hobbing.coupon.model.DiscountType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@DataJpaTest
 class CouponRepositoryTest {
 
     @Autowired
     private CouponRepository couponRepository;
 
     @Test
-    void saveCouponTest() {
-        // 1. 새로운 Coupon 생성
+    void testSaveAndFindById() {
+        // Given
         Coupon coupon = new Coupon();
-        coupon.setCouponName("Test Coupon");
-        coupon.setDiscountType(DiscountType.FIXED);
-        coupon.setDiscountAmount(BigDecimal.valueOf(10.00));
-        coupon.setMinOrder(BigDecimal.valueOf(50.00));
+        coupon.setCouponId(UUID.randomUUID());
+        coupon.setCouponName("Repository Test");
+        coupon.setDiscountType(DiscountType.AMOUNT);
+        coupon.setDiscountAmount(BigDecimal.TEN);
+        coupon.setMinOrder(BigDecimal.valueOf(50));
         coupon.setIssueStart(LocalDateTime.now());
-        coupon.setIssueDeadline(LocalDateTime.now().plusDays(7));
-        coupon.setExpirationDate(LocalDateTime.now().plusDays(30));
+        coupon.setIssueDeadline(LocalDateTime.now().plusDays(10));
+        coupon.setExpirationDate(LocalDateTime.now().plusDays(20));
         coupon.setMaxIssue(100);
-        coupon.setCreatedBy(UUID.randomUUID());
+        coupon.setIssuedCount(0);
+        coupon.setStatus(CouponStatus.ACTIVE);
 
-        // 2. 저장
-        Coupon savedCoupon = couponRepository.save(coupon);
+        couponRepository.save(coupon);
 
-        // 3. 저장된 결과 확인
-        assertThat(savedCoupon).isNotNull();
-        assertThat(savedCoupon.getCouponId()).isNotNull();
-        assertThat(savedCoupon.getCouponName()).isEqualTo("Test Coupon");
-    }
+        // When
+        Optional<Coupon> found = couponRepository.findById(coupon.getCouponId());
 
-    @Test
-    void findCouponByIdTest() {
-        // 1. 저장된 Coupon 생성
-        Coupon coupon = new Coupon();
-        coupon.setCouponName("Find Test Coupon");
-        coupon.setDiscountType(DiscountType.FIXED);
-        coupon.setDiscountAmount(BigDecimal.valueOf(20.00));
-        coupon.setMinOrder(BigDecimal.valueOf(100.00));
-        coupon.setIssueStart(LocalDateTime.now());
-        coupon.setIssueDeadline(LocalDateTime.now().plusDays(7));
-        coupon.setExpirationDate(LocalDateTime.now().plusDays(30));
-        coupon.setMaxIssue(50);
-        coupon.setCreatedBy(UUID.randomUUID());
-        Coupon savedCoupon = couponRepository.save(coupon);
-
-        // 2. ID로 조회
-        Coupon foundCoupon = couponRepository.findById(savedCoupon.getCouponId()).orElse(null);
-
-        // 3. 조회된 결과 확인
-        assertThat(foundCoupon).isNotNull();
-        assertThat(foundCoupon.getCouponId()).isEqualTo(savedCoupon.getCouponId());
-        assertThat(foundCoupon.getCouponName()).isEqualTo("Find Test Coupon");
+        // Then
+        assertTrue(found.isPresent());
+        assertEquals("Repository Test", found.get().getCouponName());
     }
 }

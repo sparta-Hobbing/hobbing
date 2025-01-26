@@ -1,6 +1,7 @@
 package com.hobbing.coupon.controller;
 
 import com.hobbing.coupon.dto.*;
+import com.hobbing.coupon.model.CouponStatus;
 import com.hobbing.coupon.service.CouponService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class CouponController {
 
     @GetMapping // 쿠폰 목록 조회 (관리자 전용)
     public ApiResponse<PageResponse<CouponResponse>> getCoupons(
-            @RequestParam(required = false) String status,
+            @RequestParam(required = false) CouponStatus status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         logger.info("Received request to list coupons: status={}, page={}, size={}", status, page, size);

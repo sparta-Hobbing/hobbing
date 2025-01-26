@@ -48,7 +48,7 @@ service:
 eureka:
   client:
     service-url:
-      defaultZone: http://hobbing-eureka:19000/eureka/
+      defaultZone: http://169.254.172.2:eureka-server:19000/eureka/
 #    fetch-registry: true
 #    register-with-eureka: true
   instance:

@@ -29,9 +29,6 @@ public class UserCoupon {
     @ManyToOne
     @JoinColumn(name = "coupon_id", nullable = false)
     private Coupon coupon;
-
-    @Transient
-    private UUID couponId;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

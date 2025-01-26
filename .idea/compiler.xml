@@ -10,9 +10,9 @@
         <module name="hobbing.coupon.main" />
         <module name="hobbing.reservation-pay.main" />
         <module name="hobbing.proxygateway.main" />
-        <module name="hobbing.lecture.main" />
         <module name="hobbing.eurekaserver.main" />
         <module name="hobbing.common.main" />
+        <module name="com.hobbing.hobbing.lecture.main" />
         <module name="hobbing.gateway.main" />
         <module name="hobbing.user.main" />
       </profile>

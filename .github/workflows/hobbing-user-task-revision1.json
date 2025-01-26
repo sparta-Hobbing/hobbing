@@ -32,6 +32,25 @@
         "secretOptions": []
       },
       "systemControls": []
+    },
+    {
+      "name": "hobbing-user-redis-container",
+      "image": "redis/redis-stack-server:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "name": "hobbing-user-redis-container-6379-tcp",
+          "containerPort": 6379,
+          "hostPort": 6379,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "systemControls": []
     }
   ],
   "family": "hobbing-user-task-01",

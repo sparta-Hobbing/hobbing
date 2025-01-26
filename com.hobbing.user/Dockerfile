@@ -30,6 +30,10 @@ COPY --from=builder /app/com.hobbing.user/build/libs/user.jar user.jar
 # Expose the application port
 EXPOSE 19020
 
+#FROM redis/redis-stack-server:latest
+#
+#RUN --name redis-stack -p 6379:6379 -e REDIS_ARGS="--requirepass systempass" redis/redis-stack-server:latest
+
 # Run the application
 CMD ["java", "-jar", "user.jar"]
 

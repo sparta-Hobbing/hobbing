@@ -81,6 +81,16 @@ jobs:
 
 
 
+#    - name: Build, tag, and push image to Amazon ECR
+#      id: redis-image
+#      env:
+#        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#        IMAGE_TAG: ${{ github.sha }}
+#      run: |
+#        docker tag docker.io/library/redis:latest ${{ env.ECR_REGISTRY }}/hobbing/redis-images:${{ env.IMAGE_TAG }}
+#        docker push ${{ env.ECR_REGISTRY }}/hobbing/redis-images:${{ env.IMAGE_TAG }}
+#        echo "image=${{ env.ECR_REGISTRY }}/hobbing/redis-images:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+
     - name: Build, tag, and push image to Amazon ECR
       id: eureka-server-image
       env:
@@ -160,6 +170,16 @@ jobs:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.user-image.outputs.image }}
+#    - name: Fill in the new image ID in the Amazon ECS task definition
+#      id: user-task-def
+#      env:
+#        ECS_TASK_DEFINITION: .github/workflows/hobbing-user-task-revision1.json # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+#        CONTAINER_NAME: hobbing-user-service-container           # set this to the name of the container in the
+#      uses: aws-actions/amazon-ecs-render-task-definition@v1
+#      with:
+#        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+#        container-name: ${{ env.CONTAINER_NAME }}
+#        image: ${{ steps.user-image.outputs.image }}
 
 
 

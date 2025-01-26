@@ -70,7 +70,7 @@ public class AuthService {
         ));
     }
 
-//    @CacheEvict(cacheNames = "userAllCache", allEntries = true)
+    @CacheEvict(cacheNames = "userAllCache", allEntries = true)
     public PostAuthLoginResDto createAccessToken(PostAuthLoginReqDto dto){
         //아이디 존재하는지 조회
         User user = userRepository.findByNickname(dto.getNickname())
@@ -81,7 +81,7 @@ public class AuthService {
             throw new UserException(UserErrorCode.NOT_MATCHED_PASSWORD);
         }
 
-//        userListOps.set("userCache::"+user.getId(), UserDto.fromEntity(user));
+        userListOps.set("userCache::"+user.getId(), UserDto.fromEntity(user));
 
         //accesstoken 발급
         Date now = new Date(System.currentTimeMillis());

@@ -81,7 +81,7 @@ public class AuthService {
             throw new UserException(UserErrorCode.NOT_MATCHED_PASSWORD);
         }
 
-        userListOps.set("userCache::"+user.getId(), UserDto.fromEntity(user));
+//        userListOps.set("userCache::"+user.getId(), UserDto.fromEntity(user));
 
         //accesstoken 발급
         Date now = new Date(System.currentTimeMillis());

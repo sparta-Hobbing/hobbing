@@ -29,8 +29,8 @@ public class AuthClient {
 //                .uri("http://"+ uri.getHost() + ":" + "19020/users/verify")
                 .uri(uriBuilder -> uriBuilder
                         .scheme("http")
-                        .host(uri.getHost())
-                        .port("19020")
+                        .host("hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com")
+                        .port("80")
                         .path("/users/verify")
                         .build())
                 .header(KEY_USER_ID, userId)

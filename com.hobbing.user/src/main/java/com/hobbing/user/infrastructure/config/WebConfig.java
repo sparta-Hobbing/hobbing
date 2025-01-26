@@ -47,7 +47,7 @@ public class WebConfig {
                 authorizeHttpRequests
                         .requestMatchers("/auths/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/users/verify").permitAll()
                         .anyRequest().authenticated()
         );
 

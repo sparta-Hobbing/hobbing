@@ -6,13 +6,6 @@
       "cpu": 0,
       "portMappings": [
         {
-          "name": "hobbing-gateway-server-container-80-tcp",
-          "containerPort": 80,
-          "hostPort": 80,
-          "protocol": "tcp",
-          "appProtocol": "http"
-        },
-        {
           "name": "hobbing-gateway-server-container-19006-tcp",
           "containerPort": 19006,
           "hostPort": 19006,

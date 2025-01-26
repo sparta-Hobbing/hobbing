@@ -5,8 +5,11 @@ import com.hobbing.lecture.application.dto.LectureResponseDto;
 import com.hobbing.lecture.domain.model.Lecture;
 import com.hobbing.lecture.domain.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -14,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class LectureService {
+
     private final LectureRepository lectureRepository;
 
     public LectureResponseDto createLecture(LectureRequestDto requestDto) {
@@ -23,6 +27,8 @@ public class LectureService {
         lecture.setPrice(requestDto.getPrice());
         lecture.setMaxParticipants(requestDto.getMaxParticipants());
         lecture.setLocation(requestDto.getLocation());
+        lecture.setStartDateTime(requestDto.getStartDateTime());
+        lecture.setEndDateTime(requestDto.getEndDateTime());
 
         Lecture savedLecture = lectureRepository.save(lecture);
         return toResponseDto(savedLecture);
@@ -50,6 +56,8 @@ public class LectureService {
         lecture.setPrice(requestDto.getPrice());
         lecture.setMaxParticipants(requestDto.getMaxParticipants());
         lecture.setLocation(requestDto.getLocation());
+        lecture.setStartDateTime(requestDto.getStartDateTime());
+        lecture.setEndDateTime(requestDto.getEndDateTime());
 
         Lecture updatedLecture = lectureRepository.save(lecture);
         return toResponseDto(updatedLecture);
@@ -62,15 +70,39 @@ public class LectureService {
         lectureRepository.save(lecture);
     }
 
+    // 특정 시간 이후 강의 검색
+    public List<LectureResponseDto> findLecturesStartingAfter(LocalDateTime startTime) {
+        return lectureRepository.findAllByStartDateTimeAfter(startTime)
+                .stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    // 제목 및 상태 기반 검색 (페이징 지원)
+    public Page<LectureResponseDto> searchLectures(String title, String status, Pageable pageable) {
+        return lectureRepository.findByTitleContainingIgnoreCaseAndStatusContainingIgnoreCase(title, status, pageable)
+                .map(this::toResponseDto);
+    }
+
+    // 특정 시간 범위 내 강의 검색
+    public List<LectureResponseDto> findLecturesInDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return lectureRepository.findAllByStartDateTimeBetween(startDate, endDate)
+                .stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
     private LectureResponseDto toResponseDto(Lecture lecture) {
-        LectureResponseDto response = new LectureResponseDto();
-        response.setId(lecture.getId());
-        response.setTitle(lecture.getTitle());
-        response.setDescription(lecture.getDescription());
-        response.setPrice(lecture.getPrice());
-        response.setMaxParticipants(lecture.getMaxParticipants());
-        response.setLocation(lecture.getLocation());
-        response.setStatus(lecture.getStatus());
-        return response;
+        return LectureResponseDto.builder()
+                .id(lecture.getId())
+                .title(lecture.getTitle())
+                .description(lecture.getDescription())
+                .price(lecture.getPrice())
+                .maxParticipants(lecture.getMaxParticipants())
+                .location(lecture.getLocation())
+                .startDateTime(lecture.getStartDateTime())
+                .endDateTime(lecture.getEndDateTime())
+                .status(lecture.getStatus())
+                .build();
     }
 }

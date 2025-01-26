@@ -38,13 +38,13 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://169.254.172.2:eureka-server:19000/eureka/
+      defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:19000/eureka/
     fetch-registry: true
     register-with-eureka: true
   instance:
     lease-renewal-interval-in-seconds: 30  # heartbeat 주기
     lease-expiration-duration-in-seconds: 90  # 만료 시간
-#    hostname: 169.254.172.2:eureka-server
+    hostname: proxy-gateway
 #    initial-status: UP
 #    metadata-map:
 #      region: ap-northeast-2

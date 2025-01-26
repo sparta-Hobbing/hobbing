@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TestController {
 
-    @GetMapping("/")
+    @GetMapping("/reservation/health")
 
     public ResponseEntity<Void> signup() {
         return ResponseEntity.ok(null);

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TestController {
 
-    @GetMapping("/")
+    @GetMapping("/lecture/health")
     public String signup() {
         return "Test 확인";
     }

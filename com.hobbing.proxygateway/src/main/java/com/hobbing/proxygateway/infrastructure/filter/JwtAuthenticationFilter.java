@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         String token = exchange.getRequest().getHeaders().getFirst(KEY_ACCESS_TOKEN);
         String uri = exchange.getRequest().getURI().getPath();
         log.info("uri : " + uri);
-        if (uri.contains("auths")) {
+        if (uri.contains("auths")|| uri.contains("/lecture/health") || uri.contains("/coupon/health") || uri.contains("/reservation/health")) {
             log.info("Pass the JWT Token Validate, URI: {}", uri);
             return chain.filter(exchange);
         }

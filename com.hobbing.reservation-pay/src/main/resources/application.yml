@@ -1,10 +1,10 @@
 spring:
   application.name: reservation-pay
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties.hibernate:
-      dialect: org.hibernate.dialect.PostgreSQLDialect
       show_sql: true
       format_sql: true
       use_sql_comments: true
@@ -13,7 +13,7 @@ spring:
     url: ${DB_URL}     # local url
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-  sql.init.platform: postgres
+#  sql.init.platform: postgres
 
 service:
   jwt:

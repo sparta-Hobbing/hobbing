@@ -5,11 +5,10 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
-    allowedOrigins: "*"
     service-url:
       defaultZone: http://169.254.172.2:eureka-server:19000/eureka/
   server:
-    enableSelfPreservation: false
+    enable-self-preservation: false
     eviction-interval-timer-in-ms: 60000
 
   instance:

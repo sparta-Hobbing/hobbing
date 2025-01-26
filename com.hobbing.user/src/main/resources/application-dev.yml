@@ -3,12 +3,8 @@ server:
 
 spring:
   config:
-<<<<<<< HEAD
-    import: classpath:application-key.yml
-=======
     import:
       file: ./.env
->>>>>>> dev
 
   datasource:
     url: ${DB_URL}

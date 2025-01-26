@@ -1,20 +1,19 @@
 package com.hobbing.coupon.service;
 
-import com.hobbing.coupon.common.exception.CommonErrorCode;
-import com.hobbing.coupon.common.exception.CustomException;
 import com.hobbing.coupon.dto.CreateCouponRequest;
-import com.hobbing.coupon.dto.UpdateCouponRequest;
 import com.hobbing.coupon.dto.CouponResponse;
 import com.hobbing.coupon.dto.PageResponse;
-import com.hobbing.coupon.entity.Coupon;
+import com.hobbing.coupon.dto.UpdateCouponRequest;
+import com.hobbing.coupon.model.Coupon;
 import com.hobbing.coupon.repository.CouponRepository;
-
+import com.hobbing.coupon.common.CustomException;
+import com.hobbing.coupon.common.CommonErrorCode;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -69,6 +68,7 @@ public class CouponService {
         Coupon updatedCoupon = couponRepository.save(coupon);
         return new CouponResponse(updatedCoupon);
     }
+
 
     // 쿠폰 삭제
     @Transactional

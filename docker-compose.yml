@@ -1,0 +1,93 @@
+#version: '2.30.3'
+
+networks:
+  hobbing-network:
+    driver: bridge
+
+services:
+  hobbing:
+    build:
+      context: ./
+    image: hobbing
+    ports:
+      - "19000:19001"
+    networks:
+          - hobbing-network
+  eurekaserver:
+    build:
+      context: ./com.hobbing.eurekaserver
+    image: eurekaserver
+    ports:
+      - "19000:19000"
+    depends_on:
+      - hobbing
+    networks:
+      - hobbing-network
+
+#  coupon:
+#    build:
+#      context: ./com.hobbing.coupon
+#    image: coupon
+#    ports:
+#      - "19000:19040"
+#    depends_on:
+#      - eurekaserver
+#    networks:
+#      - hobbing-network
+
+  gateway:
+    build:
+      context: ./com.hobbing.gateway
+    image: gateway
+    ports:
+      - "19000:19006"
+    depends_on:
+      - eurekaserver
+    networks:
+      - hobbing-network
+
+  proxygateway:
+    build:
+      context: ./com.hobbing.proxygateway
+    image: proxygateway
+    ports:
+      - "19000:19005"
+    depends_on:
+      - eurekaserver
+    networks:
+      - hobbing-network
+
+  reservation-pay:
+    build:
+      context: ./com.hobbing.reservation-pay
+    image: reservation-pay
+    ports:
+      - "19000:19050"
+    depends_on:
+      - eurekaserver
+    networks:
+      - hobbing-network
+
+  user:
+    build:
+      context: ./com.hobbing.user
+    image: user
+    ports:
+      - "19000:19020"
+    depends_on:
+      - eurekaserver
+    networks:
+      - hobbing-network
+
+  lecture:
+    build:
+      context: ./com.hobbing.lecture
+    image: lecture
+    ports:
+      - "19000:19030"
+    depends_on:
+      - eurekaserver
+    networks:
+      - hobbing-network
+
+

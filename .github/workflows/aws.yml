@@ -82,16 +82,6 @@ jobs:
 
 
     - name: Build, tag, and push image to Amazon ECR
-      id: redis-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        docker tag docker.io/library/redis/redis-stack-server:latest ${{ env.ECR_REGISTRY }}/hobbing/redis-images:${{ env.IMAGE_TAG }}
-        docker push ${{ env.ECR_REGISTRY }}/hobbing/redis-images:${{ env.IMAGE_TAG }}
-        echo "image=${{ env.ECR_REGISTRY }}/hobbing/redis-images:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
-
-    - name: Build, tag, and push image to Amazon ECR
       id: eureka-server-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -127,7 +117,6 @@ jobs:
         docker tag docker.io/library/user:latest ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
         docker push ${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}
         echo "image=${{ env.ECR_REGISTRY }}/hobbing/user:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
-
 
 
     - name: Fill in the new image ID in the Amazon ECS task definition
@@ -169,7 +158,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.redis-image.outputs.image }}
+        image: ${{ steps.login-ecr.outputs.registry }}/hobbing/redis-images:latest
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: user-task-def
       env:

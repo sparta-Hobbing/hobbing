@@ -70,7 +70,7 @@ public class AuthService {
         ));
     }
 
-    @CacheEvict(cacheNames = "userAllCache", allEntries = true)
+//    @CacheEvict(cacheNames = "userAllCache", allEntries = true)
     public PostAuthLoginResDto createAccessToken(PostAuthLoginReqDto dto){
         //아이디 존재하는지 조회
         User user = userRepository.findByNickname(dto.getNickname())

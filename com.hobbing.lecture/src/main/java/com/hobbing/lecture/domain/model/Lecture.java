@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +26,7 @@ public class Lecture {
     private int price; // 강의 가격
 
     @Column(nullable = false)
-    private int maxParticipants; // 최대 수강생 수
+    private int maxParticipants; // 최대 참가자 수
 
     @Column(nullable = false)
     private String status = "AVAILABLE"; // 강의 상태
@@ -35,4 +36,21 @@ public class Lecture {
 
     @Column(nullable = false)
     private boolean isDeleted = false; // 삭제 여부
+
+    private LocalDateTime startDateTime; // 강의 시작 시간
+
+    private LocalDateTime endDateTime; // 강의 종료 시간
+
+    @PrePersist
+    public void prePersist() {
+        // startDateTime이 null인 경우 기본값 설정
+        if (this.startDateTime == null) {
+            this.startDateTime = LocalDateTime.now();
+        }
+
+        // endDateTime이 null인 경우 기본값 설정
+        if (this.endDateTime == null) {
+            this.endDateTime = this.startDateTime.plusHours(1);
+        }
+    }
 }

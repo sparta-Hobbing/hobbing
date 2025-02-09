@@ -1,23 +1,27 @@
 dependencies {
-    // Spring Boot 주요 의존성
+    // postgresql
+    runtimeOnly 'org.postgresql:postgresql'
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 
-    // PostgreSQL 드라이버
-    implementation 'org.postgresql:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // Redis (필요 시)
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // Lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
-    // 테스트 의존성
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.hobbing.coupon.CouponApplication'
+        )
+    }
+}
+bootJar {
+    archiveFileName = 'coupon.jar'
 }

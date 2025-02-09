@@ -38,8 +38,6 @@ out/
 
 test/resources/application.properties
 
-**/application-eky.yml
-
 # Compiled class file
 *.class
 

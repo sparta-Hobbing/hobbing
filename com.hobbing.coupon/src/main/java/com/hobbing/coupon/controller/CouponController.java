@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/coupons")
+@RequestMapping("/coupons")
 public class CouponController {
 
     private static final Logger logger = LoggerFactory.getLogger(CouponController.class);

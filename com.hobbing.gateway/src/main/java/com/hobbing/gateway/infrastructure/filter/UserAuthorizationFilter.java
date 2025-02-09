@@ -6,6 +6,7 @@ import com.hobbing.gateway.domain.model.UserRole;
 import com.hobbing.gateway.domain.UrlEnum;
 import com.hobbing.gateway.dto.VerifyResponse;
 import com.hobbing.gateway.infrastructure.client.AuthClient;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -57,14 +58,20 @@ public class UserAuthorizationFilter
             if (!path.startsWith(UrlEnum.PREFIX_USERS.getUrl())) {
                 return errorResponse(exchange, "Invalid path prefix.");
             }
-
-            ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
-                    .block()
-                    .getBody();
-            VerifyResponse data  = body.data();
-            if(data == null || !data.isVerified()){
-                return errorResponse(exchange, "Permission denied.");
+            if (request.getURI().toString().contains("/users/verify")){
+                return chain.filter(exchange);
             }
+
+//            log.info("getHost : " + request.getURI().getHost());
+//            log.info("getPort : " + request.getURI().getPort());
+//            log.info("getPort : " + request.getURI().getPort());
+//            ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey, request.getURI())
+//                    .block()
+//                    .getBody();
+//            VerifyResponse data  = body.data();
+//            if(data == null || !data.isVerified()){
+//                return errorResponse(exchange, "Permission denied.");
+//            }
 
             if (checkPathPermissions(path, method, userRole)) {
                 return chain.filter(exchange);

@@ -1,92 +1,99 @@
-#version: '2.30.3'
-
 networks:
   hobbing-network:
     driver: bridge
 
 services:
-  hobbing:
+  eureka-server:
     build:
       context: ./
-    image: hobbing
-    ports:
-      - "19000:19001"
-    networks:
-          - hobbing-network
-  eurekaserver:
-    build:
-      context: ./com.hobbing.eurekaserver
-    image: eurekaserver
+      dockerfile: com.hobbing.eurekaserver/Dockerfile
+    image: eureka-server:latest
     ports:
       - "19000:19000"
-    depends_on:
-      - hobbing
     networks:
       - hobbing-network
 
-#  coupon:
-#    build:
-#      context: ./com.hobbing.coupon
-#    image: coupon
-#    ports:
-#      - "19000:19040"
-#    depends_on:
-#      - eurekaserver
-#    networks:
-#      - hobbing-network
+  coupon:
+    build:
+      context: ./
+      dockerfile: com.hobbing.coupon/Dockerfile
+    image: coupon:latest
+    ports:
+      - "19040:19040"
+    depends_on:
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
+    networks:
+      - hobbing-network
 
   gateway:
     build:
-      context: ./com.hobbing.gateway
-    image: gateway
+      context: ./
+      dockerfile: com.hobbing.gateway/Dockerfile
+    image: gateway:latest
     ports:
-      - "19000:19006"
+      - "19006:19006"
     depends_on:
-      - eurekaserver
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
     networks:
       - hobbing-network
 
-  proxygateway:
+  proxy-gateway:
     build:
-      context: ./com.hobbing.proxygateway
-    image: proxygateway
+      context: ./
+      dockerfile: com.hobbing.proxygateway/Dockerfile
+    image: proxy-gateway:latest
     ports:
-      - "19000:19005"
+      - "19005:19005"
     depends_on:
-      - eurekaserver
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
     networks:
       - hobbing-network
 
   reservation-pay:
     build:
-      context: ./com.hobbing.reservation-pay
-    image: reservation-pay
+      context: ./
+      dockerfile: com.hobbing.reservation-pay/Dockerfile
+    image: reservation-pay:latest
     ports:
-      - "19000:19050"
+      - "19050:19050"
     depends_on:
-      - eurekaserver
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
     networks:
       - hobbing-network
 
   user:
     build:
-      context: ./com.hobbing.user
-    image: user
+      context: ./
+      dockerfile: com.hobbing.user/Dockerfile
+    image: user:latest
     ports:
-      - "19000:19020"
+      - "19020:19020"
     depends_on:
-      - eurekaserver
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
     networks:
       - hobbing-network
 
   lecture:
     build:
-      context: ./com.hobbing.lecture
-    image: lecture
+      context: ./
+      dockerfile: com.hobbing.lecture/Dockerfile
+    image: lecture:latest
     ports:
-      - "19000:19030"
+      - "19030:19030"
     depends_on:
-      - eurekaserver
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
     networks:
       - hobbing-network
 

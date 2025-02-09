@@ -5,7 +5,6 @@ import com.hobbing.user.domain.model.User;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @ToString
 @Getter

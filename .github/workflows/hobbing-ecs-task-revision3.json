@@ -1,0 +1,50 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "hobbing-container-01",
+      "image": "242201313409.dkr.ecr.ap-northeast-2.amazonaws.com/hobbing/eureka-server:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "name": "hobbing-container-01-19005-tcp",
+          "containerPort": 19005,
+          "hostPort": 19005,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/hobbing-ecs-task-01",
+          "mode": "non-blocking",
+          "awslogs-create-group": "true",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "systemControls": []
+    }
+  ],
+  "family": "hobbing-ecs-task-01",
+  "taskRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::242201313409:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "volumes": [],
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "1024",
+  "memory": "3072",
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "tags": []
+}

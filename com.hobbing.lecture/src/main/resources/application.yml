@@ -1,15 +1,43 @@
+server:
+  port: 19030
+
 spring:
+  config:
+    import: classpath:application-key.yml
+  application:
+    name: lecture
   datasource:
-    url: jdbc:postgresql://localhost:5432/lecture_db
-    username: lecture
-    password: 1234
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-    show-sql: true
-  profiles:
-    active: dev
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 1000
+    open-in-view: false
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    lease-renewal-interval-in-seconds: 30  # heartbeat 주기
+    lease-expiration-duration-in-seconds: 90  # 만료 시간
+    hostname: user
+
+security:
+  basic:
+    enabled: false

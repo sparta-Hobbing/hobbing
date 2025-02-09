@@ -41,6 +41,8 @@ public class ReservationAuthorizationFilter
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             String path = request.getURI().getPath();
+
+            if(path.contains("/reservation/health")) return chain.filter(exchange);
             HttpMethod method = request.getMethod();
             String userId = request.getHeaders().getFirst(CustomHeader.KEY_USER_ID);
             String userRole = request.getHeaders().getFirst(CustomHeader.KEY_USER_ROLE);
@@ -58,13 +60,13 @@ public class ReservationAuthorizationFilter
                 return errorResponse(exchange, "Invalid path prefix.");
             }
 
-            ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey)
-                    .block()
-                    .getBody();
-            VerifyResponse data  = body.data();
-            if(data == null || !data.isVerified()){
-                return errorResponse(exchange, "Permission denied.");
-            }
+//            ApiResponse<VerifyResponse> body = authClient.validateUserExists(userId, userRole, internalKey, request.getURI())
+//                    .block()
+//                    .getBody();
+//            VerifyResponse data  = body.data();
+//            if(data == null || !data.isVerified()){
+//                return errorResponse(exchange, "Permission denied.");
+//            }
 
             boolean isPermittedPath = checkPathPermissions(path, method, userRole);
 

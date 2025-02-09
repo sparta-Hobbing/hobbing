@@ -2,6 +2,7 @@ server:
   port: 19006
 
 spring:
+
   main:
     web-application-type: reactive
   cloud:
@@ -39,13 +40,32 @@ spring:
         locator:
           enabled: true
 
+    loadbalancer:
+      cache:
+        enabled: true
+#  cache:
+#    type: caffeine
+#    cache-names:
+#      - loadbalancer
+#    caffeine:
+#      spec: maximumSize=500,expireAfterAccess=300s
+
   config:
     import: classpath:application-key.yml
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19000/eureka/
+      defaultZone: http://hobbing-elb-1223327969.ap-northeast-2.elb.amazonaws.com:80/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    lease-renewal-interval-in-seconds: 30  # heartbeat 주기
+    lease-expiration-duration-in-seconds: 90  # 만료 시간
+    hostname: gateway
+#    initial-status: UP
+#    metadata-map:
+#      region: ap-northeast-2
 
 management:
   endpoints:

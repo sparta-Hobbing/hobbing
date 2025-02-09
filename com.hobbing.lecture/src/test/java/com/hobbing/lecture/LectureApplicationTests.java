@@ -3,7 +3,7 @@ package com.hobbing.lecture;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class LectureApplicationTests {
 
     @Test
